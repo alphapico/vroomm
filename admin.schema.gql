@@ -1,0 +1,186 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type OperatorRole {
+  id: ID!
+}
+
+type Operator {
+  id: ID!
+  firstName: String!
+  roleId: ID!
+}
+
+type OffsetPageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+}
+
+type OperatorConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Operator!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type Query {
+  operatorRole(
+    """The id of the record to find."""
+    id: ID!
+  ): OperatorRole!
+  operatorRoles(
+    """Specify to filter the records returned."""
+    filter: OperatorRoleFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OperatorRoleSort!] = []
+  ): [OperatorRole!]!
+  operator(
+    """The id of the record to find."""
+    id: ID!
+  ): Operator!
+  operators(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: OperatorFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OperatorSort!] = []
+  ): OperatorConnection!
+}
+
+input OperatorRoleFilter {
+  and: [OperatorRoleFilter!]
+  or: [OperatorRoleFilter!]
+  id: IDFilterComparison
+}
+
+input IDFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: ID
+  neq: ID
+  gt: ID
+  gte: ID
+  lt: ID
+  lte: ID
+  like: ID
+  notLike: ID
+  iLike: ID
+  notILike: ID
+  in: [ID!]
+  notIn: [ID!]
+}
+
+input OperatorRoleSort {
+  field: OperatorRoleSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OperatorRoleSortFields {
+  id
+}
+
+"""Sort Directions"""
+enum SortDirection {
+  ASC
+  DESC
+}
+
+"""Sort Nulls Options"""
+enum SortNulls {
+  NULLS_FIRST
+  NULLS_LAST
+}
+
+input OffsetPaging {
+  """Limit the number of records returned"""
+  limit: Int
+
+  """Offset to start returning records from"""
+  offset: Int
+}
+
+input OperatorFilter {
+  and: [OperatorFilter!]
+  or: [OperatorFilter!]
+  id: IDFilterComparison
+}
+
+input OperatorSort {
+  field: OperatorSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OperatorSortFields {
+  id
+}
+
+type Mutation {
+  updatePassword(input: UpdatePasswordInput!): Operator!
+  createOneOperatorRole(input: CreateOneOperatorRoleInput!): OperatorRole!
+  updateOneOperatorRole(input: UpdateOneOperatorRoleInput!): OperatorRole!
+  createOneOperator(input: CreateOneOperatorInput!): Operator!
+  updateOneOperator(input: UpdateOneOperatorInput!): Operator!
+}
+
+input UpdatePasswordInput {
+  oldPassword: String!
+  newPasswod: String!
+}
+
+input CreateOneOperatorRoleInput {
+  """The record to create"""
+  operatorRole: CreateOperatorRole!
+}
+
+input CreateOperatorRole {
+  id: ID
+}
+
+input UpdateOneOperatorRoleInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateOperatorRole!
+}
+
+input UpdateOperatorRole {
+  id: ID
+}
+
+input CreateOneOperatorInput {
+  """The record to create"""
+  operator: CreateOperatorInput!
+}
+
+input CreateOperatorInput {
+  roleId: ID!
+}
+
+input UpdateOneOperatorInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateOperator!
+}
+
+input UpdateOperator {
+  id: ID
+  firstName: String
+  roleId: ID
+}

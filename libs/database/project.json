@@ -1,0 +1,63 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/database/src",
+  "projectType": "library",
+  "targets": {
+    "typeorm": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "ts-node --project tsconfig.json ../../node_modules/typeorm/cli",
+        "cwd": "libs/database"
+      }
+    },
+    "mig-create": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run database:typeorm migration:create ./src/lib/migration/{args.name}",
+        "cwd": "libs/database"
+      }
+    },
+    "mig-gen": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run database:typeorm migration:generate ./src/lib/migration/{args.name} -d typeorm.config.ts",
+        "cwd": "libs/database"
+      }
+    },
+    "mig-revert": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run database:typeorm migration:revert -d typeorm.config.ts",
+        "cwd": "libs/database"
+      }
+    },
+    "mig-run": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run database:typeorm migration:run -d typeorm.config.ts",
+        "cwd": "libs/database"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/database/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/database"],
+      "options": {
+        "jestConfig": "libs/database/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

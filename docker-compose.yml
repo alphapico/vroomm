@@ -7,9 +7,10 @@ services:
       - mysqlvol:/var/lib/mysql
       - ./backup:/var/backup
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+      MYSQL_DATABASE: ${MYSQL_DB}
     ports:
-      - '3306:3306'
+      - '${MYSQL_PORT}:3306'
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
 

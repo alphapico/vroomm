@@ -14,12 +14,13 @@ import fastifyMultipart from 'fastify-multipart';
 import fastifyCors from 'fastify-cors';
 import { join } from 'path';
 
-import { AppModule } from './app/app.module';
+// import { AppModule } from './app/app.module';
+import { AdminAPIModule } from './app/admin-api.module';
 
 async function bootstrap() {
   const adapter = new FastifyAdapter();
   const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
+    AdminAPIModule.register(),
     adapter
   );
   // const globalPrefix = 'api';

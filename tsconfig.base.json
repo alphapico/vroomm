@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@vroom/database": ["libs/database/src/index.ts"],
+      "@vroom/database/*": ["libs/database/src/lib/entities/*"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
