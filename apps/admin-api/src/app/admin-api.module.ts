@@ -20,7 +20,7 @@ import { OperatorModule } from './operator/operator.module';
 // import { RegionModule } from './region/region.module';
 // import { RiderModule } from './rider/rider.module';
 // import { ServiceModule } from './service/service.module';
-// import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 // import { UploadModule } from './upload/upload.module';
 // import { ComplaintModule } from './complaint/complaint.module';
 import { existsSync, promises as fs } from 'fs';
@@ -116,7 +116,7 @@ export class AdminAPIModule {
             // CarModule,
             // FeedbackModule,
             // AddressModule,
-            // AuthModule,
+            AuthModule,
             // UploadModule,
             // ComplaintModule,
             // ConfigurationModule,

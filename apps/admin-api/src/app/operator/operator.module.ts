@@ -3,15 +3,16 @@ import {
   PagingStrategies,
 } from '@ptc-org/nestjs-query-graphql';
 import { NestjsQueryTypeOrmModule } from '@ptc-org/nestjs-query-typeorm';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { OperatorRoleEntity } from '@vroom/database/operator-role.entity';
 import { OperatorEntity } from '@vroom/database/operator.entity';
-// import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { OperatorRoleDTO } from './dto/operator-role.dto';
 import { OperatorDTO } from './dto/operator.dto';
 import { CreateOperatorInput } from './dto/create-operator.input';
 import { OperatorService } from './operator.service';
 import { OperatorResolver } from './operator.resolver';
+import { OperatorAuthorizer } from './operator.authorizer';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { OperatorResolver } from './operator.resolver';
           update: { many: { disabled: true } },
           delete: { disabled: true },
           pagingStrategy: PagingStrategies.NONE,
-          //   guards: [JwtAuthGuard],
+          guards: [JwtAuthGuard],
         },
         {
           EntityClass: OperatorEntity,
@@ -41,7 +42,7 @@ import { OperatorResolver } from './operator.resolver';
           delete: { disabled: true },
           pagingStrategy: PagingStrategies.OFFSET,
           enableTotalCount: true,
-          //   guards: [JwtAuthGuard],
+          guards: [JwtAuthGuard],
         },
       ],
     }),

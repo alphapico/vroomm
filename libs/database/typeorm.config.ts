@@ -15,6 +15,6 @@ export default new DataSource({
   password: MYSQL_PASS,
   database: MYSQL_DB,
   entities: [join(__dirname, 'src/lib/entities/*.entity.{ts,js}')],
-  migrations: [join(__dirname, 'src/lib//migration/*{.ts,.js}')],
+  migrations: [join(__dirname, 'src/lib/migration/*{.ts,.js}')],
   synchronize: false,
 } as DataSourceOptions);
