@@ -2,6 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Point {
+  lat: Float!
+  lng: Float!
+}
+
+type DistanceMultiplier {
+  distanceFrom: Float!
+  distanceTo: Float!
+  multiply: Float!
+}
+
+type TimeMultiplier {
+  startTime: String!
+  endTime: String!
+  multiply: Float!
+}
+
 type OperatorRole {
   id: ID!
   title: String!
@@ -71,13 +88,341 @@ type OperatorConnection {
   totalCount: Int!
 }
 
+type Region {
+  id: ID!
+  name: String!
+  currency: String!
+  enabled: Boolean!
+  location: [[Point!]!]!
+}
+
+type RegionDeleteResponse {
+  id: ID
+  name: String
+  currency: String
+  enabled: Boolean
+  location: [[Point!]!]
+}
+
+type RegionConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Region!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type RegionAggregateGroupBy {
+  id: ID
+  currency: String
+}
+
+type RegionCountAggregate {
+  id: Int
+  currency: Int
+}
+
+type RegionSumAggregate {
+  id: Float
+}
+
+type RegionAvgAggregate {
+  id: Float
+}
+
+type RegionMinAggregate {
+  id: ID
+  currency: String
+}
+
+type RegionMaxAggregate {
+  id: ID
+  currency: String
+}
+
+type RegionAggregateResponse {
+  groupBy: RegionAggregateGroupBy
+  count: RegionCountAggregate
+  sum: RegionSumAggregate
+  avg: RegionAvgAggregate
+  min: RegionMinAggregate
+  max: RegionMaxAggregate
+}
+
+type Media {
+  id: ID!
+  address: String!
+  base64: String!
+}
+
+type ServiceOption {
+  id: ID!
+  name: String!
+  type: ServiceOptionType!
+  additionalFee: Float!
+  icon: ServiceOptionIcon!
+  serviceId: ID!
+}
+
+enum ServiceOptionType {
+  Free
+  Paid
+  TwoWay
+}
+
+enum ServiceOptionIcon {
+  Pet
+  TwoWay
+  Luggage
+  PackageDelivery
+  Shopping
+  Custom1
+  Custom2
+  Custom3
+  Custom4
+  Custom5
+}
+
+type Service {
+  id: ID!
+  name: String!
+  description: String!
+  personCapacity: Int!
+  categoryId: ID!
+  baseFare: Float!
+  roundingFactor: Float!
+  perHundredMeters: Float!
+  perMinuteDrive: Float!
+  perMinuteWait: Float!
+  prepayPercent: Float!
+  minimumFee: Float!
+  searchRadius: Int!
+  paymentMethod: ServicePaymentMethod!
+  cancellationTotalFee: Float!
+  cancellationDriverShare: Float!
+  providerSharePercent: Int!
+  providerShareFlat: Float!
+  twoWayAvailable: Boolean!
+  maximumDestinationDistance: Int!
+  timeMultipliers: [TimeMultiplier!]!
+  distanceMultipliers: [DistanceMultiplier!]!
+  mediaId: ID!
+  media: Media!
+  options: ServiceOption!
+  regions(
+    """Specify to filter the records returned."""
+    filter: RegionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [RegionSort!] = []
+  ): [Region!]!
+}
+
+enum ServicePaymentMethod {
+  CashCredit
+  OnlyCredit
+  OnlyCash
+}
+
+input RegionFilter {
+  and: [RegionFilter!]
+  or: [RegionFilter!]
+  id: IDFilterComparison
+  currency: StringFieldComparison
+}
+
+input IDFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: ID
+  neq: ID
+  gt: ID
+  gte: ID
+  lt: ID
+  lte: ID
+  like: ID
+  notLike: ID
+  iLike: ID
+  notILike: ID
+  in: [ID!]
+  notIn: [ID!]
+}
+
+input StringFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: String
+  neq: String
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  like: String
+  notLike: String
+  iLike: String
+  notILike: String
+  in: [String!]
+  notIn: [String!]
+}
+
+input RegionSort {
+  field: RegionSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum RegionSortFields {
+  id
+  currency
+}
+
+"""Sort Directions"""
+enum SortDirection {
+  ASC
+  DESC
+}
+
+"""Sort Nulls Options"""
+enum SortNulls {
+  NULLS_FIRST
+  NULLS_LAST
+}
+
+type ServiceCategory {
+  id: ID!
+  name: String!
+  services(
+    """Specify to filter the records returned."""
+    filter: ServiceFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ServiceSort!] = []
+  ): [Service!]!
+}
+
+input ServiceFilter {
+  and: [ServiceFilter!]
+  or: [ServiceFilter!]
+  id: IDFilterComparison
+  categoryId: IDFilterComparison
+}
+
+input ServiceSort {
+  field: ServiceSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ServiceSortFields {
+  id
+  categoryId
+}
+
+type ServiceDeleteResponse {
+  id: ID
+  name: String
+  description: String
+  personCapacity: Int
+  categoryId: ID
+  baseFare: Float
+  roundingFactor: Float
+  perHundredMeters: Float
+  perMinuteDrive: Float
+  perMinuteWait: Float
+  prepayPercent: Float
+  minimumFee: Float
+  searchRadius: Int
+  paymentMethod: ServicePaymentMethod
+  cancellationTotalFee: Float
+  cancellationDriverShare: Float
+  providerSharePercent: Int
+  providerShareFlat: Float
+  twoWayAvailable: Boolean
+  maximumDestinationDistance: Int
+  timeMultipliers: [TimeMultiplier!]
+  distanceMultipliers: [DistanceMultiplier!]
+  mediaId: ID
+}
+
+type ServiceCategoryDeleteResponse {
+  id: ID
+  name: String
+}
+
 type TokenObject {
   token: String!
+}
+
+type MediaEdge {
+  """The node containing the Media"""
+  node: Media!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+"""Cursor for paging through collections"""
+scalar ConnectionCursor
+
+type PageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+
+  """The cursor of the first returned record."""
+  startCursor: ConnectionCursor
+
+  """The cursor of the last returned record."""
+  endCursor: ConnectionCursor
+}
+
+input PointInput {
+  lat: Float!
+  lng: Float!
+}
+
+input DistanceMultiplierInput {
+  distanceFrom: Float!
+  distanceTo: Float!
+  multiply: Float!
+}
+
+input TimeMultiplierInput {
+  startTime: String!
+  endTime: String!
+  multiply: Float!
 }
 
 type Query {
   login(userName: String!, password: String!): TokenObject!
   me: Operator!
+  service(
+    """The id of the record to find."""
+    id: ID!
+  ): Service!
+  services(
+    """Specify to filter the records returned."""
+    filter: ServiceFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ServiceSort!] = []
+  ): [Service!]!
+  serviceCategory(
+    """The id of the record to find."""
+    id: ID!
+  ): ServiceCategory!
+  serviceCategories(
+    """Specify to filter the records returned."""
+    filter: ServiceCategoryFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ServiceCategorySort!] = []
+  ): [ServiceCategory!]!
   operatorRole(
     """The id of the record to find."""
     id: ID!
@@ -103,29 +448,46 @@ type Query {
     """Specify to sort results."""
     sorting: [OperatorSort!] = []
   ): OperatorConnection!
+  regionAggregate(
+    """Filter to find records to aggregate on"""
+    filter: RegionAggregateFilter
+  ): [RegionAggregateResponse!]!
+  region(
+    """The id of the record to find."""
+    id: ID!
+  ): Region!
+  regions(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: RegionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [RegionSort!] = []
+  ): RegionConnection!
+}
+
+input ServiceCategoryFilter {
+  and: [ServiceCategoryFilter!]
+  or: [ServiceCategoryFilter!]
+  id: IDFilterComparison
+}
+
+input ServiceCategorySort {
+  field: ServiceCategorySortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ServiceCategorySortFields {
+  id
 }
 
 input OperatorRoleFilter {
   and: [OperatorRoleFilter!]
   or: [OperatorRoleFilter!]
   id: IDFilterComparison
-}
-
-input IDFilterComparison {
-  is: Boolean
-  isNot: Boolean
-  eq: ID
-  neq: ID
-  gt: ID
-  gte: ID
-  lt: ID
-  lte: ID
-  like: ID
-  notLike: ID
-  iLike: ID
-  notILike: ID
-  in: [ID!]
-  notIn: [ID!]
 }
 
 input OperatorRoleSort {
@@ -136,18 +498,6 @@ input OperatorRoleSort {
 
 enum OperatorRoleSortFields {
   id
-}
-
-"""Sort Directions"""
-enum SortDirection {
-  ASC
-  DESC
-}
-
-"""Sort Nulls Options"""
-enum SortNulls {
-  NULLS_FIRST
-  NULLS_LAST
 }
 
 input OffsetPaging {
@@ -174,17 +524,221 @@ enum OperatorSortFields {
   id
 }
 
+input RegionAggregateFilter {
+  and: [RegionAggregateFilter!]
+  or: [RegionAggregateFilter!]
+  id: IDFilterComparison
+  currency: StringFieldComparison
+}
+
 type Mutation {
   updatePassword(input: UpdatePasswordInput!): Operator!
+  setMediaOnService(input: SetMediaOnServiceInput!): Service!
+  setOptionsOnService(input: SetOptionsOnServiceInput!): Service!
+  addRegionsToService(input: AddRegionsToServiceInput!): Service!
+  setRegionsOnService(input: SetRegionsOnServiceInput!): Service!
+  removeMediaFromService(input: RemoveMediaFromServiceInput!): Service!
+  removeOptionsFromService(input: RemoveOptionsFromServiceInput!): Service!
+  removeRegionsFromService(input: RemoveRegionsFromServiceInput!): Service!
+  createOneService(input: CreateOneServiceInput!): Service!
+  updateOneService(input: UpdateOneServiceInput!): Service!
+  deleteOneService(input: DeleteOneServiceInput!): ServiceDeleteResponse!
+  addServicesToServiceCategory(input: AddServicesToServiceCategoryInput!): ServiceCategory!
+  setServicesOnServiceCategory(input: SetServicesOnServiceCategoryInput!): ServiceCategory!
+  removeServicesFromServiceCategory(input: RemoveServicesFromServiceCategoryInput!): ServiceCategory!
+  createOneServiceCategory(input: CreateOneServiceCategoryInput!): ServiceCategory!
+  updateOneServiceCategory(input: UpdateOneServiceCategoryInput!): ServiceCategory!
+  deleteOneServiceCategory(input: DeleteOneServiceCategoryInput!): ServiceCategoryDeleteResponse!
   createOneOperatorRole(input: CreateOneOperatorRoleInput!): OperatorRole!
   updateOneOperatorRole(input: UpdateOneOperatorRoleInput!): OperatorRole!
   createOneOperator(input: CreateOneOperatorInput!): Operator!
   updateOneOperator(input: UpdateOneOperatorInput!): Operator!
+  createOneRegion(input: CreateOneRegionInput!): Region!
+  updateOneRegion(input: UpdateOneRegionInput!): Region!
+  deleteOneRegion(input: DeleteOneRegionInput!): RegionDeleteResponse!
 }
 
 input UpdatePasswordInput {
   oldPassword: String!
   newPasswod: String!
+}
+
+input SetMediaOnServiceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetOptionsOnServiceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input AddRegionsToServiceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetRegionsOnServiceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveMediaFromServiceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveOptionsFromServiceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveRegionsFromServiceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input CreateOneServiceInput {
+  """The record to create"""
+  service: CreateService!
+}
+
+input CreateService {
+  id: ID
+  name: String
+  description: String
+  personCapacity: Int
+  categoryId: ID
+  baseFare: Float
+  roundingFactor: Float
+  perHundredMeters: Float
+  perMinuteDrive: Float
+  perMinuteWait: Float
+  prepayPercent: Float
+  minimumFee: Float
+  searchRadius: Int
+  paymentMethod: ServicePaymentMethod
+  cancellationTotalFee: Float
+  cancellationDriverShare: Float
+  providerSharePercent: Int
+  providerShareFlat: Float
+  twoWayAvailable: Boolean
+  maximumDestinationDistance: Int
+  timeMultipliers: [TimeMultiplierInput!]
+  distanceMultipliers: [DistanceMultiplierInput!]
+  mediaId: ID
+}
+
+input UpdateOneServiceInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateService!
+}
+
+input UpdateService {
+  id: ID
+  name: String
+  description: String
+  personCapacity: Int
+  categoryId: ID
+  baseFare: Float
+  roundingFactor: Float
+  perHundredMeters: Float
+  perMinuteDrive: Float
+  perMinuteWait: Float
+  prepayPercent: Float
+  minimumFee: Float
+  searchRadius: Int
+  paymentMethod: ServicePaymentMethod
+  cancellationTotalFee: Float
+  cancellationDriverShare: Float
+  providerSharePercent: Int
+  providerShareFlat: Float
+  twoWayAvailable: Boolean
+  maximumDestinationDistance: Int
+  timeMultipliers: [TimeMultiplierInput!]
+  distanceMultipliers: [DistanceMultiplierInput!]
+  mediaId: ID
+}
+
+input DeleteOneServiceInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input AddServicesToServiceCategoryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetServicesOnServiceCategoryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveServicesFromServiceCategoryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input CreateOneServiceCategoryInput {
+  """The record to create"""
+  serviceCategory: CreateServiceCategory!
+}
+
+input CreateServiceCategory {
+  id: ID
+  name: String
+}
+
+input UpdateOneServiceCategoryInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateServiceCategory!
+}
+
+input UpdateServiceCategory {
+  id: ID
+  name: String
+}
+
+input DeleteOneServiceCategoryInput {
+  """The id of the record to delete."""
+  id: ID!
 }
 
 input CreateOneOperatorRoleInput {
@@ -243,4 +797,38 @@ input UpdateOperator {
   mobileNumber: String
   email: String
   roleId: ID
+}
+
+input CreateOneRegionInput {
+  """The record to create"""
+  region: CreateRegion!
+}
+
+input CreateRegion {
+  id: ID
+  name: String
+  currency: String
+  enabled: Boolean
+  location: [[PointInput!]!]
+}
+
+input UpdateOneRegionInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateRegion!
+}
+
+input UpdateRegion {
+  id: ID
+  name: String
+  currency: String
+  enabled: Boolean
+  location: [[PointInput!]!]
+}
+
+input DeleteOneRegionInput {
+  """The id of the record to delete."""
+  id: ID!
 }

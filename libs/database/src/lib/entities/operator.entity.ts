@@ -1,5 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { MediaEntity } from './media.entity';
 import { OperatorRoleEntity } from './operator-role.entity';
 
 @Entity('operator')
@@ -30,6 +37,13 @@ export class OperatorEntity {
 
   @Column({ nullable: true })
   address?: string;
+
+  @OneToOne(() => MediaEntity, (media) => media.operator)
+  @JoinColumn()
+  media?: MediaEntity;
+
+  @Column({ nullable: true })
+  mediaId?: number;
 
   @ManyToOne(() => OperatorRoleEntity, (role) => role.operators)
   role?: OperatorRoleEntity;

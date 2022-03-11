@@ -1,8 +1,12 @@
 import { ConsoleLogger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { MediaEntity } from './entities/media.entity';
 import { OperatorRoleEntity } from './entities/operator-role.entity';
 import { OperatorEntity } from './entities/operator.entity';
+import { ServiceCategoryEntity } from './entities/service-category.entity';
+import { ServiceOptionEntity } from './entities/service-option.entity';
+import { ServiceEntity } from './entities/service.entity';
 
 const databaseConfig: DataSourceOptions = {
   type: 'mysql',
@@ -120,4 +124,11 @@ export class DatabaseModule {
   // }
 }
 
-export const entities = [OperatorEntity, OperatorRoleEntity];
+export const entities = [
+  MediaEntity,
+  OperatorEntity,
+  OperatorRoleEntity,
+  ServiceEntity,
+  ServiceCategoryEntity,
+  ServiceOptionEntity,
+];

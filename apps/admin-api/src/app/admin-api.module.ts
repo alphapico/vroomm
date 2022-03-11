@@ -17,15 +17,15 @@ import { AppController } from './admin-api.controller';
 import { OperatorModule } from './operator/operator.module';
 // import { OrderModule } from './order/order.module';
 // import { PaymentGatewayModule } from './payment-gateway/payment-gateway.module';
-// import { RegionModule } from './region/region.module';
+import { RegionModule } from './region/region.module';
 // import { RiderModule } from './rider/rider.module';
-// import { ServiceModule } from './service/service.module';
+import { ServiceModule } from './service/service.module';
 import { AuthModule } from './auth/auth.module';
-// import { UploadModule } from './upload/upload.module';
+import { UploadModule } from './upload/upload.module';
 // import { ComplaintModule } from './complaint/complaint.module';
 import { existsSync, promises as fs } from 'fs';
 // import { ConfigurationModule } from './config/configuration.module';
-// import { UploadService } from './upload/upload.service';
+import { UploadService } from './upload/upload.service';
 // import { RedisModule } from '@liaoliaots/nestjs-redis';
 // import { validateToken } from './auth/jwt.strategy';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -102,7 +102,7 @@ export class AdminAPIModule {
               cors: false,
             }),
             TypeOrmModule.forFeature(entities),
-            // ServiceModule,
+            ServiceModule,
             OperatorModule,
             // RiderModule,
             // DriverModule,
@@ -111,13 +111,13 @@ export class AdminAPIModule {
             // AnnouncementModule,
             // CouponModule,
             // AccountingModule,
-            // RegionModule,
+            RegionModule,
             // PaymentGatewayModule,
             // CarModule,
             // FeedbackModule,
             // AddressModule,
             AuthModule,
-            // UploadModule,
+            UploadModule,
             // ComplaintModule,
             // ConfigurationModule,
             HttpModule,
@@ -129,7 +129,7 @@ export class AdminAPIModule {
             //   },
             // }),
           ],
-          // providers: [UploadService],
+          providers: [UploadService],
           controllers: [AppController],
         };
       }
