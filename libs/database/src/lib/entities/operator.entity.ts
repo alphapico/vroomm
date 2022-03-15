@@ -4,8 +4,10 @@ import {
   JoinColumn,
   ManyToOne,
   OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { DriverTransactionEntity } from './driver-transaction.entity';
 import { MediaEntity } from './media.entity';
 import { OperatorRoleEntity } from './operator-role.entity';
 
@@ -50,4 +52,10 @@ export class OperatorEntity {
 
   @Column({ nullable: true })
   roleId?: number;
+
+  @OneToMany(
+    () => DriverTransactionEntity,
+    (driverTransaction) => driverTransaction.operator
+  )
+  driverTransactions!: DriverTransactionEntity[];
 }

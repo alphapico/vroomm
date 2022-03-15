@@ -14,6 +14,7 @@ import { DistanceMultiplier } from '../interfaces/distance-multiplier.dto';
 import { TimeMultiplier } from '../interfaces/time-multiplier.dto';
 import { DistanceMultiplierTransformer } from '../transformers/distance-multiplier.transformer';
 import { TimeMultiplierTransformer } from '../transformers/time-multiplier.transformer';
+import { DriverEntity } from './driver.entity';
 import { ServiceDistanceFeeMode } from './enums/service-distance-fee-mode.enum';
 import { ServicePaymentMethod } from './enums/service-payment-method.enum';
 import { MediaEntity } from './media.entity';
@@ -167,6 +168,9 @@ export class ServiceEntity {
 
   @Column('float', { default: 1.0 })
   touristMultiplier!: number;
+
+  @ManyToMany(() => DriverEntity, (driver) => driver.enabledServices)
+  drivers!: DriverEntity[];
 
   @ManyToMany(() => RegionEntity, (region) => region.services)
   @JoinTable()

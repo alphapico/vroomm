@@ -1,4 +1,11 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToOne,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { DriverEntity } from './driver.entity';
 import { OperatorEntity } from './operator.entity';
 import { ServiceEntity } from './service.entity';
 
@@ -14,6 +21,16 @@ export class MediaEntity {
     nullable: true,
   })
   base64?: string;
+
+  @OneToOne(() => DriverEntity, (driver) => driver.media, {
+    onDelete: 'SET NULL',
+  })
+  driver?: DriverEntity;
+
+  @ManyToOne(() => DriverEntity, (driver) => driver.documents, {
+    onDelete: 'SET NULL',
+  })
+  driverDocument?: DriverEntity;
 
   @Column({ nullable: true })
   driverDocumentId?: number;
