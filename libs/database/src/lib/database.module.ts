@@ -1,6 +1,12 @@
 import { ConsoleLogger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { ConnectionOptions, createConnection } from 'typeorm';
+import { CarColorEntity } from './entities/car-color.entity';
+import { CarModelEntity } from './entities/car-model.entity';
+import { DriverTransactionEntity } from './entities/driver-transaction.entity';
+import { DriverWalletEntity } from './entities/driver-wallet.entity';
+import { DriverEntity } from './entities/driver.entity';
 import { MediaEntity } from './entities/media.entity';
 import { OperatorRoleEntity } from './entities/operator-role.entity';
 import { OperatorEntity } from './entities/operator.entity';
@@ -125,6 +131,11 @@ export class DatabaseModule {
 }
 
 export const entities = [
+  CarModelEntity,
+  CarColorEntity,
+  DriverEntity,
+  DriverTransactionEntity,
+  DriverWalletEntity,
   MediaEntity,
   OperatorEntity,
   OperatorRoleEntity,

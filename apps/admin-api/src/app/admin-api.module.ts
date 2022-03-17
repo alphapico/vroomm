@@ -9,9 +9,9 @@ import { join } from 'path';
 // import { AddressModule } from './address/address.module';
 import { AppController } from './admin-api.controller';
 // import { AnnouncementModule } from './announcement/announcement.module';
-// import { CarModule } from './car/car.module';
+import { CarModule } from './car/car.module';
 // import { CouponModule } from './coupon/coupon.module';
-// import { DriverModule } from './driver/driver.module';
+import { DriverModule } from './driver/driver.module';
 // import { FeedbackModule } from './feedback/feedback.module';
 // import { FleetModule } from './fleet/fleet.module';
 import { OperatorModule } from './operator/operator.module';
@@ -105,7 +105,7 @@ export class AdminAPIModule {
             ServiceModule,
             OperatorModule,
             // RiderModule,
-            // DriverModule,
+            DriverModule,
             // FleetModule,
             // OrderModule,
             // AnnouncementModule,
@@ -113,7 +113,7 @@ export class AdminAPIModule {
             // AccountingModule,
             RegionModule,
             // PaymentGatewayModule,
-            // CarModule,
+            CarModule,
             // FeedbackModule,
             // AddressModule,
             AuthModule,
