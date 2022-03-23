@@ -26,8 +26,8 @@ import { UploadModule } from './upload/upload.module';
 import { existsSync, promises as fs } from 'fs';
 // import { ConfigurationModule } from './config/configuration.module';
 import { UploadService } from './upload/upload.service';
-// import { RedisModule } from '@liaoliaots/nestjs-redis';
-// import { validateToken } from './auth/jwt.strategy';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { validateToken } from './auth/jwt.strategy';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
@@ -86,14 +86,14 @@ export class AdminAPIModule {
               subscriptions: {
                 'subscriptions-transport-ws': {
                   //keepAlive: 5000,
-                  // onConnect: async (connectionParams: {
-                  //   authToken: string;
-                  // }) => {
-                  //   if (connectionParams.authToken) {
-                  //     return validateToken(connectionParams.authToken);
-                  //   }
-                  //   throw new Error('Missing auth token!');
-                  // },
+                  onConnect: async (connectionParams: {
+                    authToken: string;
+                  }) => {
+                    if (connectionParams.authToken) {
+                      return validateToken(connectionParams.authToken);
+                    }
+                    throw new Error('Missing auth token!');
+                  },
                   // eslint-disable-next-line @typescript-eslint/no-empty-function
                   onDisconnect: () => {},
                 },
@@ -121,13 +121,15 @@ export class AdminAPIModule {
             // ComplaintModule,
             // ConfigurationModule,
             HttpModule,
-            // RedisModule.forRoot({
-            //   closeClient: true,
-            //   commonOptions: { db: 2 },
-            //   config: {
-            //     host: process.env.REDIS_HOST ?? 'localhost'
-            //   },
-            // }),
+            RedisModule.forRoot({
+              closeClient: true,
+              commonOptions: { db: 2 },
+              config: {
+                host: process.env.REDIS_HOST ?? 'localhost',
+                port: Number(process.env.REDIS_PORT) || 6379,
+                password: process.env.REDIS_PASS || '',
+              },
+            }),
           ],
           providers: [UploadService],
           controllers: [AppController],

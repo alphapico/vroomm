@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { DriverTransactionEntity } from '@vroom/database/driver-transaction.entity';
 import { DriverWalletEntity } from '@vroom/database/driver-wallet.entity';
 import { DriverEntity } from '@vroom/database/driver.entity';
+import { RedisHelpersModule } from '@vroom/redis/redis-helper.module';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DriverResolver } from './driver.resolver';
 import { DriverService } from './driver.service';
@@ -17,6 +18,7 @@ import { UpdateDriverInput } from './dto/driver.input';
 
 @Module({
   imports: [
+    RedisHelpersModule,
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         NestjsQueryTypeOrmModule.forFeature([

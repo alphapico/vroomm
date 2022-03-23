@@ -14,5 +14,21 @@ services:
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
 
+  redis:
+    image: redis
+    volumes:
+      - redisvol:/data
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --requirepass ${REDIS_PASS}
+      - |
+        redis-server --daemonize yes
+    ports:
+      - '${REDIS_PORT}:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', '--raw', 'incr', 'ping']
+
 volumes:
   mysqlvol:
+  redisvol:

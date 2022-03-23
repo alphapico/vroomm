@@ -58,6 +58,42 @@ type CarColorDeleteResponse {
   name: String
 }
 
+type OnlineDriver {
+  location: Point!
+  driverId: ID!
+  lastUpdatedAt: Float!
+}
+
+type OnlineDriverWithData {
+  id: ID!
+  location: Point!
+  lastUpdatedAt: Float!
+  firstName: String!
+  lastName: String!
+  mobileNumber: String!
+  status: DriverStatus!
+  gender: Gender!
+  rating: Int!
+  reviewCount: Int!
+}
+
+enum DriverStatus {
+  Online
+  Offline
+  Blocked
+  InService
+  WaitingDocuments
+  PendingApproval
+  SoftReject
+  HardReject
+}
+
+enum Gender {
+  Male
+  Female
+  Unknown
+}
+
 type Operator {
   id: ID!
   firstName: String!
@@ -334,23 +370,6 @@ type Driver {
     """Specify to sort results."""
     sorting: [DriverTransactionSort!] = []
   ): DriverTransactionsConnection!
-}
-
-enum DriverStatus {
-  Online
-  Offline
-  Blocked
-  InService
-  WaitingDocuments
-  PendingApproval
-  SoftReject
-  HardReject
-}
-
-enum Gender {
-  Male
-  Female
-  Unknown
 }
 
 input DriverWalletAggregateFilter {
@@ -956,6 +975,8 @@ input TimeMultiplierInput {
 }
 
 type Query {
+  getDriversLocation(center: PointInput!, count: Int!): [OnlineDriver!]!
+  getDriversLocationWithData(center: PointInput!, count: Int!): [OnlineDriverWithData!]!
   login(userName: String!, password: String!): TokenObject!
   me: Operator!
   service(

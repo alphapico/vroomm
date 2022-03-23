@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@vroom/database": ["libs/database/src/index.ts"],
-      "@vroom/database/*": ["libs/database/src/lib/entities/*"]
+      "@vroom/database/*": ["libs/database/src/lib/entities/*"],
+      "@vroom/redis/*": ["libs/database/src/lib/redis/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
