@@ -10,6 +10,11 @@ import { DriverEntity } from './entities/driver.entity';
 import { MediaEntity } from './entities/media.entity';
 import { OperatorRoleEntity } from './entities/operator-role.entity';
 import { OperatorEntity } from './entities/operator.entity';
+import { RegionEntity } from './entities/region.entity';
+import { PassengerAddressEntity } from './entities/passenger-address.entity';
+import { PassengerEntity } from './entities/passenger.entity';
+import { PassengerTransactionEntity } from './entities/passenger-transaction.entity';
+import { PassengerWalletEntity } from './entities/passenger-wallet.entity';
 import { ServiceCategoryEntity } from './entities/service-category.entity';
 import { ServiceOptionEntity } from './entities/service-option.entity';
 import { ServiceEntity } from './entities/service.entity';
@@ -139,6 +144,11 @@ export const entities = [
   MediaEntity,
   OperatorEntity,
   OperatorRoleEntity,
+  RegionEntity,
+  PassengerEntity,
+  PassengerWalletEntity,
+  PassengerTransactionEntity,
+  PassengerAddressEntity,
   ServiceEntity,
   ServiceCategoryEntity,
   ServiceOptionEntity,

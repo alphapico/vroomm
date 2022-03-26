@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { DriverEntity } from './driver.entity';
 import { OperatorEntity } from './operator.entity';
+import { PassengerEntity } from './passenger.entity';
 import { ServiceEntity } from './service.entity';
 
 @Entity('media')
@@ -39,6 +40,11 @@ export class MediaEntity {
     onDelete: 'SET NULL',
   })
   operator?: OperatorEntity;
+
+  @OneToOne(() => PassengerEntity, (passenger) => passenger.media, {
+    onDelete: 'SET NULL',
+  })
+  passenger?: PassengerEntity[];
 
   @OneToOne(() => ServiceEntity, (service) => service.media, {
     onDelete: 'SET NULL',

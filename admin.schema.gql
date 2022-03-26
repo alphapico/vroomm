@@ -34,6 +34,11 @@ type CarModelDeleteResponse {
   name: String
 }
 
+type UpdateManyResponse {
+  """The number of records updated."""
+  updatedCount: Int!
+}
+
 type OffsetPageInfo {
   """true if paging forward and there are more records."""
   hasNextPage: Boolean
@@ -885,6 +890,253 @@ type RegionAggregateResponse {
   max: RegionMaxAggregate
 }
 
+type PassengerAddress {
+  id: ID!
+  type: PassengerAddressType!
+  title: String!
+  details: String!
+  location: Point!
+  passengerId: ID!
+}
+
+enum PassengerAddressType {
+  Home
+  Work
+  Partner
+  Gym
+  Parent
+  Cafe
+  Park
+  Other
+}
+
+type PassengerWallet {
+  id: ID!
+  balance: Float!
+  currency: String!
+  passengerId: ID!
+  passenger: Passenger!
+}
+
+type Passenger {
+  id: ID!
+  status: PassengerStatus!
+  firstName: String!
+  lastName: String!
+  mobileNumber: String!
+  registrationTimestamp: DateTime!
+  email: String!
+  gender: Gender!
+  isResident: Boolean!
+  idNumber: String!
+  media: Media
+  addresses(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: PassengerAddressFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerAddressSort!] = []
+  ): PassengerAddressesConnection!
+  wallets(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: PassengerWalletFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerWalletSort!] = []
+  ): PassengerWalletsConnection!
+  transactions(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: PassengerTransactionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerTransactionSort!] = []
+  ): PassengerTransactionsConnection!
+}
+
+enum PassengerStatus {
+  Enabled
+  Disabled
+}
+
+input PassengerAddressFilter {
+  and: [PassengerAddressFilter!]
+  or: [PassengerAddressFilter!]
+  id: IDFilterComparison
+  passengerId: IDFilterComparison
+}
+
+input PassengerAddressSort {
+  field: PassengerAddressSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PassengerAddressSortFields {
+  id
+  passengerId
+}
+
+input PassengerWalletFilter {
+  and: [PassengerWalletFilter!]
+  or: [PassengerWalletFilter!]
+  id: IDFilterComparison
+  balance: FloatFieldComparison
+  passengerId: IDFilterComparison
+}
+
+input PassengerWalletSort {
+  field: PassengerWalletSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PassengerWalletSortFields {
+  id
+  balance
+  passengerId
+}
+
+input PassengerTransactionFilter {
+  and: [PassengerTransactionFilter!]
+  or: [PassengerTransactionFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  amount: FloatFieldComparison
+  currency: StringFieldComparison
+  passengerId: IDFilterComparison
+}
+
+input PassengerTransactionSort {
+  field: PassengerTransactionSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PassengerTransactionSortFields {
+  id
+  createdAt
+  amount
+  currency
+  passengerId
+}
+
+type PassengerTransaction {
+  id: ID!
+  action: TransactionAction!
+  createdAt: DateTime!
+  deductType: PassengerDeductTransactionType!
+  rechargeType: PassengerRechargeTransactionType!
+  status: TransactionStatus!
+  amount: Float!
+  currency: String!
+  refrenceNumber: String!
+  description: String!
+  passengerId: ID!
+  operatorId: ID!
+  requestId: ID!
+  operator: Operator
+  passenger: Passenger!
+}
+
+enum PassengerDeductTransactionType {
+  OrderFee
+  Withdraw
+  Correction
+}
+
+enum PassengerRechargeTransactionType {
+  BankTransfer
+  Gift
+  Correction
+  InAppPayment
+}
+
+type PassengerConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Passenger!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type PassengerTransactionsConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [PassengerTransaction!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type PassengerWalletsConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [PassengerWallet!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type PassengerAddressesConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [PassengerAddress!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type PassengerWalletConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [PassengerWallet!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type PassengerTransactionConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [PassengerTransaction!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type PassengerAddressConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [PassengerAddress!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
 type ServiceCategory {
   id: ID!
   name: String!
@@ -1026,6 +1278,62 @@ type Query {
     """Specify to sort results."""
     sorting: [OperatorSort!] = []
   ): OperatorConnection!
+  passenger(
+    """The id of the record to find."""
+    id: ID!
+  ): Passenger!
+  passengers(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: PassengerFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerSort!] = []
+  ): PassengerConnection!
+  passengerWallet(
+    """The id of the record to find."""
+    id: ID!
+  ): PassengerWallet!
+  passengerWallets(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: PassengerWalletFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerWalletSort!] = []
+  ): PassengerWalletConnection!
+  passengerTransaction(
+    """The id of the record to find."""
+    id: ID!
+  ): PassengerTransaction!
+  passengerTransactions(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: PassengerTransactionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerTransactionSort!] = []
+  ): PassengerTransactionConnection!
+  passengerAddress(
+    """The id of the record to find."""
+    id: ID!
+  ): PassengerAddress!
+  passengerAddresses(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: PassengerAddressFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerAddressSort!] = []
+  ): PassengerAddressConnection!
   driverAggregate(
     """Filter to find records to aggregate on"""
     filter: DriverAggregateFilter
@@ -1165,6 +1473,47 @@ enum OperatorSortFields {
   id
 }
 
+input PassengerFilter {
+  and: [PassengerFilter!]
+  or: [PassengerFilter!]
+  id: IDFilterComparison
+  firstName: StringFieldComparison
+  lastName: StringFieldComparison
+  mobileNumber: StringFieldComparison
+  gender: GenderFilterComparison
+}
+
+input GenderFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Gender
+  neq: Gender
+  gt: Gender
+  gte: Gender
+  lt: Gender
+  lte: Gender
+  like: Gender
+  notLike: Gender
+  iLike: Gender
+  notILike: Gender
+  in: [Gender!]
+  notIn: [Gender!]
+}
+
+input PassengerSort {
+  field: PassengerSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PassengerSortFields {
+  id
+  firstName
+  lastName
+  mobileNumber
+  gender
+}
+
 input DriverAggregateFilter {
   and: [DriverAggregateFilter!]
   or: [DriverAggregateFilter!]
@@ -1274,6 +1623,29 @@ type Mutation {
   updateOneOperatorRole(input: UpdateOneOperatorRoleInput!): OperatorRole!
   createOneOperator(input: CreateOneOperatorInput!): Operator!
   updateOneOperator(input: UpdateOneOperatorInput!): Operator!
+  setMediaOnPassenger(input: SetMediaOnPassengerInput!): Passenger!
+  addAddressesToPassenger(input: AddAddressesToPassengerInput!): Passenger!
+  setAddressesOnPassenger(input: SetAddressesOnPassengerInput!): Passenger!
+  addWalletsToPassenger(input: AddWalletsToPassengerInput!): Passenger!
+  setWalletsOnPassenger(input: SetWalletsOnPassengerInput!): Passenger!
+  addTransactionsToPassenger(input: AddTransactionsToPassengerInput!): Passenger!
+  setTransactionsOnPassenger(input: SetTransactionsOnPassengerInput!): Passenger!
+  removeMediaFromPassenger(input: RemoveMediaFromPassengerInput!): Passenger!
+  removeAddressesFromPassenger(input: RemoveAddressesFromPassengerInput!): Passenger!
+  removeWalletsFromPassenger(input: RemoveWalletsFromPassengerInput!): Passenger!
+  removeTransactionsFromPassenger(input: RemoveTransactionsFromPassengerInput!): Passenger!
+  createOnePassenger(input: CreateOnePassengerInput!): Passenger!
+  updateOnePassenger(input: UpdateOnePassengerInput!): Passenger!
+  setPassengerOnPassengerWallet(input: SetPassengerOnPassengerWalletInput!): PassengerWallet!
+  removePassengerFromPassengerWallet(input: RemovePassengerFromPassengerWalletInput!): PassengerWallet!
+  setOperatorOnPassengerTransaction(input: SetOperatorOnPassengerTransactionInput!): PassengerTransaction!
+  setPassengerOnPassengerTransaction(input: SetPassengerOnPassengerTransactionInput!): PassengerTransaction!
+  removeOperatorFromPassengerTransaction(input: RemoveOperatorFromPassengerTransactionInput!): PassengerTransaction!
+  removePassengerFromPassengerTransaction(input: RemovePassengerFromPassengerTransactionInput!): PassengerTransaction!
+  createOnePassengerTransaction(input: CreateOnePassengerTransactionInput!): PassengerTransaction!
+  createOnePassengerAddress(input: CreateOnePassengerAddressInput!): PassengerAddress!
+  updateOnePassengerAddress(input: UpdateOnePassengerAddressInput!): PassengerAddress!
+  updateManyPassengerAddresses(input: UpdateManyPassengerAddressesInput!): UpdateManyResponse!
   setMediaOnDriver(input: SetMediaOnDriverInput!): Driver!
   addWalletsToDriver(input: AddWalletsToDriverInput!): Driver!
   setWalletsOnDriver(input: SetWalletsOnDriverInput!): Driver!
@@ -1545,6 +1917,248 @@ input UpdateOperator {
   mobileNumber: String
   email: String
   roleId: ID
+}
+
+input SetMediaOnPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input AddAddressesToPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetAddressesOnPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input AddWalletsToPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetWalletsOnPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input AddTransactionsToPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetTransactionsOnPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveMediaFromPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveAddressesFromPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveWalletsFromPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveTransactionsFromPassengerInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input CreateOnePassengerInput {
+  """The record to create"""
+  passenger: CreatePassenger!
+}
+
+input CreatePassenger {
+  id: ID
+  status: PassengerStatus
+  firstName: String
+  lastName: String
+  mobileNumber: String
+  registrationTimestamp: DateTime
+  email: String
+  gender: Gender
+  isResident: Boolean
+  idNumber: String
+}
+
+input UpdateOnePassengerInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdatePassenger!
+}
+
+input UpdatePassenger {
+  id: ID
+  status: PassengerStatus
+  firstName: String
+  lastName: String
+  mobileNumber: String
+  registrationTimestamp: DateTime
+  email: String
+  gender: Gender
+  isResident: Boolean
+  idNumber: String
+}
+
+input SetPassengerOnPassengerWalletInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemovePassengerFromPassengerWalletInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetOperatorOnPassengerTransactionInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetPassengerOnPassengerTransactionInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveOperatorFromPassengerTransactionInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemovePassengerFromPassengerTransactionInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input CreateOnePassengerTransactionInput {
+  """The record to create"""
+  passengerTransaction: CreatePassengerTransaction!
+}
+
+input CreatePassengerTransaction {
+  id: ID
+  action: TransactionAction
+  createdAt: DateTime
+  deductType: PassengerDeductTransactionType
+  rechargeType: PassengerRechargeTransactionType
+  status: TransactionStatus
+  amount: Float
+  currency: String
+  refrenceNumber: String
+  description: String
+  passengerId: ID
+  operatorId: ID
+  requestId: ID
+}
+
+input CreateOnePassengerAddressInput {
+  """The record to create"""
+  passengerAddress: CreatePassengerAddress!
+}
+
+input CreatePassengerAddress {
+  id: ID
+  type: PassengerAddressType
+  title: String
+  details: String
+  location: PointInput
+  passengerId: ID
+}
+
+input UpdateOnePassengerAddressInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdatePassengerAddress!
+}
+
+input UpdatePassengerAddress {
+  id: ID
+  type: PassengerAddressType
+  title: String
+  details: String
+  location: PointInput
+  passengerId: ID
+}
+
+input UpdateManyPassengerAddressesInput {
+  """Filter used to find fields to update"""
+  filter: PassengerAddressUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdatePassengerAddress!
+}
+
+input PassengerAddressUpdateFilter {
+  and: [PassengerAddressUpdateFilter!]
+  or: [PassengerAddressUpdateFilter!]
+  id: IDFilterComparison
+  passengerId: IDFilterComparison
 }
 
 input SetMediaOnDriverInput {

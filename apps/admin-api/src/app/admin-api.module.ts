@@ -18,7 +18,7 @@ import { OperatorModule } from './operator/operator.module';
 // import { OrderModule } from './order/order.module';
 // import { PaymentGatewayModule } from './payment-gateway/payment-gateway.module';
 import { RegionModule } from './region/region.module';
-// import { RiderModule } from './rider/rider.module';
+import { PassengerModule } from './passenger/passenger.module';
 import { ServiceModule } from './service/service.module';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
@@ -42,7 +42,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
   //   TypeOrmModule.forFeature(entities),
   //   ServiceModule,
   //   OperatorModule,
-  //   RiderModule,
+  //   PassengerModule,
   //   DriverModule,
   //   FleetModule,
   //   OrderModule,
@@ -104,7 +104,7 @@ export class AdminAPIModule {
             TypeOrmModule.forFeature(entities),
             ServiceModule,
             OperatorModule,
-            // RiderModule,
+            PassengerModule,
             DriverModule,
             // FleetModule,
             // OrderModule,

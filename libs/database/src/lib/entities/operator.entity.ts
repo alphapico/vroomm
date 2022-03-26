@@ -10,6 +10,7 @@ import {
 import { DriverTransactionEntity } from './driver-transaction.entity';
 import { MediaEntity } from './media.entity';
 import { OperatorRoleEntity } from './operator-role.entity';
+import { PassengerTransactionEntity } from './passenger-transaction.entity';
 
 @Entity('operator')
 export class OperatorEntity {
@@ -52,6 +53,12 @@ export class OperatorEntity {
 
   @Column({ nullable: true })
   roleId?: number;
+
+  @OneToMany(
+    () => PassengerTransactionEntity,
+    (passengerTransaction) => passengerTransaction.operator
+  )
+  passengerTransactions!: PassengerTransactionEntity[];
 
   @OneToMany(
     () => DriverTransactionEntity,
