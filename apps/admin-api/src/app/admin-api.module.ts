@@ -16,7 +16,7 @@ import { DriverModule } from './driver/driver.module';
 // import { FleetModule } from './fleet/fleet.module';
 import { OperatorModule } from './operator/operator.module';
 // import { OrderModule } from './order/order.module';
-// import { PaymentGatewayModule } from './payment-gateway/payment-gateway.module';
+import { PaymentGatewayModule } from './payment-gateway/payment-gateway.module';
 import { RegionModule } from './region/region.module';
 import { PassengerModule } from './passenger/passenger.module';
 import { ServiceModule } from './service/service.module';
@@ -112,7 +112,7 @@ export class AdminAPIModule {
             // CouponModule,
             // AccountingModule,
             RegionModule,
-            // PaymentGatewayModule,
+            PaymentGatewayModule,
             CarModule,
             // FeedbackModule,
             // AddressModule,

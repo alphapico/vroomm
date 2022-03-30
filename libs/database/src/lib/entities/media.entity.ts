@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { DriverEntity } from './driver.entity';
 import { OperatorEntity } from './operator.entity';
+import { PaymentGatewayEntity } from './payment-gateway.entity';
 import { PassengerEntity } from './passenger.entity';
 import { ServiceEntity } from './service.entity';
 
@@ -50,4 +51,9 @@ export class MediaEntity {
     onDelete: 'SET NULL',
   })
   service?: ServiceEntity[];
+
+  @OneToOne(() => PaymentGatewayEntity, (gateway) => gateway.media, {
+    onDelete: 'SET NULL',
+  })
+  paymentGateway?: PaymentGatewayEntity[];
 }

@@ -11,6 +11,7 @@ import { PassengerRechargeTransactionType } from './enums/passenger-recharge-tra
 import { TransactionAction } from './enums/transaction-action.enum';
 import { TransactionStatus } from './enums/transaction-status.enum';
 import { OperatorEntity } from './operator.entity';
+import { PaymentGatewayEntity } from './payment-gateway.entity';
 import { PassengerEntity } from './passenger.entity';
 
 @Entity('passenger_transaction')
@@ -66,6 +67,15 @@ export class PassengerTransactionEntity {
 
   @Column()
   passengerId!: number;
+
+  @ManyToOne(
+    () => PaymentGatewayEntity,
+    (gateway) => gateway.passengerTransactions
+  )
+  paymentGateway?: PaymentGatewayEntity;
+
+  @Column({ nullable: true })
+  paymentGatewayId?: number;
 
   @ManyToOne(() => OperatorEntity, (operator) => operator.passengerTransactions)
   operator?: OperatorEntity;

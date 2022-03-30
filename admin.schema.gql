@@ -834,6 +834,37 @@ type OperatorConnection {
   totalCount: Int!
 }
 
+type PaymentGateway {
+  id: ID!
+  enabled: Boolean!
+  title: String!
+  type: PaymentGatewayType!
+  publicKey: String!
+  privateKey: String!
+  merchantId: String!
+  saltKey: String!
+  mediaId: ID!
+  media: Media
+}
+
+enum PaymentGatewayType {
+  Stripe
+  BrainTree
+  PayPal
+  CustomLink
+}
+
+type PaymentGatewayConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [PaymentGateway!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
 type RegionDeleteResponse {
   id: ID
   name: String
@@ -1398,6 +1429,20 @@ type Query {
     """Specify to sort results."""
     sorting: [RegionSort!] = []
   ): RegionConnection!
+  paymentGateway(
+    """The id of the record to find."""
+    id: ID!
+  ): PaymentGateway!
+  paymentGateways(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: PaymentGatewayFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PaymentGatewaySort!] = []
+  ): PaymentGatewayConnection!
   carModel(
     """The id of the record to find."""
     id: ID!
@@ -1569,6 +1614,22 @@ input RegionAggregateFilter {
   currency: StringFieldComparison
 }
 
+input PaymentGatewayFilter {
+  and: [PaymentGatewayFilter!]
+  or: [PaymentGatewayFilter!]
+  id: IDFilterComparison
+}
+
+input PaymentGatewaySort {
+  field: PaymentGatewaySortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PaymentGatewaySortFields {
+  id
+}
+
 input CarModelFilter {
   and: [CarModelFilter!]
   or: [CarModelFilter!]
@@ -1670,6 +1731,10 @@ type Mutation {
   createOneRegion(input: CreateOneRegionInput!): Region!
   updateOneRegion(input: UpdateOneRegionInput!): Region!
   deleteOneRegion(input: DeleteOneRegionInput!): RegionDeleteResponse!
+  setMediaOnPaymentGateway(input: SetMediaOnPaymentGatewayInput!): PaymentGateway!
+  removeMediaFromPaymentGateway(input: RemoveMediaFromPaymentGatewayInput!): PaymentGateway!
+  createOnePaymentGateway(input: CreateOnePaymentGatewayInput!): PaymentGateway!
+  updateOnePaymentGateway(input: UpdateOnePaymentGatewayInput!): PaymentGateway!
   createOneCarModel(input: CreateOneCarModelInput!): CarModel!
   updateOneCarModel(input: UpdateOneCarModelInput!): CarModel!
   deleteOneCarModel(input: DeleteOneCarModelInput!): CarModelDeleteResponse!
@@ -2417,6 +2482,59 @@ input UpdateRegion {
 input DeleteOneRegionInput {
   """The id of the record to delete."""
   id: ID!
+}
+
+input SetMediaOnPaymentGatewayInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveMediaFromPaymentGatewayInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input CreateOnePaymentGatewayInput {
+  """The record to create"""
+  paymentGateway: CreatePaymentGateway!
+}
+
+input CreatePaymentGateway {
+  id: ID
+  enabled: Boolean
+  title: String
+  type: PaymentGatewayType
+  publicKey: String
+  privateKey: String
+  merchantId: String
+  saltKey: String
+  mediaId: ID
+}
+
+input UpdateOnePaymentGatewayInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdatePaymentGateway!
+}
+
+input UpdatePaymentGateway {
+  id: ID
+  enabled: Boolean
+  title: String
+  type: PaymentGatewayType
+  publicKey: String
+  privateKey: String
+  merchantId: String
+  saltKey: String
+  mediaId: ID
 }
 
 input CreateOneCarModelInput {

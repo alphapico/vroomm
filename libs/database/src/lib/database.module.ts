@@ -15,6 +15,8 @@ import { PassengerAddressEntity } from './entities/passenger-address.entity';
 import { PassengerEntity } from './entities/passenger.entity';
 import { PassengerTransactionEntity } from './entities/passenger-transaction.entity';
 import { PassengerWalletEntity } from './entities/passenger-wallet.entity';
+import { PaymentEntity } from './entities/payment.entity';
+import { PaymentGatewayEntity } from './entities/payment-gateway.entity';
 import { ServiceCategoryEntity } from './entities/service-category.entity';
 import { ServiceOptionEntity } from './entities/service-option.entity';
 import { ServiceEntity } from './entities/service.entity';
@@ -149,6 +151,8 @@ export const entities = [
   PassengerWalletEntity,
   PassengerTransactionEntity,
   PassengerAddressEntity,
+  PaymentEntity,
+  PaymentGatewayEntity,
   ServiceEntity,
   ServiceCategoryEntity,
   ServiceOptionEntity,
