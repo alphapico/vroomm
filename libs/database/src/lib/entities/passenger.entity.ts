@@ -13,6 +13,7 @@ import { Gender } from './enums/gender.enum';
 import { PassengerDocumentType } from './enums/passenger-document-type';
 import { PassengerStatus } from './enums/passenger-status.enum';
 import { MediaEntity } from './media.entity';
+import { OrderEntity } from './order.entity';
 import { PassengerAddressEntity } from './passenger-address.entity';
 import { PassengerTransactionEntity } from './passenger-transaction.entity';
 import { PassengerWalletEntity } from './passenger-wallet.entity';
@@ -90,6 +91,9 @@ export class PassengerEntity {
 
   @Column({ nullable: true })
   mediaId?: number;
+
+  @OneToMany(() => OrderEntity, (order) => order.passenger)
+  orders!: OrderEntity[];
 
   @OneToMany(() => PassengerWalletEntity, (wallet) => wallet.passenger)
   wallets!: PassengerWalletEntity[];

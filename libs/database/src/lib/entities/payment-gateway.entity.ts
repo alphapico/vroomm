@@ -9,6 +9,7 @@ import {
 import { PassengerTransactionEntity } from './passenger-transaction.entity';
 import { PaymentGatewayType } from './enums/payment-gateway-type.enum';
 import { MediaEntity } from './media.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity('payment_gateway')
 export class PaymentGatewayEntity {
@@ -53,6 +54,9 @@ export class PaymentGatewayEntity {
 
   @Column({ nullable: true })
   mediaId?: number;
+
+  @OneToMany(() => OrderEntity, (order) => order.paymentGateway)
+  orders?: OrderEntity[];
 
   @OneToMany(
     () => PassengerTransactionEntity,

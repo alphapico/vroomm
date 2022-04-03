@@ -13,6 +13,7 @@ import { TransactionStatus } from './enums/transaction-status.enum';
 import { OperatorEntity } from './operator.entity';
 import { PaymentGatewayEntity } from './payment-gateway.entity';
 import { PassengerEntity } from './passenger.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity('passenger_transaction')
 export class PassengerTransactionEntity {
@@ -82,4 +83,10 @@ export class PassengerTransactionEntity {
 
   @Column({ nullable: true, name: 'operatorId' })
   operatorId?: number;
+
+  @ManyToOne(() => OrderEntity, (order) => order.passengerTransactions)
+  order?: OrderEntity;
+
+  @Column({ nullable: true })
+  orderId?: number;
 }

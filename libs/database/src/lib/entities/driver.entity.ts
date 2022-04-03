@@ -18,6 +18,7 @@ import { DriverWalletEntity } from './driver-wallet.entity';
 import { DriverStatus } from './enums/driver-status.enum';
 import { Gender } from './enums/gender.enum';
 import { MediaEntity } from './media.entity';
+import { OrderEntity } from './order.entity';
 import { ServiceEntity } from './service.entity';
 
 @Entity('driver')
@@ -161,4 +162,7 @@ export class DriverEntity {
     (driverTransaction) => driverTransaction.driver
   )
   transactions!: DriverTransactionEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.driver)
+  orders!: OrderEntity[];
 }

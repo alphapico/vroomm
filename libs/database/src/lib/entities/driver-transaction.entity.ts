@@ -11,6 +11,7 @@ import { DriverRechargeTransactionType } from './enums/driver-recharge-transacti
 import { TransactionAction } from './enums/transaction-action.enum';
 import { TransactionStatus } from './enums/transaction-status.enum';
 import { OperatorEntity } from './operator.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity('driver_transaction')
 export class DriverTransactionEntity {
@@ -71,4 +72,10 @@ export class DriverTransactionEntity {
 
   @Column({ nullable: true })
   operatorId?: number;
+
+  @ManyToOne(() => OrderEntity, (order) => order.driverTransactions)
+  order?: OrderEntity;
+
+  @Column({ nullable: true })
+  orderId?: number;
 }

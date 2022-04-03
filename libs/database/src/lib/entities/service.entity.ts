@@ -19,6 +19,7 @@ import { ServiceDistanceFeeMode } from './enums/service-distance-fee-mode.enum';
 import { ServicePaymentMethod } from './enums/service-payment-method.enum';
 import { MediaEntity } from './media.entity';
 import { RegionEntity } from './region.entity';
+import { OrderEntity } from './order.entity';
 import { ServiceCategoryEntity } from './service-category.entity';
 import { ServiceOptionEntity } from './service-option.entity';
 
@@ -175,6 +176,9 @@ export class ServiceEntity {
   @ManyToMany(() => RegionEntity, (region) => region.services)
   @JoinTable()
   regions!: RegionEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.service)
+  orders!: OrderEntity[];
 
   @OneToMany(
     () => ServiceOptionEntity,
