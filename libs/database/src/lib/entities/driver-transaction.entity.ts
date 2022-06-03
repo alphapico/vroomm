@@ -12,6 +12,7 @@ import { TransactionAction } from './enums/transaction-action.enum';
 import { TransactionStatus } from './enums/transaction-status.enum';
 import { OperatorEntity } from './operator.entity';
 import { OrderEntity } from './order.entity';
+import { PaymentGatewayEntity } from './payment-gateway.entity';
 
 @Entity('driver_transaction')
 export class DriverTransactionEntity {
@@ -66,6 +67,15 @@ export class DriverTransactionEntity {
 
   @Column()
   driverId!: number;
+
+  @ManyToOne(
+    () => PaymentGatewayEntity,
+    (gateway) => gateway.passengerTransactions
+  )
+  paymentGateway?: PaymentGatewayEntity;
+
+  @Column({ nullable: true })
+  paymentGatewayId?: number;
 
   @ManyToOne(() => OperatorEntity, (operator) => operator.driverTransactions)
   operator?: OperatorEntity;

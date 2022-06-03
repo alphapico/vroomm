@@ -36,6 +36,7 @@
     "typescript": "~4.7.2"
   },
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.16",
     "@liaoliaots/nestjs-redis": "^8.2.2",
     "@nestjs/apollo": "^10.1.0",
     "@nestjs/axios": "^0.1.0",
