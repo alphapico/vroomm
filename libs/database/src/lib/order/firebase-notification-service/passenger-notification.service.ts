@@ -1,7 +1,7 @@
 import { FirebaseMessagingService } from '../../nestjs-firebase-admin';
 import { Injectable } from '@nestjs/common';
-import { PassengerEntity } from '@vroom/database/passenger.entity';
-import { OrderMessageEntity } from '@vroom/database/order-message.entity';
+import { PassengerEntity } from '../../entities/passenger.entity';
+import { OrderMessageEntity } from '../../entities/order-message.entity';
 
 @Injectable()
 export class PassengerNotificationService {

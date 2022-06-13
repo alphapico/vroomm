@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RegionEntity } from '@vroom/database/region.entity';
+import { RegionEntity } from '../../entities/region.entity';
 import { RegionService } from './region.service';
 
 @Module({

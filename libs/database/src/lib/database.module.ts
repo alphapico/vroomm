@@ -20,6 +20,8 @@ import { PaymentGatewayEntity } from './entities/payment-gateway.entity';
 import { ServiceCategoryEntity } from './entities/service-category.entity';
 import { ServiceOptionEntity } from './entities/service-option.entity';
 import { ServiceEntity } from './entities/service.entity';
+import { OrderEntity } from './entities/order.entity';
+import { OrderMessageEntity } from './entities/order-message.entity';
 
 const databaseConfig: DataSourceOptions = {
   type: 'mysql',
@@ -146,6 +148,8 @@ export const entities = [
   MediaEntity,
   OperatorEntity,
   OperatorRoleEntity,
+  OrderEntity,
+  OrderMessageEntity,
   RegionEntity,
   PassengerEntity,
   PassengerWalletEntity,

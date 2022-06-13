@@ -80,6 +80,9 @@ export class FirebaseAdminCoreModule {
           admin.apps.length === 0
             ? admin.initializeApp(options)
             : admin.apps[0];
+        if (!app) {
+          throw Error('admin.app.App not initialized');
+        }
         return new ProviderService(app);
       },
       inject: [FIREBASE_ADMIN_MODULE_OPTIONS],

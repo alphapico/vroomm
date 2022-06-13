@@ -792,8 +792,8 @@ type OperatorRole {
 enum OperatorPermission {
   Drivers_View
   Drivers_Edit
-  Riders_View
-  Riders_Edit
+  Passengers_View
+  Passengers_Edit
   Regions_View
   Regions_Edit
   Services_View
@@ -819,8 +819,8 @@ enum OperatorPermission {
   ProviderWallet_Edit
   DriverWallet_View
   DriverWallet_Edit
-  RiderWallet_View
-  RiderWallet_Edit
+  PassengerWallet_View
+  PassengerWallet_Edit
 }
 
 type OperatorConnection {
@@ -834,91 +834,21 @@ type OperatorConnection {
   totalCount: Int!
 }
 
-type PaymentGateway {
+type ServiceCategoryWithCost {
   id: ID!
-  enabled: Boolean!
-  title: String!
-  type: PaymentGatewayType!
-  publicKey: String!
-  privateKey: String!
-  merchantId: String!
-  saltKey: String!
-  mediaId: ID!
-  media: Media
 }
 
-enum PaymentGatewayType {
-  Stripe
-  BrainTree
-  PayPal
-  CustomLink
+type CalculateFareDTO {
+  currency: String!
+  distance: Float!
+  duration: Float!
+  services: [ServiceCategoryWithCost!]!
+  error: CalculateFareError!
 }
 
-type PaymentGatewayConnection {
-  """Paging information"""
-  pageInfo: OffsetPageInfo!
-
-  """Array of nodes."""
-  nodes: [PaymentGateway!]!
-
-  """Fetch total count of records"""
-  totalCount: Int!
-}
-
-type RegionDeleteResponse {
-  id: ID
-  name: String
-  currency: String
-  enabled: Boolean
-  location: [[Point!]!]
-}
-
-type RegionConnection {
-  """Paging information"""
-  pageInfo: OffsetPageInfo!
-
-  """Array of nodes."""
-  nodes: [Region!]!
-
-  """Fetch total count of records"""
-  totalCount: Int!
-}
-
-type RegionAggregateGroupBy {
-  id: ID
-  currency: String
-}
-
-type RegionCountAggregate {
-  id: Int
-  currency: Int
-}
-
-type RegionSumAggregate {
-  id: Float
-}
-
-type RegionAvgAggregate {
-  id: Float
-}
-
-type RegionMinAggregate {
-  id: ID
-  currency: String
-}
-
-type RegionMaxAggregate {
-  id: ID
-  currency: String
-}
-
-type RegionAggregateResponse {
-  groupBy: RegionAggregateGroupBy
-  count: RegionCountAggregate
-  sum: RegionSumAggregate
-  avg: RegionAvgAggregate
-  min: RegionMinAggregate
-  max: RegionMaxAggregate
+enum CalculateFareError {
+  RegionUnsupported
+  NoServiceInRegion
 }
 
 type PassengerAddress {
@@ -1091,6 +1021,450 @@ enum PassengerRechargeTransactionType {
   InAppPayment
 }
 
+type OrderMessage {
+  id: ID!
+}
+
+type OrderActivity {
+  id: ID!
+}
+
+type Order {
+  id: ID!
+  createdOn: DateTime!
+  status: OrderStatus!
+  distanceBest: Int!
+  durationBest: Int!
+  passengerId: ID!
+  driverId: ID!
+  conversationsAggregate(
+    """Filter to find records to aggregate on"""
+    filter: OrderMessageAggregateFilter
+  ): [OrderConversationsAggregateResponse!]!
+  passengerTransactionsAggregate(
+    """Filter to find records to aggregate on"""
+    filter: PassengerTransactionAggregateFilter
+  ): [OrderPassengerTransactionsAggregateResponse!]!
+  driverTransactionsAggregate(
+    """Filter to find records to aggregate on"""
+    filter: DriverTransactionAggregateFilter
+  ): [OrderDriverTransactionsAggregateResponse!]!
+  activitiesAggregate(
+    """Filter to find records to aggregate on"""
+    filter: OrderActivityAggregateFilter
+  ): [OrderActivitiesAggregateResponse!]!
+  driver: Driver
+  passenger: Passenger!
+  service: Service!
+  conversations(
+    """Specify to filter the records returned."""
+    filter: OrderMessageFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OrderMessageSort!] = []
+  ): [OrderMessage!]!
+  passengerTransactions(
+    """Specify to filter the records returned."""
+    filter: PassengerTransactionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerTransactionSort!] = []
+  ): [PassengerTransaction!]!
+  driverTransactions(
+    """Specify to filter the records returned."""
+    filter: DriverTransactionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [DriverTransactionSort!] = []
+  ): [DriverTransaction!]!
+  activities(
+    """Specify to filter the records returned."""
+    filter: OrderActivityFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OrderActivitySort!] = []
+  ): [OrderActivity!]!
+}
+
+enum OrderStatus {
+  Requested
+  NotFound
+  NoCloseFound
+  Found
+  DriverAccepted
+  Arrived
+  WaitingForPrePay
+  DriverCanceled
+  PassengerCanceled
+  Started
+  WaitingForPostPay
+  WaitingForReview
+  Finished
+  Booked
+  Expired
+}
+
+input OrderMessageAggregateFilter {
+  and: [OrderMessageAggregateFilter!]
+  or: [OrderMessageAggregateFilter!]
+  id: IDFilterComparison
+}
+
+input PassengerTransactionAggregateFilter {
+  and: [PassengerTransactionAggregateFilter!]
+  or: [PassengerTransactionAggregateFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  amount: FloatFieldComparison
+  currency: StringFieldComparison
+  passengerId: IDFilterComparison
+}
+
+input OrderActivityAggregateFilter {
+  and: [OrderActivityAggregateFilter!]
+  or: [OrderActivityAggregateFilter!]
+  id: IDFilterComparison
+}
+
+input OrderMessageFilter {
+  and: [OrderMessageFilter!]
+  or: [OrderMessageFilter!]
+  id: IDFilterComparison
+}
+
+input OrderMessageSort {
+  field: OrderMessageSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderMessageSortFields {
+  id
+}
+
+input OrderActivityFilter {
+  and: [OrderActivityFilter!]
+  or: [OrderActivityFilter!]
+  id: IDFilterComparison
+}
+
+input OrderActivitySort {
+  field: OrderActivitySortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderActivitySortFields {
+  id
+}
+
+type OrderConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Order!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type OrderAggregateGroupBy {
+  id: ID
+  createdOn: DateTime
+  status: OrderStatus
+  passengerId: ID
+  driverId: ID
+}
+
+type OrderCountAggregate {
+  id: Int
+  createdOn: Int
+  status: Int
+  passengerId: Int
+  driverId: Int
+}
+
+type OrderSumAggregate {
+  id: Float
+  passengerId: Float
+  driverId: Float
+}
+
+type OrderAvgAggregate {
+  id: Float
+  passengerId: Float
+  driverId: Float
+}
+
+type OrderMinAggregate {
+  id: ID
+  createdOn: DateTime
+  status: OrderStatus
+  passengerId: ID
+  driverId: ID
+}
+
+type OrderMaxAggregate {
+  id: ID
+  createdOn: DateTime
+  status: OrderStatus
+  passengerId: ID
+  driverId: ID
+}
+
+type OrderAggregateResponse {
+  groupBy: OrderAggregateGroupBy
+  count: OrderCountAggregate
+  sum: OrderSumAggregate
+  avg: OrderAvgAggregate
+  min: OrderMinAggregate
+  max: OrderMaxAggregate
+}
+
+type OrderActivitiesAggregateGroupBy {
+  id: ID
+}
+
+type OrderActivitiesCountAggregate {
+  id: Int
+}
+
+type OrderActivitiesSumAggregate {
+  id: Float
+}
+
+type OrderActivitiesAvgAggregate {
+  id: Float
+}
+
+type OrderActivitiesMinAggregate {
+  id: ID
+}
+
+type OrderActivitiesMaxAggregate {
+  id: ID
+}
+
+type OrderActivitiesAggregateResponse {
+  groupBy: OrderActivitiesAggregateGroupBy
+  count: OrderActivitiesCountAggregate
+  sum: OrderActivitiesSumAggregate
+  avg: OrderActivitiesAvgAggregate
+  min: OrderActivitiesMinAggregate
+  max: OrderActivitiesMaxAggregate
+}
+
+type OrderDriverTransactionsAggregateGroupBy {
+  createdAt: DateTime
+  driverId: ID
+}
+
+type OrderDriverTransactionsCountAggregate {
+  createdAt: Int
+  driverId: Int
+}
+
+type OrderDriverTransactionsSumAggregate {
+  driverId: Float
+}
+
+type OrderDriverTransactionsAvgAggregate {
+  driverId: Float
+}
+
+type OrderDriverTransactionsMinAggregate {
+  createdAt: DateTime
+  driverId: ID
+}
+
+type OrderDriverTransactionsMaxAggregate {
+  createdAt: DateTime
+  driverId: ID
+}
+
+type OrderDriverTransactionsAggregateResponse {
+  groupBy: OrderDriverTransactionsAggregateGroupBy
+  count: OrderDriverTransactionsCountAggregate
+  sum: OrderDriverTransactionsSumAggregate
+  avg: OrderDriverTransactionsAvgAggregate
+  min: OrderDriverTransactionsMinAggregate
+  max: OrderDriverTransactionsMaxAggregate
+}
+
+type OrderPassengerTransactionsAggregateGroupBy {
+  id: ID
+  createdAt: DateTime
+  amount: Float
+  currency: String
+  passengerId: ID
+}
+
+type OrderPassengerTransactionsCountAggregate {
+  id: Int
+  createdAt: Int
+  amount: Int
+  currency: Int
+  passengerId: Int
+}
+
+type OrderPassengerTransactionsSumAggregate {
+  id: Float
+  amount: Float
+  passengerId: Float
+}
+
+type OrderPassengerTransactionsAvgAggregate {
+  id: Float
+  amount: Float
+  passengerId: Float
+}
+
+type OrderPassengerTransactionsMinAggregate {
+  id: ID
+  createdAt: DateTime
+  amount: Float
+  currency: String
+  passengerId: ID
+}
+
+type OrderPassengerTransactionsMaxAggregate {
+  id: ID
+  createdAt: DateTime
+  amount: Float
+  currency: String
+  passengerId: ID
+}
+
+type OrderPassengerTransactionsAggregateResponse {
+  groupBy: OrderPassengerTransactionsAggregateGroupBy
+  count: OrderPassengerTransactionsCountAggregate
+  sum: OrderPassengerTransactionsSumAggregate
+  avg: OrderPassengerTransactionsAvgAggregate
+  min: OrderPassengerTransactionsMinAggregate
+  max: OrderPassengerTransactionsMaxAggregate
+}
+
+type OrderConversationsAggregateGroupBy {
+  id: ID
+}
+
+type OrderConversationsCountAggregate {
+  id: Int
+}
+
+type OrderConversationsSumAggregate {
+  id: Float
+}
+
+type OrderConversationsAvgAggregate {
+  id: Float
+}
+
+type OrderConversationsMinAggregate {
+  id: ID
+}
+
+type OrderConversationsMaxAggregate {
+  id: ID
+}
+
+type OrderConversationsAggregateResponse {
+  groupBy: OrderConversationsAggregateGroupBy
+  count: OrderConversationsCountAggregate
+  sum: OrderConversationsSumAggregate
+  avg: OrderConversationsAvgAggregate
+  min: OrderConversationsMinAggregate
+  max: OrderConversationsMaxAggregate
+}
+
+type PaymentGateway {
+  id: ID!
+  enabled: Boolean!
+  title: String!
+  type: PaymentGatewayType!
+  publicKey: String!
+  privateKey: String!
+  merchantId: String!
+  saltKey: String!
+  mediaId: ID!
+  media: Media
+}
+
+enum PaymentGatewayType {
+  Stripe
+  BrainTree
+  PayPal
+  CustomLink
+}
+
+type PaymentGatewayConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [PaymentGateway!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type RegionDeleteResponse {
+  id: ID
+  name: String
+  currency: String
+  enabled: Boolean
+  location: [[Point!]!]
+}
+
+type RegionConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Region!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type RegionAggregateGroupBy {
+  id: ID
+  currency: String
+}
+
+type RegionCountAggregate {
+  id: Int
+  currency: Int
+}
+
+type RegionSumAggregate {
+  id: Float
+}
+
+type RegionAvgAggregate {
+  id: Float
+}
+
+type RegionMinAggregate {
+  id: ID
+  currency: String
+}
+
+type RegionMaxAggregate {
+  id: ID
+  currency: String
+}
+
+type RegionAggregateResponse {
+  groupBy: RegionAggregateGroupBy
+  count: RegionCountAggregate
+  sum: RegionSumAggregate
+  avg: RegionAvgAggregate
+  min: RegionMinAggregate
+  max: RegionMaxAggregate
+}
+
 type PassengerConnection {
   """Paging information"""
   pageInfo: OffsetPageInfo!
@@ -1260,6 +1634,7 @@ input TimeMultiplierInput {
 type Query {
   getDriversLocation(center: PointInput!, count: Int!): [OnlineDriver!]!
   getDriversLocationWithData(center: PointInput!, count: Int!): [OnlineDriverWithData!]!
+  calculateFare(input: CalculateFareInput!): CalculateFareDTO!
   login(userName: String!, password: String!): TokenObject!
   me: Operator!
   service(
@@ -1411,6 +1786,24 @@ type Query {
     """Specify to sort results."""
     sorting: [DriverTransactionSort!] = []
   ): DriverTransactionConnection!
+  orderAggregate(
+    """Filter to find records to aggregate on"""
+    filter: OrderAggregateFilter
+  ): [OrderAggregateResponse!]!
+  order(
+    """The id of the record to find."""
+    id: ID!
+  ): Order!
+  orders(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: OrderFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OrderSort!] = []
+  ): OrderConnection!
   regionAggregate(
     """Filter to find records to aggregate on"""
     filter: RegionAggregateFilter
@@ -1468,6 +1861,10 @@ type Query {
     """Specify to sort results."""
     sorting: [CarColorSort!] = []
   ): [CarColor!]!
+}
+
+input CalculateFareInput {
+  points: [PointInput!]!
 }
 
 input ServiceCategoryFilter {
@@ -1607,6 +2004,57 @@ enum DriverSortFields {
   status
 }
 
+input OrderAggregateFilter {
+  and: [OrderAggregateFilter!]
+  or: [OrderAggregateFilter!]
+  id: IDFilterComparison
+  createdOn: DateFieldComparison
+  status: OrderStatusFilterComparison
+  passengerId: IDFilterComparison
+  driverId: IDFilterComparison
+}
+
+input OrderStatusFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: OrderStatus
+  neq: OrderStatus
+  gt: OrderStatus
+  gte: OrderStatus
+  lt: OrderStatus
+  lte: OrderStatus
+  like: OrderStatus
+  notLike: OrderStatus
+  iLike: OrderStatus
+  notILike: OrderStatus
+  in: [OrderStatus!]
+  notIn: [OrderStatus!]
+}
+
+input OrderFilter {
+  and: [OrderFilter!]
+  or: [OrderFilter!]
+  id: IDFilterComparison
+  createdOn: DateFieldComparison
+  status: OrderStatusFilterComparison
+  passengerId: IDFilterComparison
+  driverId: IDFilterComparison
+}
+
+input OrderSort {
+  field: OrderSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderSortFields {
+  id
+  createdOn
+  status
+  passengerId
+  driverId
+}
+
 input RegionAggregateFilter {
   and: [RegionAggregateFilter!]
   or: [RegionAggregateFilter!]
@@ -1664,6 +2112,9 @@ enum CarColorSortFields {
 
 type Mutation {
   updatePassword(input: UpdatePasswordInput!): Operator!
+  createOrder(input: CreateOrderInput!): Order!
+  cancelOrder(orderId: ID!): Order!
+  assignDriverToOrder(orderId: ID!, driverId: ID!): Order!
   setMediaOnService(input: SetMediaOnServiceInput!): Service!
   setOptionsOnService(input: SetOptionsOnServiceInput!): Service!
   addRegionsToService(input: AddRegionsToServiceInput!): Service!
@@ -1728,6 +2179,21 @@ type Mutation {
   setOperatorOnDriverTransaction(input: SetOperatorOnDriverTransactionInput!): DriverTransaction!
   removeOperatorFromDriverTransaction(input: RemoveOperatorFromDriverTransactionInput!): DriverTransaction!
   createOneDriverTransaction(input: CreateOneDriverTransactionInput!): DriverTransaction!
+  setDriverOnOrder(input: SetDriverOnOrderInput!): Order!
+  setPassengerOnOrder(input: SetPassengerOnOrderInput!): Order!
+  setServiceOnOrder(input: SetServiceOnOrderInput!): Order!
+  addConversationsToOrder(input: AddConversationsToOrderInput!): Order!
+  setConversationsOnOrder(input: SetConversationsOnOrderInput!): Order!
+  addPassengerTransactionsToOrder(input: AddPassengerTransactionsToOrderInput!): Order!
+  setPassengerTransactionsOnOrder(input: SetPassengerTransactionsOnOrderInput!): Order!
+  addDriverTransactionsToOrder(input: AddDriverTransactionsToOrderInput!): Order!
+  setDriverTransactionsOnOrder(input: SetDriverTransactionsOnOrderInput!): Order!
+  removeDriverFromOrder(input: RemoveDriverFromOrderInput!): Order!
+  removePassengerFromOrder(input: RemovePassengerFromOrderInput!): Order!
+  removeServiceFromOrder(input: RemoveServiceFromOrderInput!): Order!
+  removeConversationsFromOrder(input: RemoveConversationsFromOrderInput!): Order!
+  removePassengerTransactionsFromOrder(input: RemovePassengerTransactionsFromOrderInput!): Order!
+  removeDriverTransactionsFromOrder(input: RemoveDriverTransactionsFromOrderInput!): Order!
   createOneRegion(input: CreateOneRegionInput!): Region!
   updateOneRegion(input: UpdateOneRegionInput!): Region!
   deleteOneRegion(input: DeleteOneRegionInput!): RegionDeleteResponse!
@@ -1746,6 +2212,12 @@ type Mutation {
 input UpdatePasswordInput {
   oldPassword: String!
   newPasswod: String!
+}
+
+input CreateOrderInput {
+  passengerId: ID!
+  serviceId: ID!
+  intervalMinutes: Int!
 }
 
 input SetMediaOnServiceInput {
@@ -2450,6 +2922,126 @@ input CreateDriverTransaction {
   description: String
 }
 
+input SetDriverOnOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetPassengerOnOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetServiceOnOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input AddConversationsToOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetConversationsOnOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input AddPassengerTransactionsToOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetPassengerTransactionsOnOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input AddDriverTransactionsToOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetDriverTransactionsOnOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveDriverFromOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemovePassengerFromOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveServiceFromOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveConversationsFromOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemovePassengerTransactionsFromOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveDriverTransactionsFromOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 input CreateOneRegionInput {
   """The record to create"""
   region: CreateRegion!
@@ -2591,4 +3183,8 @@ input UpdateCarColor {
 input DeleteOneCarColorInput {
   """The id of the record to delete."""
   id: ID!
+}
+
+type Subscription {
+  orderUpdated(orderId: ID!): Order!
 }

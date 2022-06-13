@@ -17,7 +17,12 @@
     "paths": {
       "@vroom/database": ["libs/database/src/index.ts"],
       "@vroom/database/*": ["libs/database/src/lib/entities/*"],
-      "@vroom/redis/*": ["libs/database/src/lib/redis/*"]
+      "@vroom/redis/*": ["libs/database/src/lib/redis/*"],
+      "@vroom/order/*": [
+        "libs/database/src/lib/order/*",
+        "libs/database/src/lib/order/region/*",
+        "libs/database/src/lib/order/google-services/*"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

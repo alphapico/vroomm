@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Point } from '@vroom/database';
-import { RegionEntity } from '@vroom/database/region.entity';
-import { ServiceEntity } from '@vroom/database/service.entity';
+import { Point } from '../../interfaces/point';
+import { RegionEntity } from '../../entities/region.entity';
+import { ServiceEntity } from '../../entities/service.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
