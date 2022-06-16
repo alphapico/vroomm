@@ -10,7 +10,7 @@ import { join } from 'path';
 import { AppController } from './admin-api.controller';
 // import { AnnouncementModule } from './announcement/announcement.module';
 import { CarModule } from './car/car.module';
-// import { CouponModule } from './coupon/coupon.module';
+import { CouponModule } from './coupon/coupon.module';
 import { DriverModule } from './driver/driver.module';
 // import { FeedbackModule } from './feedback/feedback.module';
 // import { FleetModule } from './fleet/fleet.module';
@@ -109,7 +109,7 @@ export class AdminAPIModule {
             // FleetModule,
             OrderModule,
             // AnnouncementModule,
-            // CouponModule,
+            CouponModule,
             // AccountingModule,
             RegionModule,
             PaymentGatewayModule,

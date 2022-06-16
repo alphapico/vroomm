@@ -4,6 +4,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { ConnectionOptions, createConnection } from 'typeorm';
 import { CarColorEntity } from './entities/car-color.entity';
 import { CarModelEntity } from './entities/car-model.entity';
+import { CouponEntity } from './entities/coupon.entity';
 import { DriverTransactionEntity } from './entities/driver-transaction.entity';
 import { DriverWalletEntity } from './entities/driver-wallet.entity';
 import { DriverEntity } from './entities/driver.entity';
@@ -142,6 +143,7 @@ export class DatabaseModule {
 export const entities = [
   CarModelEntity,
   CarColorEntity,
+  CouponEntity,
   DriverEntity,
   DriverTransactionEntity,
   DriverWalletEntity,

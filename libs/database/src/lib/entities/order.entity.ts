@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Point } from '../interfaces/point';
 import { MultipointTransformer } from '../transformers/multipoint.transformer';
+import { CouponEntity } from './coupon.entity';
 import { DriverTransactionEntity } from './driver-transaction.entity';
 import { DriverEntity } from './driver.entity';
 import { OrderStatus } from './enums/order-status.enum';
@@ -133,6 +134,12 @@ export class OrderEntity {
 
   @Column()
   passengerId!: number;
+
+  @ManyToOne(() => CouponEntity, (coupon) => coupon.orders)
+  coupon?: CouponEntity;
+
+  @Column({ nullable: true })
+  couponId?: number;
 
   @Column('char', { length: 3 })
   currency!: string;

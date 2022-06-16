@@ -22,7 +22,8 @@
         "libs/database/src/lib/order/*",
         "libs/database/src/lib/order/region/*",
         "libs/database/src/lib/order/google-services/*"
-      ]
+      ],
+      "@ridy/coupon/*": ["libs/database/src/lib/coupon/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

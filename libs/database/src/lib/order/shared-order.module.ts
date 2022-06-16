@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommonCouponModule } from '../coupon/common-coupon.module';
 import { RedisPubSubProvider } from '../redis-pub-sub.provider';
 import { DriverTransactionEntity } from '../entities/driver-transaction.entity';
 import { DriverWalletEntity } from '../entities/driver-wallet.entity';
@@ -25,6 +26,7 @@ import { SharedPassengerService } from './shared-passenger.service';
 @Module({
   imports: [
     RedisHelpersModule,
+    CommonCouponModule,
     TypeOrmModule.forFeature([
       ServiceCategoryEntity,
       ServiceOptionEntity,

@@ -63,99 +63,6 @@ type CarColorDeleteResponse {
   name: String
 }
 
-type OnlineDriver {
-  location: Point!
-  driverId: ID!
-  lastUpdatedAt: Float!
-}
-
-type OnlineDriverWithData {
-  id: ID!
-  location: Point!
-  lastUpdatedAt: Float!
-  firstName: String!
-  lastName: String!
-  mobileNumber: String!
-  status: DriverStatus!
-  gender: Gender!
-  rating: Int!
-  reviewCount: Int!
-}
-
-enum DriverStatus {
-  Online
-  Offline
-  Blocked
-  InService
-  WaitingDocuments
-  PendingApproval
-  SoftReject
-  HardReject
-}
-
-enum Gender {
-  Male
-  Female
-  Unknown
-}
-
-type Operator {
-  id: ID!
-  firstName: String!
-  lastName: String!
-  userName: String!
-  mobileNumber: String!
-  email: String!
-  roleId: ID!
-}
-
-type DriverTransaction {
-  createdAt: DateTime!
-  action: TransactionAction!
-  status: TransactionStatus!
-  deductType: DriverDeductTransactionType!
-  rechargeType: DriverRechargeTransactionType!
-  amount: Float!
-  currency: String!
-  refrenceNumber: String!
-  driverId: ID!
-  paymentGatewayId: ID!
-  operatorId: ID!
-  requestId: ID!
-  description: String!
-  operator: Operator
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-enum TransactionAction {
-  Recharge
-  Deduct
-}
-
-enum TransactionStatus {
-  Processing
-  Done
-  Canceled
-  Rejected
-}
-
-enum DriverDeductTransactionType {
-  Withdraw
-  Commission
-  Correction
-}
-
-enum DriverRechargeTransactionType {
-  OrderFee
-  BankTransfer
-  InAppPayment
-  Gift
-}
-
 type Region {
   id: ID!
   name: String!
@@ -301,6 +208,143 @@ enum SortDirection {
 enum SortNulls {
   NULLS_FIRST
   NULLS_LAST
+}
+
+type Coupon {
+  id: ID!
+  manyUsersCanUse: Int!
+  manyTimesUserCanUse: Int!
+  discountPercent: Int!
+  discountFlat: Int!
+  allowedServices(
+    """Specify to filter the records returned."""
+    filter: ServiceFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ServiceSort!] = []
+  ): [Service!]!
+}
+
+input ServiceFilter {
+  and: [ServiceFilter!]
+  or: [ServiceFilter!]
+  id: IDFilterComparison
+  categoryId: IDFilterComparison
+}
+
+input ServiceSort {
+  field: ServiceSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ServiceSortFields {
+  id
+  categoryId
+}
+
+type CouponConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Coupon!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type OnlineDriver {
+  location: Point!
+  driverId: ID!
+  lastUpdatedAt: Float!
+}
+
+type OnlineDriverWithData {
+  id: ID!
+  location: Point!
+  lastUpdatedAt: Float!
+  firstName: String!
+  lastName: String!
+  mobileNumber: String!
+  status: DriverStatus!
+  gender: Gender!
+  rating: Int!
+  reviewCount: Int!
+}
+
+enum DriverStatus {
+  Online
+  Offline
+  Blocked
+  InService
+  WaitingDocuments
+  PendingApproval
+  SoftReject
+  HardReject
+}
+
+enum Gender {
+  Male
+  Female
+  Unknown
+}
+
+type Operator {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  userName: String!
+  mobileNumber: String!
+  email: String!
+  roleId: ID!
+}
+
+type DriverTransaction {
+  createdAt: DateTime!
+  action: TransactionAction!
+  status: TransactionStatus!
+  deductType: DriverDeductTransactionType!
+  rechargeType: DriverRechargeTransactionType!
+  amount: Float!
+  currency: String!
+  refrenceNumber: String!
+  driverId: ID!
+  paymentGatewayId: ID!
+  operatorId: ID!
+  requestId: ID!
+  description: String!
+  operator: Operator
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum TransactionAction {
+  Recharge
+  Deduct
+}
+
+enum TransactionStatus {
+  Processing
+  Done
+  Canceled
+  Rejected
+}
+
+enum DriverDeductTransactionType {
+  Withdraw
+  Commission
+  Correction
+}
+
+enum DriverRechargeTransactionType {
+  OrderFee
+  BankTransfer
+  InAppPayment
+  Gift
 }
 
 type Driver {
@@ -466,24 +510,6 @@ enum DriverWalletSortFields {
   balance
   currency
   driverId
-}
-
-input ServiceFilter {
-  and: [ServiceFilter!]
-  or: [ServiceFilter!]
-  id: IDFilterComparison
-  categoryId: IDFilterComparison
-}
-
-input ServiceSort {
-  field: ServiceSortFields!
-  direction: SortDirection!
-  nulls: SortNulls
-}
-
-enum ServiceSortFields {
-  id
-  categoryId
 }
 
 input MediaFilter {
@@ -1056,6 +1082,7 @@ type Order {
   driver: Driver
   passenger: Passenger!
   service: Service!
+  coupon: Coupon
   conversations(
     """Specify to filter the records returned."""
     filter: OrderMessageFilter = {}
@@ -1804,6 +1831,20 @@ type Query {
     """Specify to sort results."""
     sorting: [OrderSort!] = []
   ): OrderConnection!
+  coupon(
+    """The id of the record to find."""
+    id: ID!
+  ): Coupon!
+  coupons(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: CouponFilter = {}
+
+    """Specify to sort results."""
+    sorting: [CouponSort!] = []
+  ): CouponConnection!
   regionAggregate(
     """Filter to find records to aggregate on"""
     filter: RegionAggregateFilter
@@ -2055,6 +2096,22 @@ enum OrderSortFields {
   driverId
 }
 
+input CouponFilter {
+  and: [CouponFilter!]
+  or: [CouponFilter!]
+  id: IDFilterComparison
+}
+
+input CouponSort {
+  field: CouponSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum CouponSortFields {
+  id
+}
+
 input RegionAggregateFilter {
   and: [RegionAggregateFilter!]
   or: [RegionAggregateFilter!]
@@ -2182,6 +2239,7 @@ type Mutation {
   setDriverOnOrder(input: SetDriverOnOrderInput!): Order!
   setPassengerOnOrder(input: SetPassengerOnOrderInput!): Order!
   setServiceOnOrder(input: SetServiceOnOrderInput!): Order!
+  setCouponOnOrder(input: SetCouponOnOrderInput!): Order!
   addConversationsToOrder(input: AddConversationsToOrderInput!): Order!
   setConversationsOnOrder(input: SetConversationsOnOrderInput!): Order!
   addPassengerTransactionsToOrder(input: AddPassengerTransactionsToOrderInput!): Order!
@@ -2191,9 +2249,15 @@ type Mutation {
   removeDriverFromOrder(input: RemoveDriverFromOrderInput!): Order!
   removePassengerFromOrder(input: RemovePassengerFromOrderInput!): Order!
   removeServiceFromOrder(input: RemoveServiceFromOrderInput!): Order!
+  removeCouponFromOrder(input: RemoveCouponFromOrderInput!): Order!
   removeConversationsFromOrder(input: RemoveConversationsFromOrderInput!): Order!
   removePassengerTransactionsFromOrder(input: RemovePassengerTransactionsFromOrderInput!): Order!
   removeDriverTransactionsFromOrder(input: RemoveDriverTransactionsFromOrderInput!): Order!
+  addAllowedServicesToCoupon(input: AddAllowedServicesToCouponInput!): Coupon!
+  setAllowedServicesOnCoupon(input: SetAllowedServicesOnCouponInput!): Coupon!
+  removeAllowedServicesFromCoupon(input: RemoveAllowedServicesFromCouponInput!): Coupon!
+  createOneCoupon(input: CreateOneCouponInput!): Coupon!
+  updateOneCoupon(input: UpdateOneCouponInput!): Coupon!
   createOneRegion(input: CreateOneRegionInput!): Region!
   updateOneRegion(input: UpdateOneRegionInput!): Region!
   deleteOneRegion(input: DeleteOneRegionInput!): RegionDeleteResponse!
@@ -2946,6 +3010,14 @@ input SetServiceOnOrderInput {
   relationId: ID!
 }
 
+input SetCouponOnOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input AddConversationsToOrderInput {
   """The id of the record."""
   id: ID!
@@ -3018,6 +3090,14 @@ input RemoveServiceFromOrderInput {
   relationId: ID!
 }
 
+input RemoveCouponFromOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input RemoveConversationsFromOrderInput {
   """The id of the record."""
   id: ID!
@@ -3040,6 +3120,59 @@ input RemoveDriverTransactionsFromOrderInput {
 
   """The ids of the relations."""
   relationIds: [ID!]!
+}
+
+input AddAllowedServicesToCouponInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetAllowedServicesOnCouponInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveAllowedServicesFromCouponInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input CreateOneCouponInput {
+  """The record to create"""
+  coupon: CreateCoupon!
+}
+
+input CreateCoupon {
+  id: ID
+  manyUsersCanUse: Int
+  manyTimesUserCanUse: Int
+  discountPercent: Int
+  discountFlat: Int
+}
+
+input UpdateOneCouponInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateCoupon!
+}
+
+input UpdateCoupon {
+  id: ID
+  manyUsersCanUse: Int
+  manyTimesUserCanUse: Int
+  discountPercent: Int
+  discountFlat: Int
 }
 
 input CreateOneRegionInput {

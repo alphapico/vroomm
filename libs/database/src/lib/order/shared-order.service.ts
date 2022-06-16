@@ -1,6 +1,8 @@
 import { InjectPubSub } from '@ptc-org/nestjs-query-graphql';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CommonCouponService } from '../coupon/common-coupon.service';
+import { CouponEntity } from '../entities/coupon.entity';
 import { DriverDeductTransactionType } from '../entities/enums/driver-deduct-transaction-type.enum';
 import { DriverRechargeTransactionType } from '../entities/enums/driver-recharge-transaction-type.enum';
 import { DriverStatus } from '../entities/enums/driver-status.enum';
@@ -51,6 +53,7 @@ export class SharedOrderService {
     private driverRedisService: DriverRedisService,
     private orderRedisService: OrderRedisService,
     private driverService: SharedDriverService,
+    private commonCouponService: CommonCouponService,
     @InjectPubSub()
     private pubSub: RedisPubSub,
     private driverNotificationService: DriverNotificationService,
@@ -60,6 +63,7 @@ export class SharedOrderService {
   async calculateFare(input: {
     points: Point[];
     twoWay?: boolean;
+    coupon?: CouponEntity;
     passengerId?: number;
   }) {
     const regions = await this.regionService.getRegionWithPoint(
@@ -82,7 +86,7 @@ export class SharedOrderService {
         ? await this.googleServices.getSumDistanceAndDuration(input.points)
         : { distance: 0, duration: 0, directions: [] };
     const cats = await this.serviceCategoryRepository.find({
-      relations: ['services', 'services.media'],
+      relations: { services: { media: true } },
     });
     let isResident = process.env.MOTAXI == null;
     if (input.passengerId != null) {
@@ -105,10 +109,20 @@ export class SharedOrderService {
               new Date(),
               isResident
             );
-            return {
-              ...service,
-              cost,
-            };
+            if (input.coupon == null) {
+              return {
+                ...service,
+                cost,
+              };
+            } else {
+              const costAfterCoupon =
+                this.commonCouponService.applyCouponOnPrice(input.coupon, cost);
+              return {
+                ...service,
+                cost,
+                costAfterCoupon,
+              };
+            }
           });
         return {
           ..._cat,
@@ -217,7 +231,7 @@ export class SharedOrderService {
         // paidAmount = amountNeedsToBePrePaid;
       }
     }
-    const order: OrderEntity = await this.orderRepository.save({
+    let order: OrderEntity = await this.orderRepository.save({
       serviceId: input.serviceId,
       currency: regions[0].currency,
       passengerId: input.passengerId,
@@ -242,7 +256,13 @@ export class SharedOrderService {
         service.providerShareFlat + (service.providerSharePercent * cost) / 100,
       options: options,
     });
-
+    if (input.couponCode != null) {
+      order = await this.commonCouponService.applyCoupon(
+        input.couponCode,
+        order.id,
+        passenger.id
+      );
+    }
     let activityType = OrderActivityType.RequestedByPassenger;
     if (input.intervalMinutes > 0) {
       activityType =

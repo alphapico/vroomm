@@ -4,11 +4,14 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { CouponEntity } from './coupon.entity';
 import { Gender } from './enums/gender.enum';
 import { PassengerDocumentType } from './enums/passenger-document-type';
 import { PassengerStatus } from './enums/passenger-status.enum';
@@ -103,4 +106,8 @@ export class PassengerEntity {
     (passengerTransaction) => passengerTransaction.passenger
   )
   transactions!: PassengerTransactionEntity[];
+
+  @ManyToMany(() => CouponEntity, (coupon) => coupon.passengers)
+  @JoinTable()
+  coupons!: CouponEntity[];
 }
