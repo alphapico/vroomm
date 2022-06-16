@@ -19,19 +19,12 @@ type TimeMultiplier {
   multiply: Float!
 }
 
-type CarColor {
+type Announcement {
   id: ID!
-  name: String!
 }
 
-type CarModel {
-  id: ID!
-  name: String!
-}
-
-type CarModelDeleteResponse {
+type AnnouncementDeleteResponse {
   id: ID
-  name: String
 }
 
 type UpdateManyResponse {
@@ -45,6 +38,32 @@ type OffsetPageInfo {
 
   """true if paging backwards and there are more records."""
   hasPreviousPage: Boolean
+}
+
+type AnnouncementConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Announcement!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type CarColor {
+  id: ID!
+  name: String!
+}
+
+type CarModel {
+  id: ID!
+  name: String!
+}
+
+type CarModelDeleteResponse {
+  id: ID
+  name: String
 }
 
 type CarModelConnection {
@@ -1831,6 +1850,20 @@ type Query {
     """Specify to sort results."""
     sorting: [OrderSort!] = []
   ): OrderConnection!
+  announcement(
+    """The id of the record to find."""
+    id: ID!
+  ): Announcement!
+  announcements(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: AnnouncementFilter = {}
+
+    """Specify to sort results."""
+    sorting: [AnnouncementSort!] = []
+  ): AnnouncementConnection!
   coupon(
     """The id of the record to find."""
     id: ID!
@@ -2096,6 +2129,22 @@ enum OrderSortFields {
   driverId
 }
 
+input AnnouncementFilter {
+  and: [AnnouncementFilter!]
+  or: [AnnouncementFilter!]
+  id: IDFilterComparison
+}
+
+input AnnouncementSort {
+  field: AnnouncementSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum AnnouncementSortFields {
+  id
+}
+
 input CouponFilter {
   and: [CouponFilter!]
   or: [CouponFilter!]
@@ -2253,6 +2302,9 @@ type Mutation {
   removeConversationsFromOrder(input: RemoveConversationsFromOrderInput!): Order!
   removePassengerTransactionsFromOrder(input: RemovePassengerTransactionsFromOrderInput!): Order!
   removeDriverTransactionsFromOrder(input: RemoveDriverTransactionsFromOrderInput!): Order!
+  createOneAnnouncement(input: CreateOneAnnouncementInput!): Announcement!
+  updateOneAnnouncement(input: UpdateOneAnnouncementInput!): Announcement!
+  deleteOneAnnouncement(input: DeleteOneAnnouncementInput!): AnnouncementDeleteResponse!
   addAllowedServicesToCoupon(input: AddAllowedServicesToCouponInput!): Coupon!
   setAllowedServicesOnCoupon(input: SetAllowedServicesOnCouponInput!): Coupon!
   removeAllowedServicesFromCoupon(input: RemoveAllowedServicesFromCouponInput!): Coupon!
@@ -3120,6 +3172,32 @@ input RemoveDriverTransactionsFromOrderInput {
 
   """The ids of the relations."""
   relationIds: [ID!]!
+}
+
+input CreateOneAnnouncementInput {
+  """The record to create"""
+  announcement: CreateAnnouncement!
+}
+
+input CreateAnnouncement {
+  id: ID
+}
+
+input UpdateOneAnnouncementInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateAnnouncement!
+}
+
+input UpdateAnnouncement {
+  id: ID
+}
+
+input DeleteOneAnnouncementInput {
+  """The id of the record to delete."""
+  id: ID!
 }
 
 input AddAllowedServicesToCouponInput {

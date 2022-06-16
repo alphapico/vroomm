@@ -5,6 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { AnnouncementEntity } from './announcement.entity';
 import { DriverEntity } from './driver.entity';
 import { OperatorEntity } from './operator.entity';
 import { PaymentGatewayEntity } from './payment-gateway.entity';
@@ -41,6 +42,11 @@ export class MediaEntity {
     onDelete: 'SET NULL',
   })
   operator?: OperatorEntity;
+
+  @OneToOne(() => AnnouncementEntity, (announcement) => announcement.media, {
+    onDelete: 'SET NULL',
+  })
+  announcement?: AnnouncementEntity;
 
   @OneToOne(() => PassengerEntity, (passenger) => passenger.media, {
     onDelete: 'SET NULL',

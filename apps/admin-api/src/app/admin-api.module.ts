@@ -8,7 +8,7 @@ import { join } from 'path';
 // import { AccountingModule } from './accounting/accounting.module';
 // import { AddressModule } from './address/address.module';
 import { AppController } from './admin-api.controller';
-// import { AnnouncementModule } from './announcement/announcement.module';
+import { AnnouncementModule } from './announcement/announcement.module';
 import { CarModule } from './car/car.module';
 import { CouponModule } from './coupon/coupon.module';
 import { DriverModule } from './driver/driver.module';
@@ -108,7 +108,7 @@ export class AdminAPIModule {
             DriverModule,
             // FleetModule,
             OrderModule,
-            // AnnouncementModule,
+            AnnouncementModule,
             CouponModule,
             // AccountingModule,
             RegionModule,
