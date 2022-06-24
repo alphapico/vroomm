@@ -8,6 +8,7 @@ import {
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { DriverStatus } from '@vroom/database/enums/driver-status.enum';
 import { Gender } from '@vroom/database/enums/gender.enum';
+import { FeedbackDTO } from '../../feedback/dto/feedback.dto';
 import { numberMasker } from '../../number.masker.middleware';
 import { ServiceDTO } from '../../service/dto/service.dto';
 import { MediaDTO } from '../../upload/media.dto';
@@ -15,6 +16,7 @@ import { DriverTransactionDTO } from './driver-transaction.dto';
 import { DriverWalletDTO } from './driver-wallet.dto';
 
 @ObjectType('Driver')
+@OffsetConnection('feedbacks', () => FeedbackDTO, { enableAggregate: true })
 @UnPagedRelation('wallet', () => DriverWalletDTO, { relationName: 'wallet' })
 @UnPagedRelation('enabledServices', () => ServiceDTO)
 @UnPagedRelation('documents', () => MediaDTO)

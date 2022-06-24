@@ -12,7 +12,7 @@ import { AnnouncementModule } from './announcement/announcement.module';
 import { CarModule } from './car/car.module';
 import { CouponModule } from './coupon/coupon.module';
 import { DriverModule } from './driver/driver.module';
-// import { FeedbackModule } from './feedback/feedback.module';
+import { FeedbackModule } from './feedback/feedback.module';
 // import { FleetModule } from './fleet/fleet.module';
 import { OperatorModule } from './operator/operator.module';
 import { OrderModule } from './order/order.module';
@@ -114,7 +114,7 @@ export class AdminAPIModule {
             RegionModule,
             PaymentGatewayModule,
             CarModule,
-            // FeedbackModule,
+            FeedbackModule,
             // AddressModule,
             AuthModule,
             UploadModule,

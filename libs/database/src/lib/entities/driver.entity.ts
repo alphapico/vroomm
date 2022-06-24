@@ -17,6 +17,7 @@ import { DriverTransactionEntity } from './driver-transaction.entity';
 import { DriverWalletEntity } from './driver-wallet.entity';
 import { DriverStatus } from './enums/driver-status.enum';
 import { Gender } from './enums/gender.enum';
+import { FeedbackEntity } from './feedback.entity';
 import { MediaEntity } from './media.entity';
 import { OrderEntity } from './order.entity';
 import { ServiceEntity } from './service.entity';
@@ -153,6 +154,9 @@ export class DriverEntity {
 
   @Column({ nullable: true })
   mediaId?: number;
+
+  @OneToMany(() => FeedbackEntity, (feedback) => feedback.driver)
+  feedbacks!: FeedbackEntity[];
 
   @OneToMany(() => DriverWalletEntity, (wallet) => wallet.driver)
   wallet!: DriverWalletEntity[];

@@ -366,6 +366,63 @@ enum DriverRechargeTransactionType {
   Gift
 }
 
+type FeedbackParameter {
+  id: ID!
+  title: String!
+  isGood: Boolean!
+}
+
+type Feedback {
+  id: ID!
+  score: Int!
+  driverId: ID!
+  orderId: ID!
+  parametersAggregate(
+    """Filter to find records to aggregate on"""
+    filter: FeedbackParameterAggregateFilter
+  ): [FeedbackParametersAggregateResponse!]!
+  parameters(
+    """Specify to filter the records returned."""
+    filter: FeedbackParameterFilter = {}
+
+    """Specify to sort results."""
+    sorting: [FeedbackParameterSort!] = []
+  ): [FeedbackParameter!]!
+}
+
+input FeedbackParameterAggregateFilter {
+  and: [FeedbackParameterAggregateFilter!]
+  or: [FeedbackParameterAggregateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  isGood: BooleanFieldComparison
+}
+
+input BooleanFieldComparison {
+  is: Boolean
+  isNot: Boolean
+}
+
+input FeedbackParameterFilter {
+  and: [FeedbackParameterFilter!]
+  or: [FeedbackParameterFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  isGood: BooleanFieldComparison
+}
+
+input FeedbackParameterSort {
+  field: FeedbackParameterSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum FeedbackParameterSortFields {
+  id
+  title
+  isGood
+}
+
 type Driver {
   id: ID!
   firstName: String!
@@ -390,6 +447,10 @@ type Driver {
   address: String!
   softRejectionNote: String!
   mediaId: ID!
+  feedbacksAggregate(
+    """Filter to find records to aggregate on"""
+    filter: FeedbackAggregateFilter
+  ): [DriverFeedbacksAggregateResponse!]!
   walletsAggregate(
     """Filter to find records to aggregate on"""
     filter: DriverWalletAggregateFilter
@@ -407,6 +468,16 @@ type Driver {
     filter: DriverTransactionAggregateFilter
   ): [DriverTransactionsAggregateResponse!]!
   media: Media
+  feedbacks(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: FeedbackFilter = {}
+
+    """Specify to sort results."""
+    sorting: [FeedbackSort!] = []
+  ): DriverFeedbacksConnection!
   wallets(
     """Specify to filter the records returned."""
     filter: DriverWalletFilter = {}
@@ -438,6 +509,14 @@ type Driver {
     """Specify to sort results."""
     sorting: [DriverTransactionSort!] = []
   ): DriverTransactionsConnection!
+}
+
+input FeedbackAggregateFilter {
+  and: [FeedbackAggregateFilter!]
+  or: [FeedbackAggregateFilter!]
+  id: IDFilterComparison
+  driverId: IDFilterComparison
+  orderId: IDFilterComparison
 }
 
 input DriverWalletAggregateFilter {
@@ -509,6 +588,34 @@ input DateFieldComparisonBetween {
   upper: DateTime!
 }
 
+input OffsetPaging {
+  """Limit the number of records returned"""
+  limit: Int
+
+  """Offset to start returning records from"""
+  offset: Int
+}
+
+input FeedbackFilter {
+  and: [FeedbackFilter!]
+  or: [FeedbackFilter!]
+  id: IDFilterComparison
+  driverId: IDFilterComparison
+  orderId: IDFilterComparison
+}
+
+input FeedbackSort {
+  field: FeedbackSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum FeedbackSortFields {
+  id
+  driverId
+  orderId
+}
+
 input DriverWalletFilter {
   and: [DriverWalletFilter!]
   or: [DriverWalletFilter!]
@@ -545,14 +652,6 @@ input MediaSort {
 
 enum MediaSortFields {
   id
-}
-
-input OffsetPaging {
-  """Limit the number of records returned"""
-  limit: Int
-
-  """Offset to start returning records from"""
-  offset: Int
 }
 
 input DriverTransactionFilter {
@@ -643,6 +742,17 @@ type DriverTransactionsConnection {
 
   """Array of nodes."""
   nodes: [DriverTransaction!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type DriverFeedbacksConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Feedback!]!
 
   """Fetch total count of records"""
   totalCount: Int!
@@ -806,6 +916,51 @@ type DriverWalletsAggregateResponse {
   max: DriverWalletsMaxAggregate
 }
 
+type DriverFeedbacksAggregateGroupBy {
+  id: ID
+  driverId: ID
+  orderId: ID
+}
+
+type DriverFeedbacksCountAggregate {
+  id: Int
+  driverId: Int
+  orderId: Int
+}
+
+type DriverFeedbacksSumAggregate {
+  id: Float
+  driverId: Float
+  orderId: Float
+}
+
+type DriverFeedbacksAvgAggregate {
+  id: Float
+  driverId: Float
+  orderId: Float
+}
+
+type DriverFeedbacksMinAggregate {
+  id: ID
+  driverId: ID
+  orderId: ID
+}
+
+type DriverFeedbacksMaxAggregate {
+  id: ID
+  driverId: ID
+  orderId: ID
+}
+
+type DriverFeedbacksAggregateResponse {
+  groupBy: DriverFeedbacksAggregateGroupBy
+  count: DriverFeedbacksCountAggregate
+  sum: DriverFeedbacksSumAggregate
+  avg: DriverFeedbacksAvgAggregate
+  min: DriverFeedbacksMinAggregate
+  max: DriverFeedbacksMaxAggregate
+}
+
 type DriverWalletConnection {
   """Paging information"""
   pageInfo: OffsetPageInfo!
@@ -826,6 +981,62 @@ type DriverTransactionConnection {
 
   """Fetch total count of records"""
   totalCount: Int!
+}
+
+type FeedbackConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Feedback!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type FeedbackParametersAggregateGroupBy {
+  id: ID
+  title: String
+  isGood: Boolean
+}
+
+type FeedbackParametersCountAggregate {
+  id: Int
+  title: Int
+  isGood: Int
+}
+
+type FeedbackParametersSumAggregate {
+  id: Float
+}
+
+type FeedbackParametersAvgAggregate {
+  id: Float
+}
+
+type FeedbackParametersMinAggregate {
+  id: ID
+  title: String
+}
+
+type FeedbackParametersMaxAggregate {
+  id: ID
+  title: String
+}
+
+type FeedbackParametersAggregateResponse {
+  groupBy: FeedbackParametersAggregateGroupBy
+  count: FeedbackParametersCountAggregate
+  sum: FeedbackParametersSumAggregate
+  avg: FeedbackParametersAvgAggregate
+  min: FeedbackParametersMinAggregate
+  max: FeedbackParametersMaxAggregate
+}
+
+type FeedbackParameterDeleteResponse {
+  id: ID
+  title: String
+  isGood: Boolean
 }
 
 type OperatorRole {
@@ -1935,6 +2146,31 @@ type Query {
     """Specify to sort results."""
     sorting: [CarColorSort!] = []
   ): [CarColor!]!
+  feedback(
+    """The id of the record to find."""
+    id: ID!
+  ): Feedback!
+  feedbacks(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: FeedbackFilter = {}
+
+    """Specify to sort results."""
+    sorting: [FeedbackSort!] = []
+  ): FeedbackConnection!
+  feedbackParameter(
+    """The id of the record to find."""
+    id: ID!
+  ): FeedbackParameter!
+  feedbackParameters(
+    """Specify to filter the records returned."""
+    filter: FeedbackParameterFilter = {}
+
+    """Specify to sort results."""
+    sorting: [FeedbackParameterSort!] = []
+  ): [FeedbackParameter!]!
 }
 
 input CalculateFareInput {
@@ -2265,6 +2501,8 @@ type Mutation {
   updateOnePassengerAddress(input: UpdateOnePassengerAddressInput!): PassengerAddress!
   updateManyPassengerAddresses(input: UpdateManyPassengerAddressesInput!): UpdateManyResponse!
   setMediaOnDriver(input: SetMediaOnDriverInput!): Driver!
+  addFeedbacksToDriver(input: AddFeedbacksToDriverInput!): Driver!
+  setFeedbacksOnDriver(input: SetFeedbacksOnDriverInput!): Driver!
   addWalletsToDriver(input: AddWalletsToDriverInput!): Driver!
   setWalletsOnDriver(input: SetWalletsOnDriverInput!): Driver!
   addEnabledServicesToDriver(input: AddEnabledServicesToDriverInput!): Driver!
@@ -2274,6 +2512,7 @@ type Mutation {
   addTransactionsToDriver(input: AddTransactionsToDriverInput!): Driver!
   setTransactionsOnDriver(input: SetTransactionsOnDriverInput!): Driver!
   removeMediaFromDriver(input: RemoveMediaFromDriverInput!): Driver!
+  removeFeedbacksFromDriver(input: RemoveFeedbacksFromDriverInput!): Driver!
   removeWalletsFromDriver(input: RemoveWalletsFromDriverInput!): Driver!
   removeEnabledServicesFromDriver(input: RemoveEnabledServicesFromDriverInput!): Driver!
   removeDocumentsFromDriver(input: RemoveDocumentsFromDriverInput!): Driver!
@@ -2323,6 +2562,13 @@ type Mutation {
   createOneCarColor(input: CreateOneCarColorInput!): CarColor!
   updateOneCarColor(input: UpdateOneCarColorInput!): CarColor!
   deleteOneCarColor(input: DeleteOneCarColorInput!): CarColorDeleteResponse!
+  addParametersToFeedback(input: AddParametersToFeedbackInput!): Feedback!
+  setParametersOnFeedback(input: SetParametersOnFeedbackInput!): Feedback!
+  removeParametersFromFeedback(input: RemoveParametersFromFeedbackInput!): Feedback!
+  updateOneFeedback(input: UpdateOneFeedbackInput!): Feedback!
+  createOneFeedbackParameter(input: CreateOneFeedbackParameterInput!): FeedbackParameter!
+  updateOneFeedbackParameter(input: UpdateOneFeedbackParameterInput!): FeedbackParameter!
+  deleteOneFeedbackParameter(input: DeleteOneFeedbackParameterInput!): FeedbackParameterDeleteResponse!
 }
 
 input UpdatePasswordInput {
@@ -2822,6 +3068,22 @@ input SetMediaOnDriverInput {
   relationId: ID!
 }
 
+input AddFeedbacksToDriverInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetFeedbacksOnDriverInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 input AddWalletsToDriverInput {
   """The id of the record."""
   id: ID!
@@ -2892,6 +3154,14 @@ input RemoveMediaFromDriverInput {
 
   """The id of relation."""
   relationId: ID!
+}
+
+input RemoveFeedbacksFromDriverInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 input RemoveWalletsFromDriverInput {
@@ -3392,6 +3662,75 @@ input UpdateCarColor {
 }
 
 input DeleteOneCarColorInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input AddParametersToFeedbackInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetParametersOnFeedbackInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveParametersFromFeedbackInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input UpdateOneFeedbackInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateFeedback!
+}
+
+input UpdateFeedback {
+  id: ID
+  score: Int
+  driverId: ID
+  orderId: ID
+}
+
+input CreateOneFeedbackParameterInput {
+  """The record to create"""
+  feedbackParameter: CreateFeedbackParameter!
+}
+
+input CreateFeedbackParameter {
+  id: ID
+  title: String
+  isGood: Boolean
+}
+
+input UpdateOneFeedbackParameterInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateFeedbackParameter!
+}
+
+input UpdateFeedbackParameter {
+  id: ID
+  title: String
+  isGood: Boolean
+}
+
+input DeleteOneFeedbackParameterInput {
   """The id of the record to delete."""
   id: ID!
 }

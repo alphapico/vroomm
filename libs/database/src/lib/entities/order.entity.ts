@@ -3,8 +3,10 @@ import {
   CreateDateColumn,
   Entity,
   JoinTable,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -14,6 +16,7 @@ import { CouponEntity } from './coupon.entity';
 import { DriverTransactionEntity } from './driver-transaction.entity';
 import { DriverEntity } from './driver.entity';
 import { OrderStatus } from './enums/order-status.enum';
+import { FeedbackEntity } from './feedback.entity';
 import { OrderMessageEntity } from './order-message.entity';
 import { PaymentGatewayEntity } from './payment-gateway.entity';
 import { PassengerEntity } from './passenger.entity';
@@ -173,6 +176,13 @@ export class OrderEntity {
     (passengerTransaction) => passengerTransaction.order
   )
   passengerTransactions!: PassengerTransactionEntity[];
+
+  @OneToOne(() => FeedbackEntity, (feedback) => feedback.order)
+  @JoinColumn()
+  review?: FeedbackEntity;
+
+  @Column({ nullable: true })
+  reviewId?: number;
 
   @OneToMany(() => DriverTransactionEntity, (transaction) => transaction.order)
   driverTransactions!: DriverTransactionEntity[];

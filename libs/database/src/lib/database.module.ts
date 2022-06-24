@@ -8,6 +8,8 @@ import { CouponEntity } from './entities/coupon.entity';
 import { DriverTransactionEntity } from './entities/driver-transaction.entity';
 import { DriverWalletEntity } from './entities/driver-wallet.entity';
 import { DriverEntity } from './entities/driver.entity';
+import { FeedbackParameterEntity } from './entities/feedback-parameter.entity';
+import { FeedbackEntity } from './entities/feedback.entity';
 import { MediaEntity } from './entities/media.entity';
 import { OperatorRoleEntity } from './entities/operator-role.entity';
 import { OperatorEntity } from './entities/operator.entity';
@@ -147,6 +149,8 @@ export const entities = [
   DriverEntity,
   DriverTransactionEntity,
   DriverWalletEntity,
+  FeedbackParameterEntity,
+  FeedbackEntity,
   MediaEntity,
   OperatorEntity,
   OperatorRoleEntity,
