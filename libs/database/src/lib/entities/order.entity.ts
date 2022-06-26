@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { Point } from '../interfaces/point';
 import { MultipointTransformer } from '../transformers/multipoint.transformer';
+import { ComplaintEntity } from './complaint.entity';
 import { CouponEntity } from './coupon.entity';
 import { DriverTransactionEntity } from './driver-transaction.entity';
 import { DriverEntity } from './driver.entity';
@@ -155,6 +156,9 @@ export class OrderEntity {
 
   @Column({ nullable: true })
   paymentGatewayId?: number;
+
+  @OneToMany(() => ComplaintEntity, (complaint) => complaint.order)
+  complaints!: ComplaintEntity[];
 
   @ManyToOne(() => ServiceEntity, (service) => service.orders)
   service!: ServiceEntity;

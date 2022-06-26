@@ -1107,6 +1107,62 @@ enum CalculateFareError {
   NoServiceInRegion
 }
 
+type ComplaintActivity {
+  id: ID!
+  complaintId: ID!
+  actor: Operator!
+  assignedTo: Operator
+}
+
+type Complaint {
+  id: ID!
+  status: ComplaintStatus!
+  requestId: ID!
+  activitiesAggregate(
+    """Filter to find records to aggregate on"""
+    filter: ComplaintActivityAggregateFilter
+  ): [ComplaintActivitiesAggregateResponse!]!
+  order: Order!
+  activities(
+    """Specify to filter the records returned."""
+    filter: ComplaintActivityFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ComplaintActivitySort!] = []
+  ): [ComplaintActivity!]!
+}
+
+enum ComplaintStatus {
+  Submitted
+  UnderInvestigation
+  Resolved
+}
+
+input ComplaintActivityAggregateFilter {
+  and: [ComplaintActivityAggregateFilter!]
+  or: [ComplaintActivityAggregateFilter!]
+  id: IDFilterComparison
+  complaintId: IDFilterComparison
+}
+
+input ComplaintActivityFilter {
+  and: [ComplaintActivityFilter!]
+  or: [ComplaintActivityFilter!]
+  id: IDFilterComparison
+  complaintId: IDFilterComparison
+}
+
+input ComplaintActivitySort {
+  field: ComplaintActivitySortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ComplaintActivitySortFields {
+  id
+  complaintId
+}
+
 type PassengerAddress {
   id: ID!
   type: PassengerAddressType!
@@ -1293,6 +1349,10 @@ type Order {
   durationBest: Int!
   passengerId: ID!
   driverId: ID!
+  complaintsAggregate(
+    """Filter to find records to aggregate on"""
+    filter: ComplaintAggregateFilter
+  ): [OrderComplaintsAggregateResponse!]!
   conversationsAggregate(
     """Filter to find records to aggregate on"""
     filter: OrderMessageAggregateFilter
@@ -1313,6 +1373,13 @@ type Order {
   passenger: Passenger!
   service: Service!
   coupon: Coupon
+  complaints(
+    """Specify to filter the records returned."""
+    filter: ComplaintFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ComplaintSort!] = []
+  ): [Complaint!]!
   conversations(
     """Specify to filter the records returned."""
     filter: OrderMessageFilter = {}
@@ -1361,6 +1428,31 @@ enum OrderStatus {
   Expired
 }
 
+input ComplaintAggregateFilter {
+  and: [ComplaintAggregateFilter!]
+  or: [ComplaintAggregateFilter!]
+  id: IDFilterComparison
+  status: ComplaintStatusFilterComparison
+  requestId: IDFilterComparison
+}
+
+input ComplaintStatusFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: ComplaintStatus
+  neq: ComplaintStatus
+  gt: ComplaintStatus
+  gte: ComplaintStatus
+  lt: ComplaintStatus
+  lte: ComplaintStatus
+  like: ComplaintStatus
+  notLike: ComplaintStatus
+  iLike: ComplaintStatus
+  notILike: ComplaintStatus
+  in: [ComplaintStatus!]
+  notIn: [ComplaintStatus!]
+}
+
 input OrderMessageAggregateFilter {
   and: [OrderMessageAggregateFilter!]
   or: [OrderMessageAggregateFilter!]
@@ -1381,6 +1473,26 @@ input OrderActivityAggregateFilter {
   and: [OrderActivityAggregateFilter!]
   or: [OrderActivityAggregateFilter!]
   id: IDFilterComparison
+}
+
+input ComplaintFilter {
+  and: [ComplaintFilter!]
+  or: [ComplaintFilter!]
+  id: IDFilterComparison
+  status: ComplaintStatusFilterComparison
+  requestId: IDFilterComparison
+}
+
+input ComplaintSort {
+  field: ComplaintSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ComplaintSortFields {
+  id
+  status
+  requestId
 }
 
 input OrderMessageFilter {
@@ -1635,6 +1747,49 @@ type OrderConversationsAggregateResponse {
   max: OrderConversationsMaxAggregate
 }
 
+type OrderComplaintsAggregateGroupBy {
+  id: ID
+  status: ComplaintStatus
+  requestId: ID
+}
+
+type OrderComplaintsCountAggregate {
+  id: Int
+  status: Int
+  requestId: Int
+}
+
+type OrderComplaintsSumAggregate {
+  id: Float
+  requestId: Float
+}
+
+type OrderComplaintsAvgAggregate {
+  id: Float
+  requestId: Float
+}
+
+type OrderComplaintsMinAggregate {
+  id: ID
+  status: ComplaintStatus
+  requestId: ID
+}
+
+type OrderComplaintsMaxAggregate {
+  id: ID
+  status: ComplaintStatus
+  requestId: ID
+}
+
+type OrderComplaintsAggregateResponse {
+  groupBy: OrderComplaintsAggregateGroupBy
+  count: OrderComplaintsCountAggregate
+  sum: OrderComplaintsSumAggregate
+  avg: OrderComplaintsAvgAggregate
+  min: OrderComplaintsMinAggregate
+  max: OrderComplaintsMaxAggregate
+}
+
 type PaymentGateway {
   id: ID!
   enabled: Boolean!
@@ -1869,6 +2024,99 @@ type PageInfo {
 
   """The cursor of the last returned record."""
   endCursor: ConnectionCursor
+}
+
+type ComplaintConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Complaint!]!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type ComplaintAggregateGroupBy {
+  id: ID
+  status: ComplaintStatus
+  requestId: ID
+}
+
+type ComplaintCountAggregate {
+  id: Int
+  status: Int
+  requestId: Int
+}
+
+type ComplaintSumAggregate {
+  id: Float
+  requestId: Float
+}
+
+type ComplaintAvgAggregate {
+  id: Float
+  requestId: Float
+}
+
+type ComplaintMinAggregate {
+  id: ID
+  status: ComplaintStatus
+  requestId: ID
+}
+
+type ComplaintMaxAggregate {
+  id: ID
+  status: ComplaintStatus
+  requestId: ID
+}
+
+type ComplaintAggregateResponse {
+  groupBy: ComplaintAggregateGroupBy
+  count: ComplaintCountAggregate
+  sum: ComplaintSumAggregate
+  avg: ComplaintAvgAggregate
+  min: ComplaintMinAggregate
+  max: ComplaintMaxAggregate
+}
+
+type ComplaintActivitiesAggregateGroupBy {
+  id: ID
+  complaintId: ID
+}
+
+type ComplaintActivitiesCountAggregate {
+  id: Int
+  complaintId: Int
+}
+
+type ComplaintActivitiesSumAggregate {
+  id: Float
+  complaintId: Float
+}
+
+type ComplaintActivitiesAvgAggregate {
+  id: Float
+  complaintId: Float
+}
+
+type ComplaintActivitiesMinAggregate {
+  id: ID
+  complaintId: ID
+}
+
+type ComplaintActivitiesMaxAggregate {
+  id: ID
+  complaintId: ID
+}
+
+type ComplaintActivitiesAggregateResponse {
+  groupBy: ComplaintActivitiesAggregateGroupBy
+  count: ComplaintActivitiesCountAggregate
+  sum: ComplaintActivitiesSumAggregate
+  avg: ComplaintActivitiesAvgAggregate
+  min: ComplaintActivitiesMinAggregate
+  max: ComplaintActivitiesMaxAggregate
 }
 
 input PointInput {
@@ -2171,6 +2419,35 @@ type Query {
     """Specify to sort results."""
     sorting: [FeedbackParameterSort!] = []
   ): [FeedbackParameter!]!
+  complaintAggregate(
+    """Filter to find records to aggregate on"""
+    filter: ComplaintAggregateFilter
+  ): [ComplaintAggregateResponse!]!
+  complaint(
+    """The id of the record to find."""
+    id: ID!
+  ): Complaint!
+  complaints(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to filter the records returned."""
+    filter: ComplaintFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ComplaintSort!] = []
+  ): ComplaintConnection!
+  complaintActivity(
+    """The id of the record to find."""
+    id: ID!
+  ): ComplaintActivity!
+  complaintActivities(
+    """Specify to filter the records returned."""
+    filter: ComplaintActivityFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ComplaintActivitySort!] = []
+  ): [ComplaintActivity!]!
 }
 
 input CalculateFareInput {
@@ -2528,6 +2805,8 @@ type Mutation {
   setPassengerOnOrder(input: SetPassengerOnOrderInput!): Order!
   setServiceOnOrder(input: SetServiceOnOrderInput!): Order!
   setCouponOnOrder(input: SetCouponOnOrderInput!): Order!
+  addComplaintsToOrder(input: AddComplaintsToOrderInput!): Order!
+  setComplaintsOnOrder(input: SetComplaintsOnOrderInput!): Order!
   addConversationsToOrder(input: AddConversationsToOrderInput!): Order!
   setConversationsOnOrder(input: SetConversationsOnOrderInput!): Order!
   addPassengerTransactionsToOrder(input: AddPassengerTransactionsToOrderInput!): Order!
@@ -2538,6 +2817,7 @@ type Mutation {
   removePassengerFromOrder(input: RemovePassengerFromOrderInput!): Order!
   removeServiceFromOrder(input: RemoveServiceFromOrderInput!): Order!
   removeCouponFromOrder(input: RemoveCouponFromOrderInput!): Order!
+  removeComplaintsFromOrder(input: RemoveComplaintsFromOrderInput!): Order!
   removeConversationsFromOrder(input: RemoveConversationsFromOrderInput!): Order!
   removePassengerTransactionsFromOrder(input: RemovePassengerTransactionsFromOrderInput!): Order!
   removeDriverTransactionsFromOrder(input: RemoveDriverTransactionsFromOrderInput!): Order!
@@ -2569,6 +2849,18 @@ type Mutation {
   createOneFeedbackParameter(input: CreateOneFeedbackParameterInput!): FeedbackParameter!
   updateOneFeedbackParameter(input: UpdateOneFeedbackParameterInput!): FeedbackParameter!
   deleteOneFeedbackParameter(input: DeleteOneFeedbackParameterInput!): FeedbackParameterDeleteResponse!
+  setOrderOnComplaint(input: SetOrderOnComplaintInput!): Complaint!
+  addActivitiesToComplaint(input: AddActivitiesToComplaintInput!): Complaint!
+  setActivitiesOnComplaint(input: SetActivitiesOnComplaintInput!): Complaint!
+  removeOrderFromComplaint(input: RemoveOrderFromComplaintInput!): Complaint!
+  removeActivitiesFromComplaint(input: RemoveActivitiesFromComplaintInput!): Complaint!
+  updateOneComplaint(input: UpdateOneComplaintInput!): Complaint!
+  setActorOnComplaintActivity(input: SetActorOnComplaintActivityInput!): ComplaintActivity!
+  setAssignedToOnComplaintActivity(input: SetAssignedToOnComplaintActivityInput!): ComplaintActivity!
+  removeActorFromComplaintActivity(input: RemoveActorFromComplaintActivityInput!): ComplaintActivity!
+  removeAssignedToFromComplaintActivity(input: RemoveAssignedToFromComplaintActivityInput!): ComplaintActivity!
+  createOneComplaintActivity(input: CreateOneComplaintActivityInput!): ComplaintActivity!
+  createManyComplaintActivities(input: CreateManyComplaintActivitiesInput!): [ComplaintActivity!]!
 }
 
 input UpdatePasswordInput {
@@ -3340,6 +3632,22 @@ input SetCouponOnOrderInput {
   relationId: ID!
 }
 
+input AddComplaintsToOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetComplaintsOnOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 input AddConversationsToOrderInput {
   """The id of the record."""
   id: ID!
@@ -3418,6 +3726,14 @@ input RemoveCouponFromOrderInput {
 
   """The id of relation."""
   relationId: ID!
+}
+
+input RemoveComplaintsFromOrderInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 input RemoveConversationsFromOrderInput {
@@ -3733,6 +4049,107 @@ input UpdateFeedbackParameter {
 input DeleteOneFeedbackParameterInput {
   """The id of the record to delete."""
   id: ID!
+}
+
+input SetOrderOnComplaintInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input AddActivitiesToComplaintInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetActivitiesOnComplaintInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input RemoveOrderFromComplaintInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveActivitiesFromComplaintInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input UpdateOneComplaintInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateComplaint!
+}
+
+input UpdateComplaint {
+  id: ID
+  status: ComplaintStatus
+  requestId: ID
+}
+
+input SetActorOnComplaintActivityInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetAssignedToOnComplaintActivityInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveActorFromComplaintActivityInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input RemoveAssignedToFromComplaintActivityInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input CreateOneComplaintActivityInput {
+  """The record to create"""
+  complaintActivity: CreateComplaintActivity!
+}
+
+input CreateComplaintActivity {
+  id: ID
+  complaintId: ID
+}
+
+input CreateManyComplaintActivitiesInput {
+  """Array of records to create"""
+  complaintActivities: [CreateComplaintActivity!]!
 }
 
 type Subscription {

@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ComplaintActivityEntity } from './complaint-activity.entity';
 import { DriverTransactionEntity } from './driver-transaction.entity';
 import { MediaEntity } from './media.entity';
 import { OperatorRoleEntity } from './operator-role.entity';
@@ -57,6 +58,9 @@ export class OperatorEntity {
 
   @OneToMany(() => OrderEntity, (order) => order.operator)
   orders!: OrderEntity[];
+
+  @OneToMany(() => ComplaintActivityEntity, (activity) => activity.actor)
+  complaintActivities!: ComplaintActivityEntity[];
 
   @OneToMany(
     () => PassengerTransactionEntity,

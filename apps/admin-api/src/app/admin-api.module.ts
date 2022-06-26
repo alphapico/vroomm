@@ -22,7 +22,7 @@ import { PassengerModule } from './passenger/passenger.module';
 import { ServiceModule } from './service/service.module';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
-// import { ComplaintModule } from './complaint/complaint.module';
+import { ComplaintModule } from './complaint/complaint.module';
 import { existsSync, promises as fs } from 'fs';
 // import { ConfigurationModule } from './config/configuration.module';
 import { UploadService } from './upload/upload.service';
@@ -118,7 +118,7 @@ export class AdminAPIModule {
             // AddressModule,
             AuthModule,
             UploadModule,
-            // ComplaintModule,
+            ComplaintModule,
             // ConfigurationModule,
             HttpModule,
             RedisModule.forRoot({

@@ -8,7 +8,7 @@ import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Point } from '@vroom/database';
 import { OrderStatus } from '@vroom/database/enums/order-status.enum';
 
-// import { ComplaintDTO } from '../../complaint/dto/complaint.dto';
+import { ComplaintDTO } from '../../complaint/dto/complaint.dto';
 import { CouponDTO } from '../../coupon/dto/coupon.dto';
 import { DriverTransactionDTO } from '../../driver/dto/driver-transaction.dto';
 import { DriverDTO } from '../../driver/dto/driver.dto';
@@ -23,7 +23,7 @@ import { OrderActivityDTO } from './order-activity.dto';
 @Relation('passenger', () => PassengerDTO)
 @Relation('service', () => ServiceDTO)
 @Relation('coupon', () => CouponDTO, { nullable: true })
-// @UnPagedRelation('complaints', () => ComplaintDTO)
+@UnPagedRelation('complaints', () => ComplaintDTO)
 @UnPagedRelation('conversation', () => OrderMessageDTO, {
   relationName: 'conversation',
 })
