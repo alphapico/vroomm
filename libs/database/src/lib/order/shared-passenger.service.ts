@@ -77,6 +77,7 @@ export class SharedPassengerService {
       | 'paymentGatewayId'
       | 'refrenceNumber'
       | 'description'
+      | 'giftCardId'
     >
   ): Promise<PassengerWalletEntity> {
     let wallet = await this.passengerWalletRepo.findOne({

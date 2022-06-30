@@ -12,6 +12,7 @@ import { DriverWalletEntity } from './entities/driver-wallet.entity';
 import { DriverEntity } from './entities/driver.entity';
 import { FeedbackParameterEntity } from './entities/feedback-parameter.entity';
 import { FeedbackEntity } from './entities/feedback.entity';
+import { GiftCardEntity } from './entities/gift-card.entity';
 import { MediaEntity } from './entities/media.entity';
 import { OperatorRoleEntity } from './entities/operator-role.entity';
 import { OperatorEntity } from './entities/operator.entity';
@@ -155,6 +156,7 @@ export const entities = [
   DriverWalletEntity,
   FeedbackParameterEntity,
   FeedbackEntity,
+  GiftCardEntity,
   MediaEntity,
   OperatorEntity,
   OperatorRoleEntity,

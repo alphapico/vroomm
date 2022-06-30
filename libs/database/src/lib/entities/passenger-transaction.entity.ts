@@ -2,6 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -14,6 +16,7 @@ import { OperatorEntity } from './operator.entity';
 import { PaymentGatewayEntity } from './payment-gateway.entity';
 import { PassengerEntity } from './passenger.entity';
 import { OrderEntity } from './order.entity';
+import { GiftCardEntity } from './gift-card.entity';
 
 @Entity('passenger_transaction')
 export class PassengerTransactionEntity {
@@ -83,6 +86,13 @@ export class PassengerTransactionEntity {
 
   @Column({ nullable: true, name: 'operatorId' })
   operatorId?: number;
+
+  @OneToOne(() => GiftCardEntity, (giftCard) => giftCard.passengerTransaction)
+  @JoinColumn()
+  giftCard?: GiftCardEntity;
+
+  @Column({ nullable: true })
+  giftCardId?: number;
 
   @ManyToOne(() => OrderEntity, (order) => order.passengerTransactions)
   order?: OrderEntity;
