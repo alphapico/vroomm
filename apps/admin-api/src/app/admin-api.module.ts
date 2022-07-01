@@ -6,7 +6,7 @@ import { DatabaseModule, entities } from '@vroom/database';
 import { join } from 'path';
 
 // import { AccountingModule } from './accounting/accounting.module';
-// import { AddressModule } from './address/address.module';
+import { AddressModule } from './address/address.module';
 import { AppController } from './admin-api.controller';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { CarModule } from './car/car.module';
@@ -115,7 +115,7 @@ export class AdminAPIModule {
             PaymentGatewayModule,
             CarModule,
             FeedbackModule,
-            // AddressModule,
+            AddressModule,
             AuthModule,
             UploadModule,
             ComplaintModule,

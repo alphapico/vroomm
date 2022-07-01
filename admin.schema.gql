@@ -19,17 +19,54 @@ type TimeMultiplier {
   multiply: Float!
 }
 
+type Address {
+  id: ID!
+}
+
+type UpdateManyResponse {
+  """The number of records updated."""
+  updatedCount: Int!
+}
+
+type AddressEdge {
+  """The node containing the Address"""
+  node: Address!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+"""Cursor for paging through collections"""
+scalar ConnectionCursor
+
+type PageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+
+  """The cursor of the first returned record."""
+  startCursor: ConnectionCursor
+
+  """The cursor of the last returned record."""
+  endCursor: ConnectionCursor
+}
+
+type AddressConnection {
+  """Paging information"""
+  pageInfo: PageInfo!
+
+  """Array of edges."""
+  edges: [AddressEdge!]!
+}
+
 type Announcement {
   id: ID!
 }
 
 type AnnouncementDeleteResponse {
   id: ID
-}
-
-type UpdateManyResponse {
-  """The number of records updated."""
-  updatedCount: Int!
 }
 
 type OffsetPageInfo {
@@ -2009,23 +2046,6 @@ type MediaEdge {
   cursor: ConnectionCursor!
 }
 
-"""Cursor for paging through collections"""
-scalar ConnectionCursor
-
-type PageInfo {
-  """true if paging forward and there are more records."""
-  hasNextPage: Boolean
-
-  """true if paging backwards and there are more records."""
-  hasPreviousPage: Boolean
-
-  """The cursor of the first returned record."""
-  startCursor: ConnectionCursor
-
-  """The cursor of the last returned record."""
-  endCursor: ConnectionCursor
-}
-
 type ComplaintConnection {
   """Paging information"""
   pageInfo: OffsetPageInfo!
@@ -2419,6 +2439,20 @@ type Query {
     """Specify to sort results."""
     sorting: [FeedbackParameterSort!] = []
   ): [FeedbackParameter!]!
+  address(
+    """The id of the record to find."""
+    id: ID!
+  ): Address!
+  addresses(
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to filter the records returned."""
+    filter: AddressFilter = {}
+
+    """Specify to sort results."""
+    sorting: [AddressSort!] = []
+  ): AddressConnection!
   complaintAggregate(
     """Filter to find records to aggregate on"""
     filter: ComplaintAggregateFilter
@@ -2726,6 +2760,36 @@ input CarColorSort {
 }
 
 enum CarColorSortFields {
+  id
+}
+
+input CursorPaging {
+  """Paginate before opaque cursor"""
+  before: ConnectionCursor
+
+  """Paginate after opaque cursor"""
+  after: ConnectionCursor
+
+  """Paginate first"""
+  first: Int
+
+  """Paginate last"""
+  last: Int
+}
+
+input AddressFilter {
+  and: [AddressFilter!]
+  or: [AddressFilter!]
+  id: IDFilterComparison
+}
+
+input AddressSort {
+  field: AddressSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum AddressSortFields {
   id
 }
 
