@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "admin-api": "apps/admin-api",
-    "database": "libs/database"
+    "database": "libs/database",
+    "driver-api": "apps/driver-api"
   }
 }

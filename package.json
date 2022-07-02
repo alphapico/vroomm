@@ -45,6 +45,7 @@
     "@nestjs/graphql": "^10.1.2",
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/passport": "^8.2.2",
+    "@nestjs/platform-express": "^8.0.0",
     "@nestjs/platform-fastify": "^8.4.7",
     "@nestjs/typeorm": "^8.1.4",
     "@ptc-org/nestjs-query-core": "^1.1.0",
