@@ -8,12 +8,12 @@ import fastifyStatic from 'fastify-static';
 import fastifyMultipart from 'fastify-multipart';
 import { join } from 'path';
 
-import { AppModule } from './app/app.module';
+import { DriverAPIModule } from './app/driver-api.module';
 
 async function bootstrap() {
   const adapter = new FastifyAdapter();
   const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
+    DriverAPIModule,
     adapter
   );
 
