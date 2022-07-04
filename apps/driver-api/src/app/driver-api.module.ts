@@ -13,7 +13,7 @@ import { DriverAPIController } from './driver-api.controller';
 // import { DriverModule } from './driver/driver.module';
 // import { OrderModule } from './order/order.module';
 // import { UploadModule } from './upload/upload.module';
-// import { AnnouncementsModule } from './announcemnts/announcements.module';
+import { AnnouncementsModule } from './announcemnts/announcements.module';
 // import { WalletModule } from './wallet/wallet.module';
 // import { ServiceModule } from './service/service.module';
 import { SharedDriverService } from '@vroom/order/shared-driver.service';
@@ -68,7 +68,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
         password: process.env.REDIS_PASS || '',
       },
     }),
-    // AnnouncementsModule,
+    AnnouncementsModule,
     // ComplaintModule,
   ],
   controllers: [DriverAPIController],
