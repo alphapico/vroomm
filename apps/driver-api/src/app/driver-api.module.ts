@@ -10,7 +10,7 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { validateToken } from './auth/jwt.strategy';
 import { DriverAPIController } from './driver-api.controller';
-// import { DriverModule } from './driver/driver.module';
+import { DriverModule } from './driver/driver.module';
 // import { OrderModule } from './order/order.module';
 // import { UploadModule } from './upload/upload.module';
 import { AnnouncementsModule } from './announcemnts/announcements.module';
@@ -55,7 +55,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     TypeOrmModule.forFeature(entities),
     AuthModule.register(),
     // UploadModule,
-    // DriverModule,
+    DriverModule,
     // ChatModule,
     // OrderModule,
     // WalletModule,
