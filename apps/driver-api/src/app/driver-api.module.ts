@@ -14,7 +14,7 @@ import { DriverModule } from './driver/driver.module';
 // import { OrderModule } from './order/order.module';
 import { UploadModule } from './upload/upload.module';
 import { AnnouncementsModule } from './announcemnts/announcements.module';
-// import { WalletModule } from './wallet/wallet.module';
+import { WalletModule } from './wallet/wallet.module';
 import { ServiceModule } from './service/service.module';
 import { SharedDriverService } from '@vroom/order/shared-driver.service';
 // import { ChatModule } from './chat/chat.module';
@@ -58,7 +58,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     DriverModule,
     // ChatModule,
     // OrderModule,
-    // WalletModule,
+    WalletModule,
     RedisModule.forRoot({
       closeClient: true,
       commonOptions: { db: 2 },
