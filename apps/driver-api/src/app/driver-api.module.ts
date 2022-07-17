@@ -18,7 +18,7 @@ import { WalletModule } from './wallet/wallet.module';
 import { ServiceModule } from './service/service.module';
 import { SharedDriverService } from '@vroom/order/shared-driver.service';
 // import { ChatModule } from './chat/chat.module';
-// import { ComplaintModule } from './complaint/complaint.module';
+import { ComplaintModule } from './complaint/complaint.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
@@ -69,7 +69,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       },
     }),
     AnnouncementsModule,
-    // ComplaintModule,
+    ComplaintModule,
   ],
   controllers: [DriverAPIController],
   providers: [CryptoService, SharedDriverService],
