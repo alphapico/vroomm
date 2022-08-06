@@ -26,6 +26,7 @@ export class TopUpWalletInput {
 
 @ObjectType()
 export class TopUpWalletResponse {
+  @Field(() => TopUpWalletStatus)
   status: TopUpWalletStatus;
   url: string;
 }

@@ -11,7 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { validateToken } from './auth/jwt.strategy';
 import { DriverAPIController } from './driver-api.controller';
 import { DriverModule } from './driver/driver.module';
-// import { OrderModule } from './order/order.module';
+import { OrderModule } from './order/order.module';
 import { UploadModule } from './upload/upload.module';
 import { AnnouncementsModule } from './announcemnts/announcements.module';
 import { WalletModule } from './wallet/wallet.module';
@@ -41,10 +41,10 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
           },
         },
       },
-      // autoSchemaFile: join(process.cwd(), 'apps/driver-app/driver.schema.gql'),
-      // buildSchemaOptions: {
-      //   dateScalarMode: 'timestamp',
-      // },
+      autoSchemaFile: join(process.cwd(), 'apps/driver-api/driver.schema.gql'),
+      buildSchemaOptions: {
+        dateScalarMode: 'timestamp',
+      },
       // context: ({ req, res, payload, connection }) => ({
       //   req,
       //   res,
@@ -57,7 +57,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     UploadModule,
     DriverModule,
     // ChatModule,
-    // OrderModule,
+    OrderModule,
     WalletModule,
     RedisModule.forRoot({
       closeClient: true,

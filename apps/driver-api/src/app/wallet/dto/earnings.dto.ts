@@ -1,4 +1,4 @@
-import { ObjectType, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
 
 export enum TimeQuery {
   Daily = 'daily',
@@ -10,12 +10,14 @@ registerEnumType(TimeQuery, { name: 'TimeQuery' });
 
 @ObjectType()
 export class StatisticsResult {
+  @Field()
   currency: string;
   dataset: Datapoint[];
 }
 
 @ObjectType()
 export class Datapoint {
+  @Field()
   name: string;
   current: string;
   earning: number;
