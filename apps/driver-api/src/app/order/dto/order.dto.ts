@@ -24,7 +24,7 @@ import { ServiceOptionDTO } from './service-option.dto';
   disableRemove: true,
   disableUpdate: true,
 })
-@Relation('rider', () => PassengerDTO, {
+@Relation('passenger', () => PassengerDTO, {
   disableRemove: true,
   disableUpdate: true,
 })

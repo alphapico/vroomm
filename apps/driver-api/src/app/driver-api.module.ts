@@ -17,7 +17,7 @@ import { AnnouncementsModule } from './announcemnts/announcements.module';
 import { WalletModule } from './wallet/wallet.module';
 import { ServiceModule } from './service/service.module';
 import { SharedDriverService } from '@vroom/order/shared-driver.service';
-// import { ChatModule } from './chat/chat.module';
+import { ChatModule } from './chat/chat.module';
 import { ComplaintModule } from './complaint/complaint.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
@@ -56,7 +56,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     AuthModule.register(),
     UploadModule,
     DriverModule,
-    // ChatModule,
+    ChatModule,
     OrderModule,
     WalletModule,
     RedisModule.forRoot({

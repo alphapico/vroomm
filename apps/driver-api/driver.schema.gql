@@ -79,7 +79,7 @@ type Order {
     filter: ServiceOptionAggregateFilter
   ): [OrderOptionsAggregateResponse!]!
   driver: Driver!
-  rider: Passenger!
+  passenger: Passenger!
   service: Service!
   options(
     """Specify to filter the records returned."""
@@ -344,6 +344,12 @@ type ServiceEdge {
   cursor: ConnectionCursor!
 }
 
+type OrderMessage {
+  id: ID!
+  orderId: ID!
+  order: Order!
+}
+
 type Complaint {
   id: ID!
 }
@@ -395,6 +401,13 @@ type Query {
     sorting: [OrderSort!] = []
   ): OrderConnection!
   availableOrders: [Order!]!
+  orderMessages(
+    """Specify to filter the records returned."""
+    filter: OrderMessageFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OrderMessageSort!] = []
+  ): [OrderMessage!]!
   getStats(timeframe: TimeQuery!): StatisticsResult!
   getStatsNew(timeframe: TimeQuery!, startDate: DateTime!, endDate: DateTime!): StatisticsResult!
   driverTransacions(
@@ -578,6 +591,24 @@ enum OrderSortFields {
   driverId
 }
 
+input OrderMessageFilter {
+  and: [OrderMessageFilter!]
+  or: [OrderMessageFilter!]
+  id: IDFilterComparison
+  orderId: IDFilterComparison
+}
+
+input OrderMessageSort {
+  field: OrderMessageSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderMessageSortFields {
+  id
+  orderId
+}
+
 enum TimeQuery {
   Daily
   Weekly
@@ -684,6 +715,7 @@ type Mutation {
   updateOneDriver(input: UpdateOneDriverInput!): Driver!
   updateOneOrder(input: UpdateOneOrderInput!): Order!
   updateDriversLocationNew(point: PointInput!): [Order!]!
+  createOneOrderMessage(input: CreateOneOrderMessageInput!): OrderMessage!
   topUpWallet(input: TopUpWalletInput!): TopUpWalletResponse!
   createOneComplaint(input: CreateOneComplaintInput!): Complaint!
 }
@@ -724,6 +756,15 @@ input PointInput {
   lng: Float!
 }
 
+input CreateOneOrderMessageInput {
+  """The record to create"""
+  orderMessage: OrderMessageInput!
+}
+
+input OrderMessageInput {
+  orderId: ID!
+}
+
 input TopUpWalletInput {
   gatewayId: ID!
 }
@@ -738,6 +779,7 @@ input ComplaintInput {
 }
 
 type Subscription {
+  newMessageReceived: OrderMessage!
   orderCreated: Order!
   orderUpdated: Order!
   orderRemoved: Order!

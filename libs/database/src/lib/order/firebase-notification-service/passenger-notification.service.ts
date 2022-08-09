@@ -7,10 +7,10 @@ import { OrderMessageEntity } from '../../entities/order-message.entity';
 export class PassengerNotificationService {
   constructor(private firebaseMessaging: FirebaseMessagingService) {}
 
-  message(rider: PassengerEntity, message: OrderMessageEntity) {
-    if (rider.notificationPlayerId == null) return;
+  message(passenger: PassengerEntity, message: OrderMessageEntity) {
+    if (passenger.notificationPlayerId == null) return;
     this.firebaseMessaging.messaging.send({
-      token: rider.notificationPlayerId,
+      token: passenger.notificationPlayerId,
       android: {
         notification: {
           sound: 'default',
@@ -35,9 +35,9 @@ export class PassengerNotificationService {
     });
   }
 
-  canceled(rider: PassengerEntity) {
+  canceled(passenger: PassengerEntity) {
     this.sendNotification(
-      rider,
+      passenger,
       'notification_cancel_title',
       'notification_cancel_body',
       'Canceled',
@@ -45,9 +45,9 @@ export class PassengerNotificationService {
     );
   }
 
-  accepted(rider: PassengerEntity) {
+  accepted(passenger: PassengerEntity) {
     this.sendNotification(
-      rider,
+      passenger,
       'notification_found_title',
       'notification_found_body',
       'Accepted',
@@ -55,9 +55,9 @@ export class PassengerNotificationService {
     );
   }
 
-  bookingAssigned(rider: PassengerEntity, time: string) {
+  bookingAssigned(passenger: PassengerEntity, time: string) {
     this.sendNotification(
-      rider,
+      passenger,
       'notification_booking_assigned_title',
       'notification_booking_assigned_body',
       'Assigned',
@@ -66,9 +66,9 @@ export class PassengerNotificationService {
     );
   }
 
-  arrived(rider: PassengerEntity) {
+  arrived(passenger: PassengerEntity) {
     this.sendNotification(
-      rider,
+      passenger,
       'notification_arrived_title',
       'notification_arrived_body',
       'Arrived',
@@ -76,9 +76,9 @@ export class PassengerNotificationService {
     );
   }
 
-  started(rider: PassengerEntity) {
+  started(passenger: PassengerEntity) {
     this.sendNotification(
-      rider,
+      passenger,
       'notification_started_title',
       'notification_started_body',
       'Started',
@@ -86,9 +86,9 @@ export class PassengerNotificationService {
     );
   }
 
-  waitingForPostPay(rider: PassengerEntity) {
+  waitingForPostPay(passenger: PassengerEntity) {
     this.sendNotification(
-      rider,
+      passenger,
       'notification_waiting_for_pay_title',
       'notification_waiting_for_pay_body',
       'Finished',
@@ -96,9 +96,9 @@ export class PassengerNotificationService {
     );
   }
 
-  finished(rider: PassengerEntity) {
+  finished(passenger: PassengerEntity) {
     this.sendNotification(
-      rider,
+      passenger,
       'notification_finished_title',
       'notification_finished_body',
       'Finished',
@@ -107,7 +107,7 @@ export class PassengerNotificationService {
   }
 
   private sendNotification(
-    rider: PassengerEntity,
+    passenger: PassengerEntity,
     titleLocKey: string,
     bodyLocKey: string,
     titleDefault: string,
@@ -117,12 +117,12 @@ export class PassengerNotificationService {
     channelId = 'tripEvents'
   ) {
     if (
-      rider.notificationPlayerId == null ||
-      rider.notificationPlayerId.length < 5
+      passenger.notificationPlayerId == null ||
+      passenger.notificationPlayerId.length < 5
     )
       return;
     this.firebaseMessaging.messaging.send({
-      token: rider.notificationPlayerId,
+      token: passenger.notificationPlayerId,
       android: {
         notification: {
           sound,
