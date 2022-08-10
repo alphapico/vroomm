@@ -14,7 +14,7 @@ import { ComplaintActivityDTO } from './complaint-activity.dto';
 @UnPagedRelation('activities', () => ComplaintActivityDTO, {
   pagingStrategy: PagingStrategies.NONE,
 })
-@Relation('order', () => OrderDTO, { relationName: 'request' })
+@Relation('order', () => OrderDTO, { relationName: 'order' })
 export class ComplaintDTO {
   @IDField(() => ID)
   id!: number;
@@ -25,5 +25,5 @@ export class ComplaintDTO {
   @FilterableField(() => ComplaintStatus)
   status: ComplaintStatus;
   @FilterableField(() => ID)
-  requestId: number;
+  orderId: number;
 }

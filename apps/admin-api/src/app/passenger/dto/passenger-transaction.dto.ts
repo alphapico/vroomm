@@ -53,5 +53,5 @@ export class PassengerTransactionDTO {
   operatorId?: number;
 
   @Field(() => ID)
-  requestId?: number;
+  orderId?: number;
 }

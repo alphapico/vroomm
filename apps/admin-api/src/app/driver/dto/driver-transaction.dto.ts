@@ -43,7 +43,7 @@ export class DriverTransactionDTO {
   operatorId?: number;
 
   @Field(() => ID)
-  requestId?: number;
+  orderId?: number;
 
   @Field()
   description?: string;
