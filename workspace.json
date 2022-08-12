@@ -4,6 +4,7 @@
   "projects": {
     "admin-api": "apps/admin-api",
     "database": "libs/database",
-    "driver-api": "apps/driver-api"
+    "driver-api": "apps/driver-api",
+    "passenger-api": "apps/passenger-api"
   }
 }

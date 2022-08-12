@@ -18,15 +18,15 @@
       "@vroom/coupon/*": ["libs/database/src/lib/coupon/*"],
       "@vroom/database": ["libs/database/src/index.ts"],
       "@vroom/database/*": ["libs/database/src/lib/entities/*"],
+      "@vroom/nestjs-firebase-admin": [
+        "libs/database/src/lib/nestjs-firebase-admin/index.ts"
+      ],
       "@vroom/order/*": [
         "libs/database/src/lib/order/*",
         "libs/database/src/lib/order/region/*",
         "libs/database/src/lib/order/google-services/*"
       ],
-      "@vroom/redis/*": ["libs/database/src/lib/redis/*"],
-      "@vroom/nestjs-firebase-admin": [
-        "libs/database/src/lib/nestjs-firebase-admin/index.ts"
-      ]
+      "@vroom/redis/*": ["libs/database/src/lib/redis/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
