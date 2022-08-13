@@ -11,7 +11,7 @@ import { PassengerAPIController } from './passenger-api.controller';
 // import { ServiceModule } from './service/service.module';
 // import { OrderModule } from './order/order.module';
 // import { AddressModule } from './address/address.module';
-// import { AnnouncementModule } from './announcement/announcement.module';
+import { AnnouncementModule } from './announcement/announcement.module';
 // import { WalletModule } from './wallet/wallet.module';
 // import { CouponModule } from './coupon/coupon.module';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
@@ -63,7 +63,7 @@ import { ConfigModule } from '@nestjs/config';
     // ServiceModule,
     // OrderModule,
     // AddressModule,
-    // AnnouncementModule,
+    AnnouncementModule,
     SharedOrderModule,
     // ComplaintModule,
     // WalletModule,
