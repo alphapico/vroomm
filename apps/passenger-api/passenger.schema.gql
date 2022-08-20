@@ -2,13 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Announcement {
+type Passenger {
   id: ID!
 }
 
-type AnnouncementEdge {
-  """The node containing the Announcement"""
-  node: Announcement!
+type PassengerEdge {
+  """The node containing the Passenger"""
+  node: Passenger!
 
   """Cursor for this node."""
   cursor: ConnectionCursor!
@@ -31,6 +31,18 @@ type PageInfo {
   endCursor: ConnectionCursor
 }
 
+type Announcement {
+  id: ID!
+}
+
+type AnnouncementEdge {
+  """The node containing the Announcement"""
+  node: Announcement!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
 type AnnouncementConnection {
   """Paging information"""
   pageInfo: PageInfo!
@@ -41,6 +53,10 @@ type AnnouncementConnection {
 
 type Query {
   requireUpdate(versionCode: Int!): VersionStatus!
+  passenger(
+    """The id of the record to find."""
+    id: ID!
+  ): Passenger!
   announcement(
     """The id of the record to find."""
     id: ID!
@@ -120,4 +136,20 @@ enum SortDirection {
 enum SortNulls {
   NULLS_FIRST
   NULLS_LAST
+}
+
+type Mutation {
+  updateOnePassenger(input: UpdateOnePassengerInput!): Passenger!
+}
+
+input UpdateOnePassengerInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdatePassengerInput!
+}
+
+input UpdatePassengerInput {
+  firstName: String!
 }
