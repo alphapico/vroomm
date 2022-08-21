@@ -31,6 +31,18 @@ type PageInfo {
   endCursor: ConnectionCursor
 }
 
+type Media {
+  id: ID!
+}
+
+type MediaEdge {
+  """The node containing the Media"""
+  node: Media!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
 type Announcement {
   id: ID!
 }
