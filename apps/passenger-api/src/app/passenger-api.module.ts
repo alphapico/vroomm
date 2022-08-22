@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { PassengerAPIController } from './passenger-api.controller';
 import { PassengerModule } from './passenger/passenger.module';
 import { UploadModule } from './upload/upload.module';
-// import { ServiceModule } from './service/service.module';
+import { ServiceModule } from './service/service.module';
 // import { OrderModule } from './order/order.module';
 // import { AddressModule } from './address/address.module';
 import { AnnouncementModule } from './announcement/announcement.module';
@@ -60,7 +60,7 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule.register(),
     UploadModule,
     PassengerModule,
-    // ServiceModule,
+    ServiceModule,
     // OrderModule,
     // AddressModule,
     AnnouncementModule,

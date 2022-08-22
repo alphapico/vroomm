@@ -43,6 +43,81 @@ type MediaEdge {
   cursor: ConnectionCursor!
 }
 
+type ServiceCategory {
+  id: ID!
+}
+
+type ServiceOption {
+  id: ID!
+}
+
+type Service {
+  id: ID!
+  personCapacity: Int!
+  prepayPercent: Int!
+  media: Media!
+  options(
+    """Specify to filter the records returned."""
+    filter: ServiceOptionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ServiceOptionSort!] = []
+  ): [ServiceOption!]!
+}
+
+input ServiceOptionFilter {
+  and: [ServiceOptionFilter!]
+  or: [ServiceOptionFilter!]
+  id: IDFilterComparison
+}
+
+input IDFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: ID
+  neq: ID
+  gt: ID
+  gte: ID
+  lt: ID
+  lte: ID
+  like: ID
+  notLike: ID
+  iLike: ID
+  notILike: ID
+  in: [ID!]
+  notIn: [ID!]
+}
+
+input ServiceOptionSort {
+  field: ServiceOptionSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ServiceOptionSortFields {
+  id
+}
+
+"""Sort Directions"""
+enum SortDirection {
+  ASC
+  DESC
+}
+
+"""Sort Nulls Options"""
+enum SortNulls {
+  NULLS_FIRST
+  NULLS_LAST
+}
+
+type ServiceEdge {
+  """The node containing the Service"""
+  node: Service!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
 type Announcement {
   id: ID!
 }
@@ -69,6 +144,13 @@ type Query {
     """The id of the record to find."""
     id: ID!
   ): Passenger!
+  serviceCategories(
+    """Specify to filter the records returned."""
+    filter: ServiceCategoryFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ServiceCategorySort!] = []
+  ): [ServiceCategory!]!
   announcement(
     """The id of the record to find."""
     id: ID!
@@ -91,6 +173,22 @@ enum VersionStatus {
   OptionalUpdate
 }
 
+input ServiceCategoryFilter {
+  and: [ServiceCategoryFilter!]
+  or: [ServiceCategoryFilter!]
+  id: IDFilterComparison
+}
+
+input ServiceCategorySort {
+  field: ServiceCategorySortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ServiceCategorySortFields {
+  id
+}
+
 input CursorPaging {
   """Paginate before opaque cursor"""
   before: ConnectionCursor
@@ -111,23 +209,6 @@ input AnnouncementFilter {
   id: IDFilterComparison
 }
 
-input IDFilterComparison {
-  is: Boolean
-  isNot: Boolean
-  eq: ID
-  neq: ID
-  gt: ID
-  gte: ID
-  lt: ID
-  lte: ID
-  like: ID
-  notLike: ID
-  iLike: ID
-  notILike: ID
-  in: [ID!]
-  notIn: [ID!]
-}
-
 input AnnouncementSort {
   field: AnnouncementSortFields!
   direction: SortDirection!
@@ -136,18 +217,6 @@ input AnnouncementSort {
 
 enum AnnouncementSortFields {
   id
-}
-
-"""Sort Directions"""
-enum SortDirection {
-  ASC
-  DESC
-}
-
-"""Sort Nulls Options"""
-enum SortNulls {
-  NULLS_FIRST
-  NULLS_LAST
 }
 
 type Mutation {
