@@ -10,7 +10,7 @@ import { PassengerModule } from './passenger/passenger.module';
 import { UploadModule } from './upload/upload.module';
 import { ServiceModule } from './service/service.module';
 // import { OrderModule } from './order/order.module';
-// import { AddressModule } from './address/address.module';
+import { AddressModule } from './address/address.module';
 import { AnnouncementModule } from './announcement/announcement.module';
 // import { WalletModule } from './wallet/wallet.module';
 // import { CouponModule } from './coupon/coupon.module';
@@ -62,7 +62,7 @@ import { ConfigModule } from '@nestjs/config';
     PassengerModule,
     ServiceModule,
     // OrderModule,
-    // AddressModule,
+    AddressModule,
     AnnouncementModule,
     SharedOrderModule,
     // ComplaintModule,

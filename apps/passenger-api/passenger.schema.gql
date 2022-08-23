@@ -118,6 +118,14 @@ type ServiceEdge {
   cursor: ConnectionCursor!
 }
 
+type PassengerAddress {
+  id: ID!
+}
+
+type PassengerAddressDeleteResponse {
+  id: ID
+}
+
 type Announcement {
   id: ID!
 }
@@ -151,6 +159,17 @@ type Query {
     """Specify to sort results."""
     sorting: [ServiceCategorySort!] = []
   ): [ServiceCategory!]!
+  passengerAddress(
+    """The id of the record to find."""
+    id: ID!
+  ): PassengerAddress!
+  passengerAddresses(
+    """Specify to filter the records returned."""
+    filter: PassengerAddressFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerAddressSort!] = []
+  ): [PassengerAddress!]!
   announcement(
     """The id of the record to find."""
     id: ID!
@@ -189,6 +208,24 @@ enum ServiceCategorySortFields {
   id
 }
 
+input PassengerAddressFilter {
+  and: [PassengerAddressFilter!]
+  or: [PassengerAddressFilter!]
+  id: IDFilterComparison
+  passengerId: IDFilterComparison
+}
+
+input PassengerAddressSort {
+  field: PassengerAddressSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PassengerAddressSortFields {
+  id
+  passengerId
+}
+
 input CursorPaging {
   """Paginate before opaque cursor"""
   before: ConnectionCursor
@@ -221,6 +258,9 @@ enum AnnouncementSortFields {
 
 type Mutation {
   updateOnePassenger(input: UpdateOnePassengerInput!): Passenger!
+  createOnePassengerAddress(input: CreateOnePassengerAddressInput!): PassengerAddress!
+  updateOnePassengerAddress(input: UpdateOnePassengerAddressInput!): PassengerAddress!
+  deleteOnePassengerAddress(input: DeleteOnePassengerAddressInput!): PassengerAddressDeleteResponse!
 }
 
 input UpdateOnePassengerInput {
@@ -233,4 +273,26 @@ input UpdateOnePassengerInput {
 
 input UpdatePassengerInput {
   firstName: String!
+}
+
+input CreateOnePassengerAddressInput {
+  """The record to create"""
+  passengerAddress: CreatePassengerAddressInput!
+}
+
+input CreatePassengerAddressInput {
+  title: String!
+}
+
+input UpdateOnePassengerAddressInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: CreatePassengerAddressInput!
+}
+
+input DeleteOnePassengerAddressInput {
+  """The id of the record to delete."""
+  id: ID!
 }
