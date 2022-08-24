@@ -146,6 +146,51 @@ type AnnouncementConnection {
   edges: [AnnouncementEdge!]!
 }
 
+type PaymentGateway {
+  id: ID!
+  enabled: Boolean!
+  media: Media
+}
+
+type PassengerTransacion {
+  id: ID!
+  createdAt: Timestamp!
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+type PassengerWallet {
+  id: ID!
+}
+
+type TopUpWalletResponse {
+  status: TopUpWalletStatus!
+}
+
+enum TopUpWalletStatus {
+  OK
+  Redirect
+}
+
+type PassengerTransacionEdge {
+  """The node containing the PassengerTransacion"""
+  node: PassengerTransacion!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+type PassengerTransacionConnection {
+  """Paging information"""
+  pageInfo: PageInfo!
+
+  """Array of edges."""
+  edges: [PassengerTransacionEdge!]!
+}
+
 type Query {
   requireUpdate(versionCode: Int!): VersionStatus!
   passenger(
@@ -184,6 +229,30 @@ type Query {
     """Specify to sort results."""
     sorting: [AnnouncementSort!] = []
   ): AnnouncementConnection!
+  passengerTransacions(
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to filter the records returned."""
+    filter: PassengerTransacionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerTransacionSort!] = []
+  ): PassengerTransacionConnection!
+  passengerWallets(
+    """Specify to filter the records returned."""
+    filter: PassengerWalletFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PassengerWalletSort!] = []
+  ): [PassengerWallet!]!
+  paymentGateways(
+    """Specify to filter the records returned."""
+    filter: PaymentGatewayFilter = {}
+
+    """Specify to sort results."""
+    sorting: [PaymentGatewaySort!] = []
+  ): [PaymentGateway!]!
 }
 
 enum VersionStatus {
@@ -256,11 +325,71 @@ enum AnnouncementSortFields {
   id
 }
 
+input PassengerTransacionFilter {
+  and: [PassengerTransacionFilter!]
+  or: [PassengerTransacionFilter!]
+  id: IDFilterComparison
+  passengerId: IDFilterComparison
+}
+
+input PassengerTransacionSort {
+  field: PassengerTransacionSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PassengerTransacionSortFields {
+  id
+  passengerId
+}
+
+input PassengerWalletFilter {
+  and: [PassengerWalletFilter!]
+  or: [PassengerWalletFilter!]
+  id: IDFilterComparison
+  passengerId: IDFilterComparison
+}
+
+input PassengerWalletSort {
+  field: PassengerWalletSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PassengerWalletSortFields {
+  id
+  passengerId
+}
+
+input PaymentGatewayFilter {
+  and: [PaymentGatewayFilter!]
+  or: [PaymentGatewayFilter!]
+  id: IDFilterComparison
+  enabled: BooleanFieldComparison
+}
+
+input BooleanFieldComparison {
+  is: Boolean
+  isNot: Boolean
+}
+
+input PaymentGatewaySort {
+  field: PaymentGatewaySortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum PaymentGatewaySortFields {
+  id
+  enabled
+}
+
 type Mutation {
   updateOnePassenger(input: UpdateOnePassengerInput!): Passenger!
   createOnePassengerAddress(input: CreateOnePassengerAddressInput!): PassengerAddress!
   updateOnePassengerAddress(input: UpdateOnePassengerAddressInput!): PassengerAddress!
   deleteOnePassengerAddress(input: DeleteOnePassengerAddressInput!): PassengerAddressDeleteResponse!
+  topUpWallet(input: TopUpWalletInput!): TopUpWalletResponse!
 }
 
 input UpdateOnePassengerInput {
@@ -295,4 +424,8 @@ input UpdateOnePassengerAddressInput {
 input DeleteOnePassengerAddressInput {
   """The id of the record to delete."""
   id: ID!
+}
+
+input TopUpWalletInput {
+  gatewayId: ID!
 }
