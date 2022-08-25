@@ -191,6 +191,18 @@ type PassengerTransacionConnection {
   edges: [PassengerTransacionEdge!]!
 }
 
+type Complaint {
+  id: ID!
+}
+
+type ComplaintEdge {
+  """The node containing the Complaint"""
+  node: Complaint!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
 type Query {
   requireUpdate(versionCode: Int!): VersionStatus!
   passenger(
@@ -389,6 +401,7 @@ type Mutation {
   createOnePassengerAddress(input: CreateOnePassengerAddressInput!): PassengerAddress!
   updateOnePassengerAddress(input: UpdateOnePassengerAddressInput!): PassengerAddress!
   deleteOnePassengerAddress(input: DeleteOnePassengerAddressInput!): PassengerAddressDeleteResponse!
+  createOneComplaint(input: CreateOneComplaintInput!): Complaint!
   topUpWallet(input: TopUpWalletInput!): TopUpWalletResponse!
 }
 
@@ -424,6 +437,15 @@ input UpdateOnePassengerAddressInput {
 input DeleteOnePassengerAddressInput {
   """The id of the record to delete."""
   id: ID!
+}
+
+input CreateOneComplaintInput {
+  """The record to create"""
+  complaint: ComplaintInput!
+}
+
+input ComplaintInput {
+  orderId: ID!
 }
 
 input TopUpWalletInput {

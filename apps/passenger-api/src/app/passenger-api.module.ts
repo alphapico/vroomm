@@ -18,7 +18,7 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { validateToken } from './auth/jwt.strategy';
 import { CryptoService } from '@vroom/database';
 // import { ChatModule } from './chat/chat.module';
-// import { ComplaintModule } from './complaint/complaint.module';
+import { ComplaintModule } from './complaint/complaint.module';
 import { SharedOrderModule } from '@vroom/order/shared-order.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
@@ -65,7 +65,7 @@ import { ConfigModule } from '@nestjs/config';
     AddressModule,
     AnnouncementModule,
     SharedOrderModule,
-    // ComplaintModule,
+    ComplaintModule,
     WalletModule,
     // CouponModule,
     ConfigModule,
