@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Point {
+  lat: Float!
+  lng: Float!
+}
+
 type Passenger {
   id: ID!
 }
@@ -118,6 +123,125 @@ type ServiceEdge {
   cursor: ConnectionCursor!
 }
 
+type CarColor {
+  id: ID!
+}
+
+type CarModel {
+  id: ID!
+}
+
+type Driver {
+  id: ID!
+  rating: Int!
+  car: CarModel
+  carColor: CarColor
+  media: Media
+}
+
+type PaymentGateway {
+  id: ID!
+  enabled: Boolean!
+  media: Media
+}
+
+type Order {
+  id: ID!
+  status: OrderStatus!
+  createdOn: Timestamp!
+  distanceBest: Int!
+  durationBest: Int!
+  waitMinutes: Int!
+  passengerId: ID!
+  driverId: ID
+  driver: Driver
+  passenger: Passenger!
+  service: Service!
+  paymentGateway: PaymentGateway
+  options(
+    """Specify to filter the records returned."""
+    filter: ServiceOptionFilter = {}
+
+    """Specify to sort results."""
+    sorting: [ServiceOptionSort!] = []
+  ): [ServiceOption!]!
+}
+
+enum OrderStatus {
+  Requested
+  NotFound
+  NoCloseFound
+  Found
+  DriverAccepted
+  Arrived
+  WaitingForPrePay
+  DriverCanceled
+  PassengerCanceled
+  Started
+  WaitingForPostPay
+  WaitingForReview
+  Finished
+  Booked
+  Expired
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+type CalculateFareDTO {
+  currency: String!
+}
+
+type CurrentOrder {
+  order: Order!
+}
+
+type FeedbackParameter {
+  id: ID!
+}
+
+type OrderEdge {
+  """The node containing the Order"""
+  node: Order!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+type OrderConnection {
+  """Paging information"""
+  pageInfo: PageInfo!
+
+  """Array of edges."""
+  edges: [OrderEdge!]!
+}
+
+type DriverEdge {
+  """The node containing the Driver"""
+  node: Driver!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+type CarModelEdge {
+  """The node containing the CarModel"""
+  node: CarModel!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+type CarColorEdge {
+  """The node containing the CarColor"""
+  node: CarColor!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
 type PassengerAddress {
   id: ID!
 }
@@ -146,21 +270,10 @@ type AnnouncementConnection {
   edges: [AnnouncementEdge!]!
 }
 
-type PaymentGateway {
-  id: ID!
-  enabled: Boolean!
-  media: Media
-}
-
 type PassengerTransacion {
   id: ID!
   createdAt: Timestamp!
 }
-
-"""
-`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
-"""
-scalar Timestamp
 
 type PassengerWallet {
   id: ID!
@@ -203,6 +316,11 @@ type ComplaintEdge {
   cursor: ConnectionCursor!
 }
 
+input PointInput {
+  lat: Float!
+  lng: Float!
+}
+
 type Query {
   requireUpdate(versionCode: Int!): VersionStatus!
   passenger(
@@ -216,6 +334,32 @@ type Query {
     """Specify to sort results."""
     sorting: [ServiceCategorySort!] = []
   ): [ServiceCategory!]!
+  currentOrder: Order!
+  currentOrderWithLocation: CurrentOrder!
+  getFare(input: CalculateFareInput!): CalculateFareDTO!
+  getCurrentOrderDriverLocation: Point
+  getDriversLocation(center: PointInput): [Point!]!
+  order(
+    """The id of the record to find."""
+    id: ID!
+  ): Order!
+  orders(
+    """Limit or page results."""
+    paging: CursorPaging = {first: 10}
+
+    """Specify to filter the records returned."""
+    filter: OrderFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OrderSort!] = []
+  ): OrderConnection!
+  feedbackParameters(
+    """Specify to filter the records returned."""
+    filter: FeedbackParameterFilter = {}
+
+    """Specify to sort results."""
+    sorting: [FeedbackParameterSort!] = []
+  ): [FeedbackParameter!]!
   passengerAddress(
     """The id of the record to find."""
     id: ID!
@@ -289,6 +433,101 @@ enum ServiceCategorySortFields {
   id
 }
 
+input CalculateFareInput {
+  couponCode: String!
+}
+
+input CursorPaging {
+  """Paginate before opaque cursor"""
+  before: ConnectionCursor
+
+  """Paginate after opaque cursor"""
+  after: ConnectionCursor
+
+  """Paginate first"""
+  first: Int
+
+  """Paginate last"""
+  last: Int
+}
+
+input OrderFilter {
+  and: [OrderFilter!]
+  or: [OrderFilter!]
+  id: IDFilterComparison
+  status: OrderStatusFilterComparison
+  createdOn: TimestampFieldComparison
+  passengerId: IDFilterComparison
+  driverId: IDFilterComparison
+}
+
+input OrderStatusFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: OrderStatus
+  neq: OrderStatus
+  gt: OrderStatus
+  gte: OrderStatus
+  lt: OrderStatus
+  lte: OrderStatus
+  like: OrderStatus
+  notLike: OrderStatus
+  iLike: OrderStatus
+  notILike: OrderStatus
+  in: [OrderStatus!]
+  notIn: [OrderStatus!]
+}
+
+input TimestampFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Timestamp
+  neq: Timestamp
+  gt: Timestamp
+  gte: Timestamp
+  lt: Timestamp
+  lte: Timestamp
+  in: [Timestamp!]
+  notIn: [Timestamp!]
+  between: TimestampFieldComparisonBetween
+  notBetween: TimestampFieldComparisonBetween
+}
+
+input TimestampFieldComparisonBetween {
+  lower: Timestamp!
+  upper: Timestamp!
+}
+
+input OrderSort {
+  field: OrderSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderSortFields {
+  id
+  status
+  createdOn
+  passengerId
+  driverId
+}
+
+input FeedbackParameterFilter {
+  and: [FeedbackParameterFilter!]
+  or: [FeedbackParameterFilter!]
+  id: IDFilterComparison
+}
+
+input FeedbackParameterSort {
+  field: FeedbackParameterSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum FeedbackParameterSortFields {
+  id
+}
+
 input PassengerAddressFilter {
   and: [PassengerAddressFilter!]
   or: [PassengerAddressFilter!]
@@ -305,20 +544,6 @@ input PassengerAddressSort {
 enum PassengerAddressSortFields {
   id
   passengerId
-}
-
-input CursorPaging {
-  """Paginate before opaque cursor"""
-  before: ConnectionCursor
-
-  """Paginate after opaque cursor"""
-  after: ConnectionCursor
-
-  """Paginate first"""
-  first: Int
-
-  """Paginate last"""
-  last: Int
 }
 
 input AnnouncementFilter {
@@ -398,6 +623,12 @@ enum PaymentGatewaySortFields {
 
 type Mutation {
   updateOnePassenger(input: UpdateOnePassengerInput!): Passenger!
+  calculateFare(input: CalculateFareInput!): CalculateFareDTO!
+  createOrder(input: CreateOrderInput!): Order!
+  cancelOrder: Order!
+  cancelBooking(id: ID!): Order!
+  submitReview(review: SubmitFeedbackInput!): Order!
+  updateOneOrder(input: UpdateOneOrderInput!): Order!
   createOnePassengerAddress(input: CreateOnePassengerAddressInput!): PassengerAddress!
   updateOnePassengerAddress(input: UpdateOnePassengerAddressInput!): PassengerAddress!
   deleteOnePassengerAddress(input: DeleteOnePassengerAddressInput!): PassengerAddressDeleteResponse!
@@ -415,6 +646,29 @@ input UpdateOnePassengerInput {
 
 input UpdatePassengerInput {
   firstName: String!
+}
+
+input CreateOrderInput {
+  serviceId: Int!
+  intervalMinutes: Int!
+}
+
+input SubmitFeedbackInput {
+  score: Int!
+  orderId: ID!
+  parameterIds: [ID!]!
+}
+
+input UpdateOneOrderInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateOrderInput!
+}
+
+input UpdateOrderInput {
+  waitMinutes: Int
 }
 
 input CreateOnePassengerAddressInput {
@@ -450,4 +704,9 @@ input ComplaintInput {
 
 input TopUpWalletInput {
   gatewayId: ID!
+}
+
+type Subscription {
+  orderUpdated: Order!
+  driverLocationUpdated(driverId: ID!): Point!
 }
