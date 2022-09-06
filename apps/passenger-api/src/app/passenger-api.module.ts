@@ -13,7 +13,7 @@ import { OrderModule } from './order/order.module';
 import { AddressModule } from './address/address.module';
 import { AnnouncementModule } from './announcement/announcement.module';
 import { WalletModule } from './wallet/wallet.module';
-// import { CouponModule } from './coupon/coupon.module';
+import { CouponModule } from './coupon/coupon.module';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { validateToken } from './auth/jwt.strategy';
 import { CryptoService } from '@vroom/database';
@@ -67,7 +67,7 @@ import { ConfigModule } from '@nestjs/config';
     SharedOrderModule,
     ComplaintModule,
     WalletModule,
-    // CouponModule,
+    CouponModule,
     ConfigModule,
     RedisModule.forRoot({
       closeClient: true,

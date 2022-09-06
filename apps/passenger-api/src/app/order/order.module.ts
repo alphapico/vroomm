@@ -36,7 +36,7 @@ import { MediaEntity } from '@vroom/database/media.entity';
 import { OrderActivityEntity } from '@vroom/database/order-activity.entity';
 import { SharedOrderModule } from '@vroom/order/shared-order.module';
 import { PassengerNotificationService } from '@vroom/order/firebase-notification-service/passenger-notification.service';
-// import { CouponModule } from '../coupon/coupon.module';
+import { CouponModule } from '../coupon/coupon.module';
 import { FeedbackParameterEntity } from '@vroom/database/feedback-parameter.entity';
 import { FeedbackParameterDTO } from './dto/feedback-parameter.dto';
 import { ServiceOptionEntity } from '@vroom/database/service-option.entity';
@@ -62,7 +62,7 @@ import { CommonCouponModule } from '@vroom/coupon/common-coupon.module';
     ServiceModule,
     PassengerModule,
     RegionModule,
-    // forwardRef(() => CouponModule),
+    forwardRef(() => CouponModule),
     RedisHelpersModule,
     SharedOrderModule,
     NestjsQueryGraphQLModule.forFeature({

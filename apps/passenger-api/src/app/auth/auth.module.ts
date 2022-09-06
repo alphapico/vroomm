@@ -5,7 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import * as admin from 'firebase-admin';
 import { existsSync, promises as fs } from 'fs';
 
-// import { PassengerModule } from '../passenger/passenger.module';
+import { PassengerModule } from '../passenger/passenger.module';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
@@ -14,7 +14,7 @@ import { JwtStrategy } from './jwt.strategy';
 export class AuthModule {
   static async register(): Promise<DynamicModule> {
     const modules = [
-      // PassengerModule,
+      PassengerModule,
       PassportModule,
       JwtModule.register({
         secret: process.env.JWT_PASSENGER_SECRET,

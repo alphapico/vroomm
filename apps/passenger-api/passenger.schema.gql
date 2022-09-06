@@ -7,48 +7,11 @@ type Point {
   lng: Float!
 }
 
-type Passenger {
-  id: ID!
-}
-
-type PassengerEdge {
-  """The node containing the Passenger"""
-  node: Passenger!
-
-  """Cursor for this node."""
-  cursor: ConnectionCursor!
-}
-
-"""Cursor for paging through collections"""
-scalar ConnectionCursor
-
-type PageInfo {
-  """true if paging forward and there are more records."""
-  hasNextPage: Boolean
-
-  """true if paging backwards and there are more records."""
-  hasPreviousPage: Boolean
-
-  """The cursor of the first returned record."""
-  startCursor: ConnectionCursor
-
-  """The cursor of the last returned record."""
-  endCursor: ConnectionCursor
-}
-
 type Media {
   id: ID!
 }
 
-type MediaEdge {
-  """The node containing the Media"""
-  node: Media!
-
-  """Cursor for this node."""
-  cursor: ConnectionCursor!
-}
-
-type ServiceCategory {
+type Coupon {
   id: ID!
 }
 
@@ -115,12 +78,10 @@ enum SortNulls {
   NULLS_LAST
 }
 
-type ServiceEdge {
-  """The node containing the Service"""
-  node: Service!
-
-  """Cursor for this node."""
-  cursor: ConnectionCursor!
+type PaymentGateway {
+  id: ID!
+  enabled: Boolean!
+  media: Media
 }
 
 type CarColor {
@@ -136,12 +97,6 @@ type Driver {
   rating: Int!
   car: CarModel
   carColor: CarColor
-  media: Media
-}
-
-type PaymentGateway {
-  id: ID!
-  enabled: Boolean!
   media: Media
 }
 
@@ -190,12 +145,228 @@ enum OrderStatus {
 """
 scalar Timestamp
 
+type Passenger {
+  id: ID!
+  ordersAggregate(
+    """Filter to find records to aggregate on"""
+    filter: OrderAggregateFilter
+  ): [PassengerOrdersAggregateResponse!]!
+  media: Media
+  coupons(
+    """Specify to filter the records returned."""
+    filter: CouponFilter = {}
+
+    """Specify to sort results."""
+    sorting: [CouponSort!] = []
+  ): [Coupon!]!
+  orders(
+    """Specify to filter the records returned."""
+    filter: OrderFilter = {status: {in: [Requested, Booked, Found, NotFound, NoCloseFound, DriverAccepted, Arrived, Started, WaitingForReview, WaitingForPostPay, WaitingForPrePay]}}
+
+    """Specify to sort results."""
+    sorting: [OrderSort!] = [{field: id, direction: DESC}]
+  ): [Order!]!
+}
+
+input OrderAggregateFilter {
+  and: [OrderAggregateFilter!]
+  or: [OrderAggregateFilter!]
+  id: IDFilterComparison
+  status: OrderStatusFilterComparison
+  createdOn: TimestampFieldComparison
+  passengerId: IDFilterComparison
+  driverId: IDFilterComparison
+}
+
+input OrderStatusFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: OrderStatus
+  neq: OrderStatus
+  gt: OrderStatus
+  gte: OrderStatus
+  lt: OrderStatus
+  lte: OrderStatus
+  like: OrderStatus
+  notLike: OrderStatus
+  iLike: OrderStatus
+  notILike: OrderStatus
+  in: [OrderStatus!]
+  notIn: [OrderStatus!]
+}
+
+input TimestampFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Timestamp
+  neq: Timestamp
+  gt: Timestamp
+  gte: Timestamp
+  lt: Timestamp
+  lte: Timestamp
+  in: [Timestamp!]
+  notIn: [Timestamp!]
+  between: TimestampFieldComparisonBetween
+  notBetween: TimestampFieldComparisonBetween
+}
+
+input TimestampFieldComparisonBetween {
+  lower: Timestamp!
+  upper: Timestamp!
+}
+
+input CouponFilter {
+  and: [CouponFilter!]
+  or: [CouponFilter!]
+  id: IDFilterComparison
+}
+
+input CouponSort {
+  field: CouponSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum CouponSortFields {
+  id
+}
+
+input OrderFilter {
+  and: [OrderFilter!]
+  or: [OrderFilter!]
+  id: IDFilterComparison
+  status: OrderStatusFilterComparison
+  createdOn: TimestampFieldComparison
+  passengerId: IDFilterComparison
+  driverId: IDFilterComparison
+}
+
+input OrderSort {
+  field: OrderSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderSortFields {
+  id
+  status
+  createdOn
+  passengerId
+  driverId
+}
+
+type PassengerEdge {
+  """The node containing the Passenger"""
+  node: Passenger!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+"""Cursor for paging through collections"""
+scalar ConnectionCursor
+
+type PageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+
+  """The cursor of the first returned record."""
+  startCursor: ConnectionCursor
+
+  """The cursor of the last returned record."""
+  endCursor: ConnectionCursor
+}
+
+type PassengerOrdersAggregateGroupBy {
+  id: ID
+  status: OrderStatus
+  createdOn: Timestamp
+  passengerId: ID
+  driverId: ID
+}
+
+type PassengerOrdersCountAggregate {
+  id: Int
+  status: Int
+  createdOn: Int
+  passengerId: Int
+  driverId: Int
+}
+
+type PassengerOrdersSumAggregate {
+  id: Float
+  passengerId: Float
+  driverId: Float
+}
+
+type PassengerOrdersAvgAggregate {
+  id: Float
+  passengerId: Float
+  driverId: Float
+}
+
+type PassengerOrdersMinAggregate {
+  id: ID
+  status: OrderStatus
+  createdOn: Timestamp
+  passengerId: ID
+  driverId: ID
+}
+
+type PassengerOrdersMaxAggregate {
+  id: ID
+  status: OrderStatus
+  createdOn: Timestamp
+  passengerId: ID
+  driverId: ID
+}
+
+type PassengerOrdersAggregateResponse {
+  groupBy: PassengerOrdersAggregateGroupBy
+  count: PassengerOrdersCountAggregate
+  sum: PassengerOrdersSumAggregate
+  avg: PassengerOrdersAvgAggregate
+  min: PassengerOrdersMinAggregate
+  max: PassengerOrdersMaxAggregate
+}
+
+type Login {
+  jwtToken: String!
+}
+
+type MediaEdge {
+  """The node containing the Media"""
+  node: Media!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+type ServiceCategory {
+  id: ID!
+}
+
+type ServiceEdge {
+  """The node containing the Service"""
+  node: Service!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
 type CalculateFareDTO {
   currency: String!
 }
 
 type CurrentOrder {
   order: Order!
+}
+
+type PassengerWallet {
+  id: ID!
 }
 
 type FeedbackParameter {
@@ -273,10 +444,6 @@ type AnnouncementConnection {
 type PassengerTransacion {
   id: ID!
   createdAt: Timestamp!
-}
-
-type PassengerWallet {
-  id: ID!
 }
 
 type TopUpWalletResponse {
@@ -451,67 +618,6 @@ input CursorPaging {
   last: Int
 }
 
-input OrderFilter {
-  and: [OrderFilter!]
-  or: [OrderFilter!]
-  id: IDFilterComparison
-  status: OrderStatusFilterComparison
-  createdOn: TimestampFieldComparison
-  passengerId: IDFilterComparison
-  driverId: IDFilterComparison
-}
-
-input OrderStatusFilterComparison {
-  is: Boolean
-  isNot: Boolean
-  eq: OrderStatus
-  neq: OrderStatus
-  gt: OrderStatus
-  gte: OrderStatus
-  lt: OrderStatus
-  lte: OrderStatus
-  like: OrderStatus
-  notLike: OrderStatus
-  iLike: OrderStatus
-  notILike: OrderStatus
-  in: [OrderStatus!]
-  notIn: [OrderStatus!]
-}
-
-input TimestampFieldComparison {
-  is: Boolean
-  isNot: Boolean
-  eq: Timestamp
-  neq: Timestamp
-  gt: Timestamp
-  gte: Timestamp
-  lt: Timestamp
-  lte: Timestamp
-  in: [Timestamp!]
-  notIn: [Timestamp!]
-  between: TimestampFieldComparisonBetween
-  notBetween: TimestampFieldComparisonBetween
-}
-
-input TimestampFieldComparisonBetween {
-  lower: Timestamp!
-  upper: Timestamp!
-}
-
-input OrderSort {
-  field: OrderSortFields!
-  direction: SortDirection!
-  nulls: SortNulls
-}
-
-enum OrderSortFields {
-  id
-  status
-  createdOn
-  passengerId
-  driverId
-}
-
 input FeedbackParameterFilter {
   and: [FeedbackParameterFilter!]
   or: [FeedbackParameterFilter!]
@@ -622,18 +728,26 @@ enum PaymentGatewaySortFields {
 }
 
 type Mutation {
+  login(input: LoginInput!): Login!
+  deleteUser: Passenger!
   updateOnePassenger(input: UpdateOnePassengerInput!): Passenger!
   calculateFare(input: CalculateFareInput!): CalculateFareDTO!
   createOrder(input: CreateOrderInput!): Order!
   cancelOrder: Order!
   cancelBooking(id: ID!): Order!
   submitReview(review: SubmitFeedbackInput!): Order!
+  applyCoupon(code: String!): Order!
+  redeemGiftCard(code: String!): PassengerWallet!
   updateOneOrder(input: UpdateOneOrderInput!): Order!
   createOnePassengerAddress(input: CreateOnePassengerAddressInput!): PassengerAddress!
   updateOnePassengerAddress(input: UpdateOnePassengerAddressInput!): PassengerAddress!
   deleteOnePassengerAddress(input: DeleteOnePassengerAddressInput!): PassengerAddressDeleteResponse!
   createOneComplaint(input: CreateOneComplaintInput!): Complaint!
   topUpWallet(input: TopUpWalletInput!): TopUpWalletResponse!
+}
+
+input LoginInput {
+  firebaseToken: String!
 }
 
 input UpdateOnePassengerInput {
