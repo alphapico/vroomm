@@ -17,7 +17,7 @@ import { CouponModule } from './coupon/coupon.module';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { validateToken } from './auth/jwt.strategy';
 import { CryptoService } from '@vroom/database';
-// import { ChatModule } from './chat/chat.module';
+import { ChatModule } from './chat/chat.module';
 import { ComplaintModule } from './complaint/complaint.module';
 import { SharedOrderModule } from '@vroom/order/shared-order.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -78,7 +78,7 @@ import { ConfigModule } from '@nestjs/config';
         password: process.env.REDIS_PASS || '',
       },
     }),
-    // ChatModule,
+    ChatModule,
   ],
   providers: [CryptoService, RedisPubSubProvider.provider()],
   controllers: [PassengerAPIController],

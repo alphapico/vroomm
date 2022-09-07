@@ -15,6 +15,12 @@ type Coupon {
   id: ID!
 }
 
+type OrderMessage {
+  id: ID!
+  orderId: ID!
+  order: Order!
+}
+
 type ServiceOption {
   id: ID!
 }
@@ -120,6 +126,13 @@ type Order {
     """Specify to sort results."""
     sorting: [ServiceOptionSort!] = []
   ): [ServiceOption!]!
+  conversations(
+    """Specify to filter the records returned."""
+    filter: OrderMessageFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OrderMessageSort!] = []
+  ): [OrderMessage!]!
 }
 
 enum OrderStatus {
@@ -144,6 +157,24 @@ enum OrderStatus {
 `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
 scalar Timestamp
+
+input OrderMessageFilter {
+  and: [OrderMessageFilter!]
+  or: [OrderMessageFilter!]
+  id: IDFilterComparison
+  orderId: IDFilterComparison
+}
+
+input OrderMessageSort {
+  field: OrderMessageSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderMessageSortFields {
+  id
+  orderId
+}
 
 type Passenger {
   id: ID!
@@ -576,6 +607,13 @@ type Query {
     """Specify to sort results."""
     sorting: [PaymentGatewaySort!] = []
   ): [PaymentGateway!]!
+  orderMessages(
+    """Specify to filter the records returned."""
+    filter: OrderMessageFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OrderMessageSort!] = []
+  ): [OrderMessage!]!
 }
 
 enum VersionStatus {
@@ -744,6 +782,7 @@ type Mutation {
   deleteOnePassengerAddress(input: DeleteOnePassengerAddressInput!): PassengerAddressDeleteResponse!
   createOneComplaint(input: CreateOneComplaintInput!): Complaint!
   topUpWallet(input: TopUpWalletInput!): TopUpWalletResponse!
+  createOneOrderMessage(input: CreateOneOrderMessageInput!): OrderMessage!
 }
 
 input LoginInput {
@@ -820,7 +859,17 @@ input TopUpWalletInput {
   gatewayId: ID!
 }
 
+input CreateOneOrderMessageInput {
+  """The record to create"""
+  orderMessage: OrderMessageInput!
+}
+
+input OrderMessageInput {
+  orderId: ID!
+}
+
 type Subscription {
   orderUpdated: Order!
   driverLocationUpdated(driverId: ID!): Point!
+  newMessageReceived: OrderMessage!
 }

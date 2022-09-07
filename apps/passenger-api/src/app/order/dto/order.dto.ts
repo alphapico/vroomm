@@ -10,7 +10,7 @@ import { Point } from '@vroom/database';
 import { OrderStatus } from '@vroom/database/enums/order-status.enum';
 
 import { UserContext } from '../../auth/authenticated-user';
-// import { OrderMessageDTO } from '../../chat/dto/order-message.dto';
+import { OrderMessageDTO } from '../../chat/dto/order-message.dto';
 import { PassengerDTO } from '../../passenger/dto/passenger.dto';
 import { ServiceOptionDTO } from '../../service/dto/service-option.dto';
 import { ServiceDTO } from '../../service/dto/service.dto';
@@ -45,7 +45,11 @@ import { DriverDTO } from './driver.dto';
   disableRemove: true,
   disableUpdate: true,
 })
-// @UnPagedRelation('conversation', () => OrderMessageDTO, { relationName: 'conversation', disableRemove: true, disableUpdate: true })
+@UnPagedRelation('conversation', () => OrderMessageDTO, {
+  relationName: 'conversation',
+  disableRemove: true,
+  disableUpdate: true,
+})
 export class OrderDTO {
   @IDField(() => ID)
   id: number;
