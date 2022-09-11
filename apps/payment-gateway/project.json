@@ -3,6 +3,46 @@
   "sourceRoot": "apps/payment-gateway/src",
   "projectType": "application",
   "targets": {
+    "typeorm": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "ts-node --project tsconfig.json ../../node_modules/typeorm/cli",
+        "cwd": "apps/payment-gateway"
+      }
+    },
+    "mig-create": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run payment-gateway:typeorm migration:create ./src/migration/{args.name}",
+        "cwd": "apps/payment-gateway"
+      }
+    },
+    "mig-gen": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run payment-gateway:typeorm migration:generate ./src/migration/{args.name} -d typeorm.config.ts",
+        "cwd": "apps/payment-gateway"
+      }
+    },
+    "mig-revert": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run payment-gateway:typeorm migration:revert -d typeorm.config.ts",
+        "cwd": "apps/payment-gateway"
+      }
+    },
+    "mig-run": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx run payment-gateway:typeorm migration:run -d typeorm.config.ts",
+        "cwd": "apps/payment-gateway"
+      }
+    },
     "build": {
       "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
