@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CryptoModule } from './crypto/crypto.module';
-// import { PaymentModule } from './payment/payment.module';
+import { PaymentModule } from './payment/payment.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 // import { GatewaysModule } from './gateways/gateways.module';
@@ -21,6 +21,7 @@ const databaseConfig: DataSourceOptions = {
 @Module({
   imports: [
     CryptoModule,
+    PaymentModule,
     TypeOrmModule.forRootAsync({
       useFactory: async () => {
         return {
