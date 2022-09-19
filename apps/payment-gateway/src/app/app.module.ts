@@ -6,7 +6,7 @@ import { CryptoModule } from './crypto/crypto.module';
 import { PaymentModule } from './payment/payment.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-// import { GatewaysModule } from './gateways/gateways.module';
+import { GatewaysModule } from './gateways/gateways.module';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { PaymentGatewayEntity } from './database/payment-gateway.entity';
 
@@ -37,6 +37,7 @@ const databaseConfig: DataSourceOptions = {
     }),
     TypeOrmModule.forFeature([PaymentGatewayEntity]),
     ConfigModule.forRoot(),
+    GatewaysModule,
   ],
   controllers: [AppController],
   providers: [AppService],
