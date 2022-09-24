@@ -2,23 +2,68 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Point {
+  lat: Float!
+  lng: Float!
+}
+
 type CarModel {
   id: ID!
+  name: String!
 }
 
 type CarColor {
   id: ID!
+  name: String!
 }
 
 type Driver {
   id: ID!
-  carProductionYear: Int!
-  carModelId: ID!
-  carColorId: ID!
-  searchDistance: Int!
+  firstName: String
+  lastName: String
+  mobileNumber: String!
+  certificateNumber: String
+  email: String
+  carProductionYear: Int
+  carPlate: String
+  status: DriverStatus!
+  gender: Gender
+  registrationTimestamp: Timestamp!
+  lastSeenTimestamp: Timestamp
+  accountNumber: String
+  bankName: String
+  bankRoutingNumber: String
+  bankSwift: String
+  address: String
+  softRejectionNote: String
+  carModelId: ID
+  carColorId: ID
+  searchDistance: Int
   car: CarModel
   carColor: CarColor
 }
+
+enum DriverStatus {
+  Online
+  Offline
+  Blocked
+  InService
+  WaitingDocuments
+  PendingApproval
+  SoftReject
+  HardReject
+}
+
+enum Gender {
+  Male
+  Female
+  Unknown
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
 
 type DriverEdge {
   """The node containing the Driver"""
@@ -51,20 +96,73 @@ type Login {
 
 type Media {
   id: ID!
+  address: String!
+  base64: String
 }
 
 type Passenger {
   id: ID!
+  firstName: String
+  lastName: String
+  mobileNumber: String!
   media: Media
 }
 
 type Service {
   id: ID!
+  name: String!
+  paymentMethod: ServicePaymentMethod!
+  cancellationTotalFee: Float!
   media: Media!
+}
+
+enum ServicePaymentMethod {
+  CashCredit
+  OnlyCredit
+  OnlyCash
+}
+
+type OrderMessage {
+  id: ID!
+  sentAt: Timestamp!
+  status: MessageStatus!
+  content: String!
+  sentByDriver: Boolean!
+  orderId: ID!
+  order: Order!
+}
+
+enum MessageStatus {
+  Sent
+  Delivered
+  Seen
 }
 
 type ServiceOption {
   id: ID!
+  name: String!
+  type: ServiceOptionType!
+  additionalFee: Float
+  icon: ServiceOptionIcon!
+}
+
+enum ServiceOptionType {
+  Free
+  Paid
+  TwoWay
+}
+
+enum ServiceOptionIcon {
+  Pet
+  TwoWay
+  Luggage
+  PackageDelivery
+  Shopping
+  Custom1
+  Custom2
+  Custom3
+  Custom4
+  Custom5
 }
 
 type Order {
@@ -73,11 +171,29 @@ type Order {
   createdOn: Timestamp!
   distanceBest: Int!
   durationBest: Int!
+  startTimestamp: Timestamp
+  finishTimestamp: Timestamp
+  etaPickup: Timestamp
+  waitMinutes: Float!
+  expectedTimestamp: Timestamp!
   costBest: Float!
+  costAfterCoupon: Float!
+  providerShare: Float!
+  paidAmount: Float!
+  currency: String!
+  addresses: [String!]!
+  points: [Point!]!
+  tipAmount: Float!
+  paymentGatewayId: ID
+  directions: [Point!]!
   optionsAggregate(
     """Filter to find records to aggregate on"""
     filter: ServiceOptionAggregateFilter
   ): [OrderOptionsAggregateResponse!]!
+  conversationsAggregate(
+    """Filter to find records to aggregate on"""
+    filter: OrderMessageAggregateFilter
+  ): [OrderConversationsAggregateResponse!]!
   driver: Driver!
   passenger: Passenger!
   service: Service!
@@ -88,6 +204,13 @@ type Order {
     """Specify to sort results."""
     sorting: [ServiceOptionSort!] = []
   ): [ServiceOption!]!
+  conversations(
+    """Specify to filter the records returned."""
+    filter: OrderMessageFilter = {}
+
+    """Specify to sort results."""
+    sorting: [OrderMessageSort!] = []
+  ): [OrderMessage!]!
 }
 
 enum OrderStatus {
@@ -107,11 +230,6 @@ enum OrderStatus {
   Booked
   Expired
 }
-
-"""
-`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
-"""
-scalar Timestamp
 
 input ServiceOptionAggregateFilter {
   and: [ServiceOptionAggregateFilter!]
@@ -134,6 +252,13 @@ input IDFilterComparison {
   notILike: ID
   in: [ID!]
   notIn: [ID!]
+}
+
+input OrderMessageAggregateFilter {
+  and: [OrderMessageAggregateFilter!]
+  or: [OrderMessageAggregateFilter!]
+  id: IDFilterComparison
+  orderId: IDFilterComparison
 }
 
 input ServiceOptionFilter {
@@ -162,6 +287,24 @@ enum SortDirection {
 enum SortNulls {
   NULLS_FIRST
   NULLS_LAST
+}
+
+input OrderMessageFilter {
+  and: [OrderMessageFilter!]
+  or: [OrderMessageFilter!]
+  id: IDFilterComparison
+  orderId: IDFilterComparison
+}
+
+input OrderMessageSort {
+  field: OrderMessageSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderMessageSortFields {
+  id
+  orderId
 }
 
 type OrderEdge {
@@ -233,6 +376,45 @@ type OrderAggregateResponse {
   max: OrderMaxAggregate
 }
 
+type OrderConversationsAggregateGroupBy {
+  id: ID
+  orderId: ID
+}
+
+type OrderConversationsCountAggregate {
+  id: Int
+  orderId: Int
+}
+
+type OrderConversationsSumAggregate {
+  id: Float
+  orderId: Float
+}
+
+type OrderConversationsAvgAggregate {
+  id: Float
+  orderId: Float
+}
+
+type OrderConversationsMinAggregate {
+  id: ID
+  orderId: ID
+}
+
+type OrderConversationsMaxAggregate {
+  id: ID
+  orderId: ID
+}
+
+type OrderConversationsAggregateResponse {
+  groupBy: OrderConversationsAggregateGroupBy
+  count: OrderConversationsCountAggregate
+  sum: OrderConversationsSumAggregate
+  avg: OrderConversationsAvgAggregate
+  min: OrderConversationsMinAggregate
+  max: OrderConversationsMaxAggregate
+}
+
 type OrderOptionsAggregateGroupBy {
   id: ID
 }
@@ -284,6 +466,11 @@ type MediaEdge {
 
 type Announcement {
   id: ID!
+  title: String!
+  description: String!
+  startAt: Timestamp!
+  expireAt: Timestamp!
+  url: String
   userType: AnnouncementUserType!
 }
 
@@ -295,24 +482,72 @@ enum AnnouncementUserType {
 
 type DriverTransacion {
   id: ID!
+  createdAt: Timestamp!
+  action: TransactionAction!
+  deductType: DriverDeductTransactionType
+  rechargeType: DriverRechargeTransactionType
+  amount: Float!
+  currency: String!
+  refrenceNumber: String
+}
+
+enum TransactionAction {
+  Recharge
+  Deduct
+}
+
+enum DriverDeductTransactionType {
+  Withdraw
+  Commission
+  Correction
+}
+
+enum DriverRechargeTransactionType {
+  OrderFee
+  BankTransfer
+  InAppPayment
+  Gift
 }
 
 type DriverWallet {
   id: ID!
+  balance: Float!
+  currency: String!
 }
 
 type PaymentGateway {
   id: ID!
   enabled: Boolean!
+  title: String!
+  type: PaymentGatewayType!
+  publicKey: String
   media: Media
+}
+
+enum PaymentGatewayType {
+  Stripe
+  BrainTree
+  PayPal
+  CustomLink
 }
 
 type StatisticsResult {
   currency: String!
+  dataset: [Datapoint!]!
+}
+
+type Datapoint {
+  name: String!
+  current: String!
+  earning: Float!
+  count: Float!
+  distance: Float!
+  time: Float!
 }
 
 type TopUpWalletResponse {
   status: TopUpWalletStatus!
+  url: String!
 }
 
 enum TopUpWalletStatus {
@@ -344,14 +579,17 @@ type ServiceEdge {
   cursor: ConnectionCursor!
 }
 
-type OrderMessage {
-  id: ID!
-  orderId: ID!
-  order: Order!
-}
-
 type Complaint {
   id: ID!
+  subject: String!
+  content: String
+  status: ComplaintStatus!
+}
+
+enum ComplaintStatus {
+  Submitted
+  UnderInvestigation
+  Resolved
 }
 
 type ComplaintEdge {
@@ -360,6 +598,11 @@ type ComplaintEdge {
 
   """Cursor for this node."""
   cursor: ConnectionCursor!
+}
+
+input PointInput {
+  lat: Float!
+  lng: Float!
 }
 
 type Query {
@@ -591,24 +834,6 @@ enum OrderSortFields {
   driverId
 }
 
-input OrderMessageFilter {
-  and: [OrderMessageFilter!]
-  or: [OrderMessageFilter!]
-  id: IDFilterComparison
-  orderId: IDFilterComparison
-}
-
-input OrderMessageSort {
-  field: OrderMessageSortFields!
-  direction: SortDirection!
-  nulls: SortNulls
-}
-
-enum OrderMessageSortFields {
-  id
-  orderId
-}
-
 enum TimeQuery {
   Daily
   Weekly
@@ -619,7 +844,82 @@ input DriverTransacionFilter {
   and: [DriverTransacionFilter!]
   or: [DriverTransacionFilter!]
   id: IDFilterComparison
+  action: TransactionActionFilterComparison
+  deductType: DriverDeductTransactionTypeFilterComparison
+  rechargeType: DriverRechargeTransactionTypeFilterComparison
+  amount: FloatFieldComparison
   driverId: IDFilterComparison
+}
+
+input TransactionActionFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: TransactionAction
+  neq: TransactionAction
+  gt: TransactionAction
+  gte: TransactionAction
+  lt: TransactionAction
+  lte: TransactionAction
+  like: TransactionAction
+  notLike: TransactionAction
+  iLike: TransactionAction
+  notILike: TransactionAction
+  in: [TransactionAction!]
+  notIn: [TransactionAction!]
+}
+
+input DriverDeductTransactionTypeFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: DriverDeductTransactionType
+  neq: DriverDeductTransactionType
+  gt: DriverDeductTransactionType
+  gte: DriverDeductTransactionType
+  lt: DriverDeductTransactionType
+  lte: DriverDeductTransactionType
+  like: DriverDeductTransactionType
+  notLike: DriverDeductTransactionType
+  iLike: DriverDeductTransactionType
+  notILike: DriverDeductTransactionType
+  in: [DriverDeductTransactionType!]
+  notIn: [DriverDeductTransactionType!]
+}
+
+input DriverRechargeTransactionTypeFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: DriverRechargeTransactionType
+  neq: DriverRechargeTransactionType
+  gt: DriverRechargeTransactionType
+  gte: DriverRechargeTransactionType
+  lt: DriverRechargeTransactionType
+  lte: DriverRechargeTransactionType
+  like: DriverRechargeTransactionType
+  notLike: DriverRechargeTransactionType
+  iLike: DriverRechargeTransactionType
+  notILike: DriverRechargeTransactionType
+  in: [DriverRechargeTransactionType!]
+  notIn: [DriverRechargeTransactionType!]
+}
+
+input FloatFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Float
+  neq: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  in: [Float!]
+  notIn: [Float!]
+  between: FloatFieldComparisonBetween
+  notBetween: FloatFieldComparisonBetween
+}
+
+input FloatFieldComparisonBetween {
+  lower: Float!
+  upper: Float!
 }
 
 input DriverTransacionSort {
@@ -630,6 +930,10 @@ input DriverTransacionSort {
 
 enum DriverTransacionSortFields {
   id
+  action
+  deductType
+  rechargeType
+  amount
   driverId
 }
 
@@ -733,10 +1037,24 @@ input UpdateOneDriverInput {
 }
 
 input UpdateDriverInput {
-  carProductionYear: Int!
-  carModelId: ID!
-  carColorId: ID!
-  searchDistance: Int!
+  firstName: String
+  lastName: String
+  status: DriverStatus
+  certificateNumber: String
+  email: String
+  carProductionYear: Int
+  carPlate: String
+  mediaId: ID
+  gender: Gender
+  accountNumber: String
+  bankName: String
+  bankRoutingNumber: String
+  bankSwift: String
+  address: String
+  carModelId: ID
+  carColorId: ID
+  notificationPlayerId: String
+  searchDistance: Int
 }
 
 input UpdateOneOrderInput {
@@ -749,11 +1067,7 @@ input UpdateOneOrderInput {
 
 input UpdateOrderInput {
   status: OrderStatus!
-}
-
-input PointInput {
-  lat: Float!
-  lng: Float!
+  paidAmount: Float
 }
 
 input CreateOneOrderMessageInput {
@@ -763,10 +1077,17 @@ input CreateOneOrderMessageInput {
 
 input OrderMessageInput {
   orderId: ID!
+  content: String!
 }
 
 input TopUpWalletInput {
   gatewayId: ID!
+  amount: Float!
+  currency: String!
+  token: String
+  pin: Float
+  otp: Float
+  transactionId: String
 }
 
 input CreateOneComplaintInput {
@@ -776,6 +1097,9 @@ input CreateOneComplaintInput {
 
 input ComplaintInput {
   orderId: ID!
+  subject: String!
+  content: String
+  requestedByDriver: Boolean
 }
 
 type Subscription {

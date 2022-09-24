@@ -3,7 +3,7 @@ import {
   FilterableField,
   IDField,
 } from '@ptc-org/nestjs-query-graphql';
-import { ID, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
 import { UserContext } from '../../auth/authenticated-user';
 
 @ObjectType('DriverWallet')
@@ -15,7 +15,9 @@ import { UserContext } from '../../auth/authenticated-user';
 export class DriverWalletDTO {
   @IDField(() => ID)
   id: number;
+  @Field(() => Float)
   balance: number;
+  @Field()
   currency: string;
   @FilterableField(() => ID, { filterOnly: true })
   driverId: number;

@@ -1,4 +1,4 @@
-import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, registerEnumType, Float } from '@nestjs/graphql';
 
 export enum TimeQuery {
   Daily = 'daily',
@@ -12,6 +12,7 @@ registerEnumType(TimeQuery, { name: 'TimeQuery' });
 export class StatisticsResult {
   @Field()
   currency: string;
+  @Field(() => [Datapoint])
   dataset: Datapoint[];
 }
 
@@ -19,9 +20,14 @@ export class StatisticsResult {
 export class Datapoint {
   @Field()
   name: string;
+  @Field()
   current: string;
+  @Field(() => Float)
   earning: number;
+  @Field(() => Float)
   count: number;
+  @Field(() => Float)
   distance: number;
+  @Field(() => Float)
   time: number;
 }

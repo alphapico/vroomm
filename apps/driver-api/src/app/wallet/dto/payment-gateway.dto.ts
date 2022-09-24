@@ -5,7 +5,7 @@ import {
   IDField,
   Relation,
 } from '@ptc-org/nestjs-query-graphql';
-import { ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { PaymentGatewayType } from '@vroom/database/enums/payment-gateway-type.enum';
 import { UserContext } from '../../auth/authenticated-user';
 import { MediaDTO } from '../../upload/media.dto';
@@ -25,7 +25,10 @@ export class PaymentGatewayDTO {
   id: number;
   @FilterableField()
   enabled: boolean;
+  @Field()
   title: string;
+  @Field(() => PaymentGatewayType)
   type: PaymentGatewayType;
+  @Field({ nullable: true })
   publicKey?: string;
 }

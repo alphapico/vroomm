@@ -45,28 +45,44 @@ import { OrderStatus } from '@vroom/database/enums/order-status.enum';
 export class DriverDTO {
   @IDField(() => ID)
   id!: number;
+  @Field({ nullable: true })
   firstName?: string;
+  @Field({ nullable: true })
   lastName?: string;
+  @Field()
   mobileNumber: string;
+  @Field({ nullable: true })
   certificateNumber?: string;
+  @Field({ nullable: true })
   email?: string;
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   carProductionYear?: number;
+  @Field({ nullable: true })
   carPlate?: string;
+  @Field(() => DriverStatus)
   status!: DriverStatus;
+  @Field(() => Gender, { nullable: true })
   gender?: Gender;
+  @Field()
   registrationTimestamp!: Date;
+  @Field({ nullable: true })
   lastSeenTimestamp?: Date;
+  @Field({ nullable: true })
   accountNumber?: string;
+  @Field({ nullable: true })
   bankName?: string;
+  @Field({ nullable: true })
   bankRoutingNumber?: string;
+  @Field({ nullable: true })
   bankSwift?: string;
+  @Field({ nullable: true })
   address?: string;
+  @Field({ nullable: true })
   softRejectionNote?: string;
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   carModelId?: number;
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   carColorId?: number;
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   searchDistance?: number;
 }

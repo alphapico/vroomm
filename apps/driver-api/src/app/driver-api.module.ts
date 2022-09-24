@@ -41,7 +41,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
           },
         },
       },
-      autoSchemaFile: join(process.cwd(), 'apps/driver-api/driver.schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'apps/driver-app/driver.schema.gql'),
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
       },

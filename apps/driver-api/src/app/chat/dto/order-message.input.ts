@@ -4,5 +4,6 @@ import { Field, ID, InputType } from '@nestjs/graphql';
 export class OrderMessageInput {
   @Field(() => ID)
   orderId: number;
+  @Field()
   content: string;
 }
