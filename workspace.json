@@ -6,6 +6,7 @@
     "database": "libs/database",
     "driver-api": "apps/driver-api",
     "passenger-api": "apps/passenger-api",
-    "payment-gateway": "apps/payment-gateway"
+    "payment-gateway": "apps/payment-gateway",
+    "driver-app": "apps/driver-app"
   }
 }
