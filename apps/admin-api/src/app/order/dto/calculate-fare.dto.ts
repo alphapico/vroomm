@@ -19,6 +19,6 @@ export class CalculateFareDTO {
   duration: number;
   @Field(() => [ServiceCategoryWithCostDTO])
   services: ServiceCategoryWithCostDTO[];
-  @Field(() => CalculateFareError)
+  @Field(() => CalculateFareError, { nullable: true })
   error?: CalculateFareError;
 }

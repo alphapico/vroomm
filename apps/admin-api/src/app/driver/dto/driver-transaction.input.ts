@@ -8,10 +8,10 @@ export class DriverTransactionInput {
   @Field(() => TransactionAction)
   action: TransactionAction;
 
-  @Field(() => DriverDeductTransactionType)
+  @Field(() => DriverDeductTransactionType, { nullable: true })
   deductType?: DriverDeductTransactionType;
 
-  @Field(() => DriverRechargeTransactionType)
+  @Field(() => DriverRechargeTransactionType, { nullable: true })
   rechargeType?: DriverRechargeTransactionType;
 
   @Field(() => Float)
@@ -20,12 +20,12 @@ export class DriverTransactionInput {
   @Field()
   currency: string;
 
-  @Field()
+  @Field({ nullable: true })
   refrenceNumber?: string;
 
   @Field(() => ID)
   driverId!: number;
 
-  @Field()
+  @Field({ nullable: true })
   description?: string;
 }

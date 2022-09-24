@@ -1,4 +1,4 @@
-import { ObjectType, ID, Int, Field } from '@nestjs/graphql';
+import { ObjectType, ID, Int, Field, Float } from '@nestjs/graphql';
 import { Point } from '@vroom/database';
 import { DriverStatus } from '@vroom/database/enums/driver-status.enum';
 import { Gender } from '@vroom/database/enums/gender.enum';
@@ -23,13 +23,13 @@ export class OnlineDriverWithData {
   @Field(() => Point)
   location: Point;
 
-  @Field()
+  @Field(() => Float)
   lastUpdatedAt: number;
 
-  @Field()
+  @Field({ nullable: true })
   firstName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   lastName?: string;
 
   @Field()
@@ -38,10 +38,10 @@ export class OnlineDriverWithData {
   @Field(() => DriverStatus)
   status: DriverStatus;
 
-  @Field(() => Gender)
+  @Field(() => Gender, { nullable: true })
   gender?: Gender;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   rating?: number;
 
   @Field(() => Int)

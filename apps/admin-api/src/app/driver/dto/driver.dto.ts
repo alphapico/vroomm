@@ -26,40 +26,40 @@ export class DriverDTO {
   @IDField(() => ID)
   id!: number;
 
-  @Field()
+  @Field({ nullable: true })
   firstName?: string;
 
-  @FilterableField(() => String)
+  @FilterableField(() => String, { nullable: true })
   lastName?: string;
 
   @FilterableField(() => String, { middleware: [numberMasker] })
   mobileNumber: string;
 
-  @Field()
+  @Field({ nullable: true })
   certificateNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   email?: string;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   carProductionYear?: number;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   carId?: number;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   carColorId?: number;
 
-  @Field()
+  @Field({ nullable: true })
   carPlate?: string;
 
   @FilterableField(() => DriverStatus)
   status!: DriverStatus;
 
-  @Field(() => Gender)
+  @Field(() => Gender, { nullable: true })
   gender?: Gender;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   rating?: number;
 
   @Field(() => Int)
@@ -68,27 +68,27 @@ export class DriverDTO {
   @Field()
   registrationTimestamp!: Date;
 
-  @Field()
+  @Field({ nullable: true })
   lastSeenTimestamp?: Date;
 
-  @Field()
+  @Field({ nullable: true })
   accountNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   bankName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   bankRoutingNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   bankSwift?: string;
 
-  @Field()
+  @Field({ nullable: true })
   address?: string;
 
-  @Field()
+  @Field({ nullable: true })
   softRejectionNote?: string;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   mediaId?: number;
 }

@@ -5,10 +5,10 @@ import { OperatorAuthorizer } from '../operator.authorizer';
 @InputType()
 @Authorize(OperatorAuthorizer)
 export class CreateOperatorInput {
-  @Field()
+  @Field({ nullable: true })
   firstName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   lastName?: string;
 
   @Field()
@@ -20,7 +20,7 @@ export class CreateOperatorInput {
   @Field()
   mobileNumber!: string;
 
-  @Field()
+  @Field({ nullable: true })
   email?: string;
 
   @Field(() => ID)

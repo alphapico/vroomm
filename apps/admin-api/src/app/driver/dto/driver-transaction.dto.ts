@@ -18,10 +18,10 @@ export class DriverTransactionDTO {
   @Field(() => TransactionStatus)
   status: TransactionStatus;
 
-  @Field(() => DriverDeductTransactionType)
+  @Field(() => DriverDeductTransactionType, { nullable: true })
   deductType?: DriverDeductTransactionType;
 
-  @Field(() => DriverRechargeTransactionType)
+  @Field(() => DriverRechargeTransactionType, { nullable: true })
   rechargeType?: DriverRechargeTransactionType;
 
   @Field(() => Float)
@@ -30,21 +30,21 @@ export class DriverTransactionDTO {
   @Field()
   currency: string;
 
-  @Field()
+  @Field({ nullable: true })
   refrenceNumber?: string;
 
   @FilterableField(() => ID)
   driverId!: number;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   paymentGatewayId?: number;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   operatorId?: number;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   orderId?: number;
 
-  @Field()
+  @Field({ nullable: true })
   description?: string;
 }

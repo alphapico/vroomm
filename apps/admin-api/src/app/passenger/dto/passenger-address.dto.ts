@@ -14,10 +14,10 @@ export class PassengerAddressDTO {
   @Field()
   title: string;
 
-  @Field()
+  @Field({ nullable: true })
   details?: string;
 
-  @Field()
+  @Field(() => Point)
   location: Point;
 
   @FilterableField(() => ID)

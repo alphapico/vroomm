@@ -21,6 +21,9 @@ type TimeMultiplier {
 
 type Address {
   id: ID!
+  title: String!
+  details: String
+  location: Point!
 }
 
 type UpdateManyResponse {
@@ -63,10 +66,25 @@ type AddressConnection {
 
 type Announcement {
   id: ID!
+  title: String!
+  description: String!
+  url: String
+  startAt: DateTime!
+  expireAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type AnnouncementDeleteResponse {
   id: ID
+  title: String
+  description: String
+  url: String
+  startAt: DateTime
+  expireAt: DateTime
 }
 
 type OffsetPageInfo {
@@ -130,14 +148,14 @@ type Region {
 type Media {
   id: ID!
   address: String!
-  base64: String!
+  base64: String
 }
 
 type ServiceOption {
   id: ID!
   name: String!
   type: ServiceOptionType!
-  additionalFee: Float!
+  additionalFee: Float
   icon: ServiceOptionIcon!
   serviceId: ID!
 }
@@ -164,11 +182,11 @@ enum ServiceOptionIcon {
 type Service {
   id: ID!
   name: String!
-  description: String!
-  personCapacity: Int!
+  description: String
+  personCapacity: Int
   categoryId: ID!
   baseFare: Float!
-  roundingFactor: Float!
+  roundingFactor: Float
   perHundredMeters: Float!
   perMinuteDrive: Float!
   perMinuteWait: Float!
@@ -268,10 +286,20 @@ enum SortNulls {
 
 type Coupon {
   id: ID!
+  code: String!
+  title: String!
+  description: String!
   manyUsersCanUse: Int!
   manyTimesUserCanUse: Int!
+  minimumCost: Float!
+  maximumCost: Float!
+  startAt: DateTime!
+  expireAt: DateTime!
   discountPercent: Int!
   discountFlat: Int!
+  creditGift: Float!
+  isEnabled: Boolean!
+  isFirstTravelOnly: Boolean!
   allowedServices(
     """Specify to filter the records returned."""
     filter: ServiceFilter = {}
@@ -320,12 +348,12 @@ type OnlineDriverWithData {
   id: ID!
   location: Point!
   lastUpdatedAt: Float!
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
   mobileNumber: String!
   status: DriverStatus!
-  gender: Gender!
-  rating: Int!
+  gender: Gender
+  rating: Int
   reviewCount: Int!
 }
 
@@ -348,35 +376,30 @@ enum Gender {
 
 type Operator {
   id: ID!
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
   userName: String!
-  mobileNumber: String!
-  email: String!
-  roleId: ID!
+  mobileNumber: String
+  email: String
+  roleId: ID
 }
 
 type DriverTransaction {
   createdAt: DateTime!
   action: TransactionAction!
   status: TransactionStatus!
-  deductType: DriverDeductTransactionType!
-  rechargeType: DriverRechargeTransactionType!
+  deductType: DriverDeductTransactionType
+  rechargeType: DriverRechargeTransactionType
   amount: Float!
   currency: String!
-  refrenceNumber: String!
+  refrenceNumber: String
   driverId: ID!
-  paymentGatewayId: ID!
-  operatorId: ID!
-  requestId: ID!
-  description: String!
+  paymentGatewayId: ID
+  operatorId: ID
+  orderId: ID
+  description: String
   operator: Operator
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 enum TransactionAction {
   Recharge
@@ -412,6 +435,8 @@ type FeedbackParameter {
 type Feedback {
   id: ID!
   score: Int!
+  reviewTimestamp: DateTime!
+  description: String
   driverId: ID!
   orderId: ID!
   parametersAggregate(
@@ -462,28 +487,28 @@ enum FeedbackParameterSortFields {
 
 type Driver {
   id: ID!
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
   mobileNumber: String!
-  certificateNumber: String!
-  email: String!
-  carProductionYear: Int!
-  carId: ID!
-  carColorId: ID!
-  carPlate: String!
+  certificateNumber: String
+  email: String
+  carProductionYear: Int
+  carId: ID
+  carColorId: ID
+  carPlate: String
   status: DriverStatus!
-  gender: Gender!
-  rating: Int!
+  gender: Gender
+  rating: Int
   reviewCount: Int!
   registrationTimestamp: DateTime!
-  lastSeenTimestamp: DateTime!
-  accountNumber: String!
-  bankName: String!
-  bankRoutingNumber: String!
-  bankSwift: String!
-  address: String!
-  softRejectionNote: String!
-  mediaId: ID!
+  lastSeenTimestamp: DateTime
+  accountNumber: String
+  bankName: String
+  bankRoutingNumber: String
+  bankSwift: String
+  address: String
+  softRejectionNote: String
+  mediaId: ID
   feedbacksAggregate(
     """Filter to find records to aggregate on"""
     filter: FeedbackAggregateFilter
@@ -1127,8 +1152,17 @@ type OperatorConnection {
   totalCount: Int!
 }
 
+type ServiceWithCost {
+  id: ID!
+  name: String!
+  cost: Float!
+  media: Media!
+}
+
 type ServiceCategoryWithCost {
   id: ID!
+  name: String!
+  services: ServiceWithCost!
 }
 
 type CalculateFareDTO {
@@ -1136,7 +1170,7 @@ type CalculateFareDTO {
   distance: Float!
   duration: Float!
   services: [ServiceCategoryWithCost!]!
-  error: CalculateFareError!
+  error: CalculateFareError
 }
 
 enum CalculateFareError {
@@ -1146,15 +1180,27 @@ enum CalculateFareError {
 
 type ComplaintActivity {
   id: ID!
+  type: ComplaintActivityType!
+  comment: String
   complaintId: ID!
   actor: Operator!
   assignedTo: Operator
 }
 
+enum ComplaintActivityType {
+  AssignToOperator
+  Update
+  Resolved
+}
+
 type Complaint {
   id: ID!
+  inscriptionTimestamp: DateTime!
+  requestedByDriver: Boolean!
+  subject: String!
+  content: String
   status: ComplaintStatus!
-  requestId: ID!
+  orderId: ID!
   activitiesAggregate(
     """Filter to find records to aggregate on"""
     filter: ComplaintActivityAggregateFilter
@@ -1204,7 +1250,7 @@ type PassengerAddress {
   id: ID!
   type: PassengerAddressType!
   title: String!
-  details: String!
+  details: String
   location: Point!
   passengerId: ID!
 }
@@ -1231,14 +1277,14 @@ type PassengerWallet {
 type Passenger {
   id: ID!
   status: PassengerStatus!
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
   mobileNumber: String!
   registrationTimestamp: DateTime!
-  email: String!
-  gender: Gender!
-  isResident: Boolean!
-  idNumber: String!
+  email: String
+  gender: Gender
+  isResident: Boolean
+  idNumber: String
   media: Media
   addresses(
     """Limit or page results."""
@@ -1343,16 +1389,16 @@ type PassengerTransaction {
   id: ID!
   action: TransactionAction!
   createdAt: DateTime!
-  deductType: PassengerDeductTransactionType!
-  rechargeType: PassengerRechargeTransactionType!
+  deductType: PassengerDeductTransactionType
+  rechargeType: PassengerRechargeTransactionType
   status: TransactionStatus!
   amount: Float!
   currency: String!
-  refrenceNumber: String!
-  description: String!
+  refrenceNumber: String
+  description: String
   passengerId: ID!
-  operatorId: ID!
-  requestId: ID!
+  operatorId: ID
+  orderId: ID
   operator: Operator
   passenger: Passenger!
 }
@@ -1372,20 +1418,58 @@ enum PassengerRechargeTransactionType {
 
 type OrderMessage {
   id: ID!
+  sentAt: DateTime!
+  sentByDriver: Boolean!
+  status: MessageStatus!
+  content: String!
+}
+
+enum MessageStatus {
+  Sent
+  Delivered
+  Seen
 }
 
 type OrderActivity {
   id: ID!
+  createdAt: DateTime!
+  type: OrderActivityType!
+}
+
+enum OrderActivityType {
+  RequestedByOperator
+  BookedByOperator
+  RequestedByPassenger
+  BookedByPassenger
+  DriverAccepted
+  ArrivedToPickupPoint
+  CanceledByDriver
+  CanceledByPassenger
+  CanceledByOperator
+  Started
+  ArrivedToDestination
+  Paid
+  Reviewed
+  Expired
 }
 
 type Order {
   id: ID!
   createdOn: DateTime!
+  startTimestamp: DateTime
+  finishTimestamp: DateTime
   status: OrderStatus!
   distanceBest: Int!
   durationBest: Int!
+  costBest: Float!
+  costAfterCoupon: Float!
+  currency: String!
+  waitMinutes: Float!
+  addresses: [String!]!
+  points: [Point!]!
+  expectedTimestamp: DateTime
   passengerId: ID!
-  driverId: ID!
+  driverId: ID
   complaintsAggregate(
     """Filter to find records to aggregate on"""
     filter: ComplaintAggregateFilter
@@ -1470,7 +1554,7 @@ input ComplaintAggregateFilter {
   or: [ComplaintAggregateFilter!]
   id: IDFilterComparison
   status: ComplaintStatusFilterComparison
-  requestId: IDFilterComparison
+  orderId: IDFilterComparison
 }
 
 input ComplaintStatusFilterComparison {
@@ -1517,7 +1601,7 @@ input ComplaintFilter {
   or: [ComplaintFilter!]
   id: IDFilterComparison
   status: ComplaintStatusFilterComparison
-  requestId: IDFilterComparison
+  orderId: IDFilterComparison
 }
 
 input ComplaintSort {
@@ -1529,7 +1613,7 @@ input ComplaintSort {
 enum ComplaintSortFields {
   id
   status
-  requestId
+  orderId
 }
 
 input OrderMessageFilter {
@@ -1787,35 +1871,35 @@ type OrderConversationsAggregateResponse {
 type OrderComplaintsAggregateGroupBy {
   id: ID
   status: ComplaintStatus
-  requestId: ID
+  orderId: ID
 }
 
 type OrderComplaintsCountAggregate {
   id: Int
   status: Int
-  requestId: Int
+  orderId: Int
 }
 
 type OrderComplaintsSumAggregate {
   id: Float
-  requestId: Float
+  orderId: Float
 }
 
 type OrderComplaintsAvgAggregate {
   id: Float
-  requestId: Float
+  orderId: Float
 }
 
 type OrderComplaintsMinAggregate {
   id: ID
   status: ComplaintStatus
-  requestId: ID
+  orderId: ID
 }
 
 type OrderComplaintsMaxAggregate {
   id: ID
   status: ComplaintStatus
-  requestId: ID
+  orderId: ID
 }
 
 type OrderComplaintsAggregateResponse {
@@ -1832,11 +1916,11 @@ type PaymentGateway {
   enabled: Boolean!
   title: String!
   type: PaymentGatewayType!
-  publicKey: String!
+  publicKey: String
   privateKey: String!
-  merchantId: String!
-  saltKey: String!
-  mediaId: ID!
+  merchantId: String
+  saltKey: String
+  mediaId: ID
   media: Media
 }
 
@@ -2060,35 +2144,35 @@ type ComplaintConnection {
 type ComplaintAggregateGroupBy {
   id: ID
   status: ComplaintStatus
-  requestId: ID
+  orderId: ID
 }
 
 type ComplaintCountAggregate {
   id: Int
   status: Int
-  requestId: Int
+  orderId: Int
 }
 
 type ComplaintSumAggregate {
   id: Float
-  requestId: Float
+  orderId: Float
 }
 
 type ComplaintAvgAggregate {
   id: Float
-  requestId: Float
+  orderId: Float
 }
 
 type ComplaintMinAggregate {
   id: ID
   status: ComplaintStatus
-  requestId: ID
+  orderId: ID
 }
 
 type ComplaintMaxAggregate {
   id: ID
   status: ComplaintStatus
-  requestId: ID
+  orderId: ID
 }
 
 type ComplaintAggregateResponse {
@@ -2935,6 +3019,8 @@ input UpdatePasswordInput {
 input CreateOrderInput {
   passengerId: ID!
   serviceId: ID!
+  points: [PointInput!]!
+  addresses: [String!]!
   intervalMinutes: Int!
 }
 
@@ -3147,12 +3233,12 @@ input CreateOneOperatorInput {
 }
 
 input CreateOperatorInput {
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
   userName: String!
   password: String!
   mobileNumber: String!
-  email: String!
+  email: String
   roleId: ID!
 }
 
@@ -3367,7 +3453,7 @@ input CreatePassengerTransaction {
   description: String
   passengerId: ID
   operatorId: ID
-  requestId: ID
+  orderId: ID
 }
 
 input CreateOnePassengerAddressInput {
@@ -3592,23 +3678,23 @@ input UpdateOneDriverInput {
 }
 
 input UpdateDriverInput {
-  carId: ID!
-  carColorId: ID!
-  firstName: String!
-  lastName: String!
-  certificateNumber: String!
-  email: String!
-  carProductionYear: Int!
-  carPlate: String!
-  status: DriverStatus!
-  gender: Gender!
-  accountNumber: String!
-  bankName: String!
-  bankRoutingNumber: String!
-  bankSwift: String!
-  address: String!
-  softRejectionNote: String!
-  mediaId: ID!
+  carId: ID
+  carColorId: ID
+  firstName: String
+  lastName: String
+  certificateNumber: String
+  email: String
+  carProductionYear: Int
+  carPlate: String
+  status: DriverStatus
+  gender: Gender
+  accountNumber: String
+  bankName: String
+  bankRoutingNumber: String
+  bankSwift: String
+  address: String
+  softRejectionNote: String
+  mediaId: ID
 }
 
 input SetDriverOnDriverWalletInput {
@@ -3660,7 +3746,7 @@ input CreateDriverTransaction {
   driverId: ID
   paymentGatewayId: ID
   operatorId: ID
-  requestId: ID
+  orderId: ID
   description: String
 }
 
@@ -3831,6 +3917,11 @@ input CreateOneAnnouncementInput {
 
 input CreateAnnouncement {
   id: ID
+  title: String
+  description: String
+  url: String
+  startAt: DateTime
+  expireAt: DateTime
 }
 
 input UpdateOneAnnouncementInput {
@@ -3843,6 +3934,11 @@ input UpdateOneAnnouncementInput {
 
 input UpdateAnnouncement {
   id: ID
+  title: String
+  description: String
+  url: String
+  startAt: DateTime
+  expireAt: DateTime
 }
 
 input DeleteOneAnnouncementInput {
@@ -3881,10 +3977,20 @@ input CreateOneCouponInput {
 
 input CreateCoupon {
   id: ID
+  code: String
+  title: String
+  description: String
   manyUsersCanUse: Int
   manyTimesUserCanUse: Int
+  minimumCost: Float
+  maximumCost: Float
+  startAt: DateTime
+  expireAt: DateTime
   discountPercent: Int
   discountFlat: Int
+  creditGift: Float
+  isEnabled: Boolean
+  isFirstTravelOnly: Boolean
 }
 
 input UpdateOneCouponInput {
@@ -3897,10 +4003,20 @@ input UpdateOneCouponInput {
 
 input UpdateCoupon {
   id: ID
+  code: String
+  title: String
+  description: String
   manyUsersCanUse: Int
   manyTimesUserCanUse: Int
+  minimumCost: Float
+  maximumCost: Float
+  startAt: DateTime
+  expireAt: DateTime
   discountPercent: Int
   discountFlat: Int
+  creditGift: Float
+  isEnabled: Boolean
+  isFirstTravelOnly: Boolean
 }
 
 input CreateOneRegionInput {
@@ -4081,6 +4197,8 @@ input UpdateOneFeedbackInput {
 input UpdateFeedback {
   id: ID
   score: Int
+  reviewTimestamp: DateTime
+  description: String
   driverId: ID
   orderId: ID
 }
@@ -4165,8 +4283,12 @@ input UpdateOneComplaintInput {
 
 input UpdateComplaint {
   id: ID
+  inscriptionTimestamp: DateTime
+  requestedByDriver: Boolean
+  subject: String
+  content: String
   status: ComplaintStatus
-  requestId: ID
+  orderId: ID
 }
 
 input SetActorOnComplaintActivityInput {
@@ -4208,6 +4330,8 @@ input CreateOneComplaintActivityInput {
 
 input CreateComplaintActivity {
   id: ID
+  type: ComplaintActivityType
+  comment: String
   complaintId: ID
 }
 

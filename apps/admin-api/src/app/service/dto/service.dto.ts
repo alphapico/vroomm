@@ -6,7 +6,7 @@ import {
   Relation,
   UnPagedRelation,
 } from '@ptc-org/nestjs-query-graphql';
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
 import { DistanceMultiplier } from '@vroom/database';
 import { TimeMultiplier } from '@vroom/database';
 import { ServicePaymentMethod } from '@vroom/database/enums/service-payment-method.enum';
@@ -29,34 +29,34 @@ export class ServiceDTO {
   @Field()
   name!: string;
 
-  @Field()
+  @Field({ nullable: true })
   description?: string;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   personCapacity?: number;
 
   @FilterableField(() => ID)
   categoryId: number;
 
-  @Field()
+  @Field(() => Float)
   baseFare!: number;
 
-  @Field()
+  @Field(() => Float, { nullable: true })
   roundingFactor?: number;
 
-  @Field()
+  @Field(() => Float)
   perHundredMeters: number;
 
-  @Field()
+  @Field(() => Float)
   perMinuteDrive!: number;
 
-  @Field()
+  @Field(() => Float)
   perMinuteWait!: number;
 
-  @Field()
+  @Field(() => Float)
   prepayPercent!: number;
 
-  @Field()
+  @Field(() => Float)
   minimumFee!: number;
 
   @Field(() => Int)
@@ -65,16 +65,16 @@ export class ServiceDTO {
   @Field(() => ServicePaymentMethod)
   paymentMethod!: ServicePaymentMethod;
 
-  @Field()
+  @Field(() => Float)
   cancellationTotalFee!: number;
 
-  @Field()
+  @Field(() => Float)
   cancellationDriverShare!: number;
 
   @Field(() => Int)
   providerSharePercent!: number;
 
-  @Field()
+  @Field(() => Float)
   providerShareFlat!: number;
 
   @Field()

@@ -25,10 +25,10 @@ export class PassengerTransactionDTO {
   @FilterableField()
   createdAt: Date;
 
-  @Field(() => PassengerDeductTransactionType)
+  @Field(() => PassengerDeductTransactionType, { nullable: true })
   deductType?: PassengerDeductTransactionType;
 
-  @Field(() => PassengerRechargeTransactionType)
+  @Field(() => PassengerRechargeTransactionType, { nullable: true })
   rechargeType?: PassengerRechargeTransactionType;
 
   @Field(() => TransactionStatus)
@@ -40,18 +40,18 @@ export class PassengerTransactionDTO {
   @FilterableField(() => String)
   currency: string;
 
-  @Field()
+  @Field({ nullable: true })
   refrenceNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   description?: string;
 
   @FilterableField(() => ID)
   passengerId!: number;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   operatorId?: number;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   orderId?: number;
 }

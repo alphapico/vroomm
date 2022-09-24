@@ -25,10 +25,10 @@ export class PassengerDTO {
   @Field(() => PassengerStatus)
   status: PassengerStatus;
 
-  @FilterableField()
+  @FilterableField({ nullable: true })
   firstName?: string;
 
-  @FilterableField()
+  @FilterableField({ nullable: true })
   lastName?: string;
 
   @FilterableField(() => String, { middleware: [numberMasker] })
@@ -37,15 +37,15 @@ export class PassengerDTO {
   @Field()
   registrationTimestamp: Date;
 
-  @Field()
+  @Field({ nullable: true })
   email?: string;
 
-  @FilterableField(() => Gender)
+  @FilterableField(() => Gender, { nullable: true })
   gender?: Gender;
 
-  @Field()
+  @Field({ nullable: true })
   isResident?: boolean;
 
-  @Field()
+  @Field({ nullable: true })
   idNumber?: string;
 }

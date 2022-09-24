@@ -9,6 +9,6 @@ export class MediaDTO {
   @Field()
   address: string;
 
-  @Field()
+  @Field({ nullable: true })
   base64?: string;
 }

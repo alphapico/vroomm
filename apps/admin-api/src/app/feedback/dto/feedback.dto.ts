@@ -15,7 +15,9 @@ export class FeedbackDTO {
   id!: number;
   @Field(() => Int)
   score!: number;
+  @Field()
   reviewTimestamp: Date;
+  @Field({ nullable: true })
   description?: string;
   @FilterableField(() => ID)
   driverId: number;

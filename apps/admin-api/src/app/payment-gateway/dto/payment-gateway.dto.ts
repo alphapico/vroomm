@@ -20,18 +20,18 @@ export class PaymentGatewayDTO {
   @Field(() => PaymentGatewayType)
   type!: PaymentGatewayType;
 
-  @Field()
+  @Field({ nullable: true })
   publicKey?: string;
 
   @Field()
   privateKey: string;
 
-  @Field()
+  @Field({ nullable: true })
   merchantId?: string;
 
-  @Field()
+  @Field({ nullable: true })
   saltKey?: string;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   mediaId?: number;
 }

@@ -8,21 +8,21 @@ export class OperatorDTO {
   @IDField(() => ID)
   id!: number;
 
-  @Field()
+  @Field({ nullable: true })
   firstName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   lastName?: string;
 
   @Field()
   userName!: string;
 
-  @Field()
+  @Field({ nullable: true })
   mobileNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   email?: string;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   roleId?: number;
 }

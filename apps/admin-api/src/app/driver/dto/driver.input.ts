@@ -4,54 +4,54 @@ import { Gender } from '@vroom/database/enums/gender.enum';
 
 @InputType()
 export class UpdateDriverInput {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   carId?: number;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   carColorId?: number;
 
-  @Field()
+  @Field({ nullable: true })
   firstName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   lastName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   certificateNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   email?: string;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   carProductionYear?: number;
 
-  @Field()
+  @Field({ nullable: true })
   carPlate?: string;
 
-  @Field(() => DriverStatus)
+  @Field(() => DriverStatus, { nullable: true })
   status?: DriverStatus;
 
-  @Field(() => Gender)
+  @Field(() => Gender, { nullable: true })
   gender?: Gender;
 
-  @Field()
+  @Field({ nullable: true })
   accountNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   bankName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   bankRoutingNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   bankSwift?: string;
 
-  @Field()
+  @Field({ nullable: true })
   address?: string;
 
-  @Field()
+  @Field({ nullable: true })
   softRejectionNote?: string;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   mediaId?: number;
 }

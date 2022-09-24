@@ -3,7 +3,7 @@ import {
   FilterableField,
   IDField,
 } from '@ptc-org/nestjs-query-graphql';
-import { ID, ObjectType, Field } from '@nestjs/graphql';
+import { ID, ObjectType, Field, Float } from '@nestjs/graphql';
 import { ServiceOptionIcon } from '@vroom/database/enums/service-option-icon.enum';
 import { ServiceOptionType } from '@vroom/database/enums/service-option-type.enum';
 
@@ -18,7 +18,7 @@ export class ServiceOptionDTO {
   @Field(() => ServiceOptionType)
   type: ServiceOptionType;
 
-  @Field()
+  @Field(() => Float, { nullable: true })
   additionalFee?: number;
 
   @Field(() => ServiceOptionIcon)

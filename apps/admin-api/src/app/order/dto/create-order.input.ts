@@ -7,7 +7,9 @@ export class CreateOrderInput {
   passengerId: number;
   @Field(() => ID)
   serviceId!: number;
+  @Field(() => [Point])
   points!: Point[];
+  @Field(() => [String])
   addresses!: string[];
   @Field(() => Int)
   intervalMinutes!: number;

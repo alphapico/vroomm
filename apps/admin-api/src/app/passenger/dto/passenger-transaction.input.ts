@@ -8,10 +8,10 @@ export class PassengerTransactionInput {
   @Field(() => TransactionAction)
   action: TransactionAction;
 
-  @Field(() => PassengerDeductTransactionType)
+  @Field(() => PassengerDeductTransactionType, { nullable: true })
   deductType?: PassengerDeductTransactionType;
 
-  @Field(() => PassengerRechargeTransactionType)
+  @Field(() => PassengerRechargeTransactionType, { nullable: true })
   rechargeType?: PassengerRechargeTransactionType;
 
   @Field(() => Float)
@@ -20,10 +20,10 @@ export class PassengerTransactionInput {
   @Field()
   currency: string;
 
-  @Field()
+  @Field({ nullable: true })
   refrenceNumber?: string;
 
-  @Field()
+  @Field({ nullable: true })
   description?: string;
 
   @Field(() => ID)
