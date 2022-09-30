@@ -3,5 +3,6 @@
     "[Material Theme*]": {
       "sideBar.foreground": "#A0A0A0"
     }
-  }
+  },
+  "dart.flutterSdkPath": "/Users/dan/Development/flutter/flutter-3"
 }
