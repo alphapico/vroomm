@@ -17,83 +17,6 @@ type CarColor {
   name: String!
 }
 
-type Driver {
-  id: ID!
-  firstName: String
-  lastName: String
-  mobileNumber: String!
-  certificateNumber: String
-  email: String
-  carProductionYear: Int
-  carPlate: String
-  status: DriverStatus!
-  gender: Gender
-  registrationTimestamp: Timestamp!
-  lastSeenTimestamp: Timestamp
-  accountNumber: String
-  bankName: String
-  bankRoutingNumber: String
-  bankSwift: String
-  address: String
-  softRejectionNote: String
-  carModelId: ID
-  carColorId: ID
-  searchDistance: Int
-  car: CarModel
-  carColor: CarColor
-}
-
-enum DriverStatus {
-  Online
-  Offline
-  Blocked
-  InService
-  WaitingDocuments
-  PendingApproval
-  SoftReject
-  HardReject
-}
-
-enum Gender {
-  Male
-  Female
-  Unknown
-}
-
-"""
-`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
-"""
-scalar Timestamp
-
-type DriverEdge {
-  """The node containing the Driver"""
-  node: Driver!
-
-  """Cursor for this node."""
-  cursor: ConnectionCursor!
-}
-
-"""Cursor for paging through collections"""
-scalar ConnectionCursor
-
-type PageInfo {
-  """true if paging forward and there are more records."""
-  hasNextPage: Boolean
-
-  """true if paging backwards and there are more records."""
-  hasPreviousPage: Boolean
-
-  """The cursor of the first returned record."""
-  startCursor: ConnectionCursor
-
-  """The cursor of the last returned record."""
-  endCursor: ConnectionCursor
-}
-
-type Login {
-  jwtToken: String!
-}
-
 type Media {
   id: ID!
   address: String!
@@ -131,6 +54,11 @@ type OrderMessage {
   orderId: ID!
   order: Order!
 }
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
 
 enum MessageStatus {
   Sent
@@ -305,6 +233,260 @@ input OrderMessageSort {
 enum OrderMessageSortFields {
   id
   orderId
+}
+
+type DriverWallet {
+  id: ID!
+  balance: Float!
+  currency: String!
+}
+
+type Driver {
+  id: ID!
+  firstName: String
+  lastName: String
+  mobileNumber: String!
+  certificateNumber: String
+  email: String
+  carProductionYear: Int
+  carPlate: String
+  status: DriverStatus!
+  gender: Gender
+  registrationTimestamp: Timestamp!
+  lastSeenTimestamp: Timestamp
+  accountNumber: String
+  bankName: String
+  bankRoutingNumber: String
+  bankSwift: String
+  address: String
+  softRejectionNote: String
+  carModelId: ID
+  carColorId: ID
+  searchDistance: Int
+  car: CarModel
+  carColor: CarColor
+  media: Media
+  documents(
+    """Specify to filter the records returned."""
+    filter: MediaFilter = {}
+
+    """Specify to sort results."""
+    sorting: [MediaSort!] = []
+  ): [Media!]!
+  orders(
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 1}
+
+    """Specify to filter the records returned."""
+    filter: OrderFilter = {status: {in: [DriverAccepted, Arrived, Started, WaitingForPostPay]}}
+
+    """Specify to sort results."""
+    sorting: [OrderSort!] = [{field: id, direction: DESC}]
+  ): DriverOrdersConnection!
+  currentOrders(
+    """Specify to filter the records returned."""
+    filter: OrderFilter = {status: {in: [DriverAccepted, Arrived, Started, WaitingForPostPay]}}
+
+    """Specify to sort results."""
+    sorting: [OrderSort!] = [{field: id, direction: DESC}]
+  ): [Order!]!
+  wallets(
+    """Specify to filter the records returned."""
+    filter: DriverWalletFilter = {}
+
+    """Specify to sort results."""
+    sorting: [DriverWalletSort!] = []
+  ): [DriverWallet!]!
+}
+
+enum DriverStatus {
+  Online
+  Offline
+  Blocked
+  InService
+  WaitingDocuments
+  PendingApproval
+  SoftReject
+  HardReject
+}
+
+enum Gender {
+  Male
+  Female
+  Unknown
+}
+
+input MediaFilter {
+  and: [MediaFilter!]
+  or: [MediaFilter!]
+  id: IDFilterComparison
+}
+
+input MediaSort {
+  field: MediaSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum MediaSortFields {
+  id
+}
+
+input OffsetPaging {
+  """Limit the number of records returned"""
+  limit: Int
+
+  """Offset to start returning records from"""
+  offset: Int
+}
+
+input OrderFilter {
+  and: [OrderFilter!]
+  or: [OrderFilter!]
+  id: IDFilterComparison
+  status: OrderStatusFilterComparison
+  createdOn: DateFieldComparison
+  costBest: NumberFieldComparison
+  driverId: IDFilterComparison
+}
+
+input OrderStatusFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: OrderStatus
+  neq: OrderStatus
+  gt: OrderStatus
+  gte: OrderStatus
+  lt: OrderStatus
+  lte: OrderStatus
+  like: OrderStatus
+  notLike: OrderStatus
+  iLike: OrderStatus
+  notILike: OrderStatus
+  in: [OrderStatus!]
+  notIn: [OrderStatus!]
+}
+
+input DateFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: DateTime
+  neq: DateTime
+  gt: DateTime
+  gte: DateTime
+  lt: DateTime
+  lte: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  between: DateFieldComparisonBetween
+  notBetween: DateFieldComparisonBetween
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DateFieldComparisonBetween {
+  lower: DateTime!
+  upper: DateTime!
+}
+
+input NumberFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Float
+  neq: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  in: [Float!]
+  notIn: [Float!]
+  between: NumberFieldComparisonBetween
+  notBetween: NumberFieldComparisonBetween
+}
+
+input NumberFieldComparisonBetween {
+  lower: Float!
+  upper: Float!
+}
+
+input OrderSort {
+  field: OrderSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum OrderSortFields {
+  id
+  status
+  createdOn
+  costBest
+  driverId
+}
+
+input DriverWalletFilter {
+  and: [DriverWalletFilter!]
+  or: [DriverWalletFilter!]
+  id: IDFilterComparison
+  driverId: IDFilterComparison
+}
+
+input DriverWalletSort {
+  field: DriverWalletSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum DriverWalletSortFields {
+  id
+  driverId
+}
+
+type DriverEdge {
+  """The node containing the Driver"""
+  node: Driver!
+
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+}
+
+"""Cursor for paging through collections"""
+scalar ConnectionCursor
+
+type PageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+
+  """The cursor of the first returned record."""
+  startCursor: ConnectionCursor
+
+  """The cursor of the last returned record."""
+  endCursor: ConnectionCursor
+}
+
+type OffsetPageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+}
+
+type DriverOrdersConnection {
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Array of nodes."""
+  nodes: [Order!]!
+}
+
+type Login {
+  jwtToken: String!
 }
 
 type OrderEdge {
@@ -507,12 +689,6 @@ enum DriverRechargeTransactionType {
   BankTransfer
   InAppPayment
   Gift
-}
-
-type DriverWallet {
-  id: ID!
-  balance: Float!
-  currency: String!
 }
 
 type PaymentGateway {
@@ -734,68 +910,6 @@ input OrderAggregateFilter {
   driverId: IDFilterComparison
 }
 
-input OrderStatusFilterComparison {
-  is: Boolean
-  isNot: Boolean
-  eq: OrderStatus
-  neq: OrderStatus
-  gt: OrderStatus
-  gte: OrderStatus
-  lt: OrderStatus
-  lte: OrderStatus
-  like: OrderStatus
-  notLike: OrderStatus
-  iLike: OrderStatus
-  notILike: OrderStatus
-  in: [OrderStatus!]
-  notIn: [OrderStatus!]
-}
-
-input DateFieldComparison {
-  is: Boolean
-  isNot: Boolean
-  eq: DateTime
-  neq: DateTime
-  gt: DateTime
-  gte: DateTime
-  lt: DateTime
-  lte: DateTime
-  in: [DateTime!]
-  notIn: [DateTime!]
-  between: DateFieldComparisonBetween
-  notBetween: DateFieldComparisonBetween
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-input DateFieldComparisonBetween {
-  lower: DateTime!
-  upper: DateTime!
-}
-
-input NumberFieldComparison {
-  is: Boolean
-  isNot: Boolean
-  eq: Float
-  neq: Float
-  gt: Float
-  gte: Float
-  lt: Float
-  lte: Float
-  in: [Float!]
-  notIn: [Float!]
-  between: NumberFieldComparisonBetween
-  notBetween: NumberFieldComparisonBetween
-}
-
-input NumberFieldComparisonBetween {
-  lower: Float!
-  upper: Float!
-}
-
 input CursorPaging {
   """Paginate before opaque cursor"""
   before: ConnectionCursor
@@ -808,30 +922,6 @@ input CursorPaging {
 
   """Paginate last"""
   last: Int
-}
-
-input OrderFilter {
-  and: [OrderFilter!]
-  or: [OrderFilter!]
-  id: IDFilterComparison
-  status: OrderStatusFilterComparison
-  createdOn: DateFieldComparison
-  costBest: NumberFieldComparison
-  driverId: IDFilterComparison
-}
-
-input OrderSort {
-  field: OrderSortFields!
-  direction: SortDirection!
-  nulls: SortNulls
-}
-
-enum OrderSortFields {
-  id
-  status
-  createdOn
-  costBest
-  driverId
 }
 
 enum TimeQuery {
@@ -937,24 +1027,6 @@ enum DriverTransacionSortFields {
   driverId
 }
 
-input DriverWalletFilter {
-  and: [DriverWalletFilter!]
-  or: [DriverWalletFilter!]
-  id: IDFilterComparison
-  driverId: IDFilterComparison
-}
-
-input DriverWalletSort {
-  field: DriverWalletSortFields!
-  direction: SortDirection!
-  nulls: SortNulls
-}
-
-enum DriverWalletSortFields {
-  id
-  driverId
-}
-
 input PaymentGatewayFilter {
   and: [PaymentGatewayFilter!]
   or: [PaymentGatewayFilter!]
@@ -1016,6 +1088,8 @@ enum AnnouncementSortFields {
 type Mutation {
   login(input: LoginInput!): Login!
   deleteUser: Driver!
+  addDocumentsToDriver(input: AddDocumentsToDriverInput!): Driver!
+  setDocumentsOnDriver(input: SetDocumentsOnDriverInput!): Driver!
   updateOneDriver(input: UpdateOneDriverInput!): Driver!
   updateOneOrder(input: UpdateOneOrderInput!): Order!
   updateDriversLocationNew(point: PointInput!): [Order!]!
@@ -1026,6 +1100,22 @@ type Mutation {
 
 input LoginInput {
   firebaseToken: String!
+}
+
+input AddDocumentsToDriverInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+input SetDocumentsOnDriverInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 input UpdateOneDriverInput {
