@@ -7,13 +7,15 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'current_location_cubit.dart';
 
 import 'config.dart';
+
+import 'generated/l10n.dart';
 
 import 'main_bloc.dart';
 
@@ -36,14 +38,12 @@ void main() async {
   await Geolocator.requestPermission();
   await Firebase.initializeApp();
   await Hive.openBox('user');
-  await CountryCodes.init(); //TODO ori
-  final locale = CountryCode.fromDialCode('+60'); // TODO  SHAM commented
-  // final locale = CountryCodes.detailsForLocale(); //TODO ori
+  await CountryCodes.init();
+  // final locale = CountryCode.fromDialCode('+60');
+  final locale = CountryCodes.detailsForLocale();
   if (locale.dialCode != null) {
-    //TODO ori
     defaultCountryCode = locale.dialCode!;
   }
-  // defaultCountryCode = '+60'; //TODO  SHAM commented
   runApp(const MyApp());
 }
 
@@ -70,6 +70,12 @@ class MyApp extends StatelessWidget {
                 title: 'Vroom',
                 navigatorObservers: [defaultLifecycleObserver],
                 debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
                 theme: CustomTheme.theme1,
                 home: MyHomePage()),
           ),
@@ -186,12 +192,13 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            // _getMenuButton
+                                            _getMenuButton(),
                                             const Spacer(),
-                                            // _getWalletButton
+                                            _getWalletButton(context, state),
                                             if (state is! StatusInService)
                                               const Spacer(),
-                                            //_getOnlineOfflineButton
+                                            _getOnlineOfflineButton(
+                                                context, state)
                                           ],
                                         ),
                                       ),
@@ -244,5 +251,122 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                             });
                       }));
             }));
+  }
+
+  Widget _getOnlineOfflineButton(BuildContext context, MainState state) {
+    final mainBloc = context.read<MainBloc>();
+
+    return Mutation(
+        options:
+            MutationOptions(document: UPDATE_DRIVER_STATUS_MUTATION_DOCUMENT),
+        builder: (RunMutation runMutation, QueryResult? result) {
+          return Container(
+            decoration: const BoxDecoration(boxShadow: [
+              BoxShadow(
+                  color: Color(0x14000000),
+                  offset: Offset(0, 3),
+                  blurRadius: 15)
+            ]),
+            child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: (state is StatusOffline)
+                    ? FloatingActionButton.extended(
+                        key: const Key('offline'),
+                        heroTag: 'fabOffline',
+                        extendedPadding:
+                            const EdgeInsets.symmetric(horizontal: 36),
+                        elevation: 0,
+                        backgroundColor: CustomTheme.primaryColors,
+                        foregroundColor: Colors.white,
+                        onPressed: (result?.isLoading ?? false)
+                            ? null
+                            : () async {
+                                // getFCMid
+                              },
+                        label: Text(S.of(context).statusOffline,
+                            style: Theme.of(context).textTheme.headlineSmall),
+                        icon: const Icon(Ionicons.car_sport),
+                      )
+                    : ((state is StatusOnline)
+                        ? FloatingActionButton.extended(
+                            key: const Key('online'),
+                            heroTag: 'fabOnline',
+                            elevation: 0,
+                            onPressed: (result?.isLoading ?? false)
+                                ? null
+                                : () async {
+                                    final res = await runMutation(
+                                            UpdateDriverStatusArguments(
+                                                    status:
+                                                        DriverStatus.offline)
+                                                .toJson())
+                                        .networkResult;
+                                    final driver =
+                                        UpdateDriverStatus$Mutation.fromJson(
+                                            res!.data!);
+                                    mainBloc.add(
+                                        DriverUpdated(driver.updateOneDriver));
+                                  },
+                            label: Text(S.of(context).statusOnline,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(
+                                        color: CustomTheme
+                                            .primaryColors.shade600)),
+                            backgroundColor: CustomTheme.primaryColors.shade200,
+                            foregroundColor: CustomTheme.primaryColors.shade600,
+                            icon: const Icon(Ionicons.power),
+                          )
+                        : const SizedBox())),
+          );
+        });
+  }
+
+  Widget _getMenuButton() {
+    return Container(
+      decoration: const BoxDecoration(boxShadow: [
+        BoxShadow(
+            color: Color(0x14000000), offset: Offset(3, 3), blurRadius: 25)
+      ]),
+      child: FloatingActionButton(
+          heroTag: 'fabMenu',
+          elevation: 0,
+          mini: true,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          onPressed: () => scaffoldKey.currentState?.openDrawer(),
+          backgroundColor: CustomTheme.primaryColors.shade50,
+          child: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          )),
+    );
+  }
+
+  Widget _getWalletButton(BuildContext context, MainState state) {
+    return Container(
+      decoration: const BoxDecoration(boxShadow: [
+        BoxShadow(
+            color: Color(0x14000000), offset: Offset(0, 3), blurRadius: 15)
+      ]),
+      child: FloatingActionButton.extended(
+          heroTag: 'fabIncome',
+          onPressed: () => Navigator.pushNamed(context, 'earnings'),
+          backgroundColor: CustomTheme.primaryColors.shade50,
+          foregroundColor: CustomTheme.primaryColors,
+          icon: const Icon(Ionicons.wallet),
+          elevation: 0,
+          label: Text(
+              (state.driver?.wallets.length ?? 0) > 0
+                  ? NumberFormat.simpleCurrency(
+                          name: state.driver!.wallets.first.currency)
+                      .format(state.driver!.wallets.first.balance)
+                  : "-",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: CustomTheme.primaryColors))),
+    );
   }
 }
