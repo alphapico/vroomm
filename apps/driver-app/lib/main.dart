@@ -124,7 +124,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                   onLifecycleEvent: (event) {
                     if (event == LifecycleEvent.active && refetch != null) {
                       refetch!();
-                      //updateNotificationId
+                      updateNotificationId(context);
                     }
                   },
                   child: FutureBuilder<PackageInfo>(
@@ -281,7 +281,18 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                         onPressed: (result?.isLoading ?? false)
                             ? null
                             : () async {
-                                // getFCMid
+                                final fcmId = await getFcmId(context);
+                                final res = await runMutation(
+                                        UpdateDriverStatusArguments(
+                                                status: DriverStatus.online,
+                                                fcmId: fcmId)
+                                            .toJson())
+                                    .networkResult;
+                                final driver =
+                                    UpdateDriverStatus$Mutation.fromJson(
+                                        res!.data!);
+                                mainBloc
+                                    .add(DriverUpdated(driver.updateOneDriver));
                               },
                         label: Text(S.of(context).statusOffline,
                             style: Theme.of(context).textTheme.headlineSmall),
@@ -368,5 +379,64 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                   .headlineSmall
                   ?.copyWith(color: CustomTheme.primaryColors))),
     );
+  }
+
+  Future<String?> getFcmId(BuildContext context) async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: true,
+      criticalAlert: false,
+      provisional: true,
+      sound: true,
+    );
+    if (settings.authorizationStatus == AuthorizationStatus.denied) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title:
+                    Text(S.of(context).message_notification_permission_title),
+                content: Text(S
+                    .of(context)
+                    .message_notification_permission_denined_message),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(S.of(context).action_ok),
+                  )
+                ],
+              ));
+      return null;
+    } else {
+      messaging.onTokenRefresh.listen((event) {
+        updateNotificationId(context);
+      });
+      return messaging.getToken(
+        vapidKey: "",
+      );
+    }
+  }
+
+  void updateNotificationId(BuildContext context) async {
+    final httpLink = HttpLink(
+      "${serverUrl}graphql",
+    );
+    final authLink = AuthLink(
+      getToken: () async => 'Bearer ${Hive.box('user').get('jwt')}',
+    );
+    Link link = authLink.concat(httpLink);
+    final GraphQLClient client = GraphQLClient(
+      cache: GraphQLCache(),
+      link: link,
+    );
+    final fcmId = await getFcmId(context);
+    await client.mutate(MutationOptions(
+        document: UPDATE_DRIVER_F_C_M_ID_MUTATION_DOCUMENT,
+        variables: {"fcmId": fcmId},
+        fetchPolicy: FetchPolicy.noCache));
   }
 }
