@@ -31,6 +31,10 @@ import 'graphql/generated/graphql_api.dart';
 import 'graphql_provider.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'notice_bar.dart';
+import 'query_result_view.dart';
+import 'unregistered_driver_messages_view.dart';
+
 // ignore: avoid_void_async
 void main() async {
   await initHiveForFlutter();
@@ -117,8 +121,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
             valueListenable: Hive.box('user').listenable(),
             builder: (context, Box box, widget) {
               if (box.get('jwt') == null) {
-                //UnregisteredDriverMessagesView
-                return Container();
+                return const UnregisteredDriverMessagesView(driver: null);
               }
               return LifecycleWrapper(
                   onLifecycleEvent: (event) {
@@ -142,8 +145,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                             builder: (QueryResult result,
                                 {Refetch? refetch, FetchMore? fetchMore}) {
                               if (result.isLoading || result.hasException) {
-                                // QueryResultView
-                                return Container();
+                                return QueryResultView(result);
                               }
                               this.refetch = refetch;
                               final mquery = Me$Query.fromJson(result.data!);
@@ -176,8 +178,8 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                 }
                               }, builder: (context, state) {
                                 if (state is StatusUnregistered) {
-                                  // UnregisteredDriverMessagesView
-                                  return Container();
+                                  return UnregisteredDriverMessagesView(
+                                      driver: state.driver);
                                 }
                                 return Stack(children: [
                                   if (mapProvider ==
@@ -209,8 +211,10 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                       bottom: 0,
                                       left: 0,
                                       right: 0,
-                                      child: //NoticeBar
-                                          Container(),
+                                      child: NoticeBar(
+                                          title: state is StatusOffline
+                                              ? "Get online to see requests"
+                                              : "Searching for ride"),
                                     ),
                                   if (state is StatusOnline)
                                     Positioned(
