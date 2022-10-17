@@ -7,29 +7,269 @@ part of 'graphql_api.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Me$Query$Driver _$Me$Query$DriverFromJson(Map<String, dynamic> json) =>
-    Me$Query$Driver()
-      ..mobileNumber = json['mobileNumber'] as String
-      ..firstName = json['firstName'] as String?
-      ..lastName = json['lastName'] as String?
-      ..searchDistance = json['searchDistance'] as int?
-      ..media = json['media'] == null
-          ? null
-          : BasicProfileMixin$Media.fromJson(
-              json['media'] as Map<String, dynamic>)
-      ..softRejectionNote = json['softRejectionNote'] as String?
+UpdateProfile$Mutation$Driver _$UpdateProfile$Mutation$DriverFromJson(
+        Map<String, dynamic> json) =>
+    UpdateProfile$Mutation$Driver()..id = json['id'] as String;
+
+Map<String, dynamic> _$UpdateProfile$Mutation$DriverToJson(
+        UpdateProfile$Mutation$Driver instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+UpdateProfile$Mutation _$UpdateProfile$MutationFromJson(
+        Map<String, dynamic> json) =>
+    UpdateProfile$Mutation()
+      ..updateOneDriver = UpdateProfile$Mutation$Driver.fromJson(
+          json['updateOneDriver'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateProfile$MutationToJson(
+        UpdateProfile$Mutation instance) =>
+    <String, dynamic>{
+      'updateOneDriver': instance.updateOneDriver.toJson(),
+    };
+
+UpdateDriverInput _$UpdateDriverInputFromJson(Map<String, dynamic> json) =>
+    UpdateDriverInput(
+      firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
+      status: $enumDecodeNullable(_$DriverStatusEnumMap, json['status'],
+          unknownValue: DriverStatus.artemisUnknown),
+      certificateNumber: json['certificateNumber'] as String?,
+      email: json['email'] as String?,
+      carProductionYear: json['carProductionYear'] as int?,
+      carPlate: json['carPlate'] as String?,
+      mediaId: json['mediaId'] as String?,
+      gender: $enumDecodeNullable(_$GenderEnumMap, json['gender'],
+          unknownValue: Gender.artemisUnknown),
+      accountNumber: json['accountNumber'] as String?,
+      bankName: json['bankName'] as String?,
+      bankRoutingNumber: json['bankRoutingNumber'] as String?,
+      bankSwift: json['bankSwift'] as String?,
+      address: json['address'] as String?,
+      carModelId: json['carModelId'] as String?,
+      carColorId: json['carColorId'] as String?,
+      notificationPlayerId: json['notificationPlayerId'] as String?,
+      searchDistance: json['searchDistance'] as int?,
+    );
+
+Map<String, dynamic> _$UpdateDriverInputToJson(UpdateDriverInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  writeNotNull('status', _$DriverStatusEnumMap[instance.status]);
+  writeNotNull('certificateNumber', instance.certificateNumber);
+  writeNotNull('email', instance.email);
+  writeNotNull('carProductionYear', instance.carProductionYear);
+  writeNotNull('carPlate', instance.carPlate);
+  writeNotNull('mediaId', instance.mediaId);
+  writeNotNull('gender', _$GenderEnumMap[instance.gender]);
+  writeNotNull('accountNumber', instance.accountNumber);
+  writeNotNull('bankName', instance.bankName);
+  writeNotNull('bankRoutingNumber', instance.bankRoutingNumber);
+  writeNotNull('bankSwift', instance.bankSwift);
+  writeNotNull('address', instance.address);
+  writeNotNull('carModelId', instance.carModelId);
+  writeNotNull('carColorId', instance.carColorId);
+  writeNotNull('notificationPlayerId', instance.notificationPlayerId);
+  writeNotNull('searchDistance', instance.searchDistance);
+  return val;
+}
+
+const _$DriverStatusEnumMap = {
+  DriverStatus.online: 'Online',
+  DriverStatus.offline: 'Offline',
+  DriverStatus.blocked: 'Blocked',
+  DriverStatus.inService: 'InService',
+  DriverStatus.waitingDocuments: 'WaitingDocuments',
+  DriverStatus.pendingApproval: 'PendingApproval',
+  DriverStatus.softReject: 'SoftReject',
+  DriverStatus.hardReject: 'HardReject',
+  DriverStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$GenderEnumMap = {
+  Gender.male: 'Male',
+  Gender.female: 'Female',
+  Gender.unknown: 'Unknown',
+  Gender.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+GetDriver$Query$Driver$Media _$GetDriver$Query$Driver$MediaFromJson(
+        Map<String, dynamic> json) =>
+    GetDriver$Query$Driver$Media()
+      ..id = json['id'] as String
+      ..address = json['address'] as String;
+
+Map<String, dynamic> _$GetDriver$Query$Driver$MediaToJson(
+        GetDriver$Query$Driver$Media instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'address': instance.address,
+    };
+
+GetDriver$Query$Driver _$GetDriver$Query$DriverFromJson(
+        Map<String, dynamic> json) =>
+    GetDriver$Query$Driver()
+      ..id = json['id'] as String
       ..status = $enumDecode(_$DriverStatusEnumMap, json['status'],
           unknownValue: DriverStatus.artemisUnknown)
-      ..currentOrders = (json['currentOrders'] as List<dynamic>)
+      ..firstName = json['firstName'] as String?
+      ..lastName = json['lastName'] as String?
+      ..gender = $enumDecodeNullable(_$GenderEnumMap, json['gender'],
+          unknownValue: Gender.artemisUnknown)
+      ..email = json['email'] as String?
+      ..mobileNumber = json['mobileNumber'] as String
+      ..accountNumber = json['accountNumber'] as String?
+      ..bankName = json['bankName'] as String?
+      ..bankRoutingNumber = json['bankRoutingNumber'] as String?
+      ..address = json['address'] as String?
+      ..documents = (json['documents'] as List<dynamic>)
           .map((e) =>
-              BasicProfileMixin$Order.fromJson(e as Map<String, dynamic>))
+              GetDriver$Query$Driver$Media.fromJson(e as Map<String, dynamic>))
           .toList()
-      ..wallets = (json['wallets'] as List<dynamic>)
-          .map((e) => BasicProfileMixin$DriverWallet.fromJson(
-              e as Map<String, dynamic>))
+      ..bankSwift = json['bankSwift'] as String?
+      ..media = json['media'] == null
+          ? null
+          : GetDriver$Query$Driver$Media.fromJson(
+              json['media'] as Map<String, dynamic>)
+      ..carPlate = json['carPlate'] as String?
+      ..carProductionYear = json['carProductionYear'] as int?
+      ..certificateNumber = json['certificateNumber'] as String?
+      ..carColorId = json['carColorId'] as String?
+      ..carModelId = json['carModelId'] as String?;
+
+Map<String, dynamic> _$GetDriver$Query$DriverToJson(
+    GetDriver$Query$Driver instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'status': _$DriverStatusEnumMap[instance.status]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  writeNotNull('gender', _$GenderEnumMap[instance.gender]);
+  writeNotNull('email', instance.email);
+  val['mobileNumber'] = instance.mobileNumber;
+  writeNotNull('accountNumber', instance.accountNumber);
+  writeNotNull('bankName', instance.bankName);
+  writeNotNull('bankRoutingNumber', instance.bankRoutingNumber);
+  writeNotNull('address', instance.address);
+  val['documents'] = instance.documents.map((e) => e.toJson()).toList();
+  writeNotNull('bankSwift', instance.bankSwift);
+  writeNotNull('media', instance.media?.toJson());
+  writeNotNull('carPlate', instance.carPlate);
+  writeNotNull('carProductionYear', instance.carProductionYear);
+  writeNotNull('certificateNumber', instance.certificateNumber);
+  writeNotNull('carColorId', instance.carColorId);
+  writeNotNull('carModelId', instance.carModelId);
+  return val;
+}
+
+GetDriver$Query$CarModel _$GetDriver$Query$CarModelFromJson(
+        Map<String, dynamic> json) =>
+    GetDriver$Query$CarModel()
+      ..id = json['id'] as String
+      ..name = json['name'] as String;
+
+Map<String, dynamic> _$GetDriver$Query$CarModelToJson(
+        GetDriver$Query$CarModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
+GetDriver$Query$CarColor _$GetDriver$Query$CarColorFromJson(
+        Map<String, dynamic> json) =>
+    GetDriver$Query$CarColor()
+      ..id = json['id'] as String
+      ..name = json['name'] as String;
+
+Map<String, dynamic> _$GetDriver$Query$CarColorToJson(
+        GetDriver$Query$CarColor instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
+GetDriver$Query _$GetDriver$QueryFromJson(Map<String, dynamic> json) =>
+    GetDriver$Query()
+      ..driver = GetDriver$Query$Driver.fromJson(
+          json['driver'] as Map<String, dynamic>)
+      ..carModels = (json['carModels'] as List<dynamic>)
+          .map((e) =>
+              GetDriver$Query$CarModel.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..carColors = (json['carColors'] as List<dynamic>)
+          .map((e) =>
+              GetDriver$Query$CarColor.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$Me$Query$DriverToJson(Me$Query$Driver instance) {
+Map<String, dynamic> _$GetDriver$QueryToJson(GetDriver$Query instance) =>
+    <String, dynamic>{
+      'driver': instance.driver.toJson(),
+      'carModels': instance.carModels.map((e) => e.toJson()).toList(),
+      'carColors': instance.carColors.map((e) => e.toJson()).toList(),
+    };
+
+Login$Mutation$Login _$Login$Mutation$LoginFromJson(
+        Map<String, dynamic> json) =>
+    Login$Mutation$Login()..jwtToken = json['jwtToken'] as String;
+
+Map<String, dynamic> _$Login$Mutation$LoginToJson(
+        Login$Mutation$Login instance) =>
+    <String, dynamic>{
+      'jwtToken': instance.jwtToken,
+    };
+
+Login$Mutation _$Login$MutationFromJson(Map<String, dynamic> json) =>
+    Login$Mutation()
+      ..login =
+          Login$Mutation$Login.fromJson(json['login'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$Login$MutationToJson(Login$Mutation instance) =>
+    <String, dynamic>{
+      'login': instance.login.toJson(),
+    };
+
+SetDocumentsOnDriver$Mutation$Driver
+    _$SetDocumentsOnDriver$Mutation$DriverFromJson(Map<String, dynamic> json) =>
+        SetDocumentsOnDriver$Mutation$Driver()
+          ..mobileNumber = json['mobileNumber'] as String
+          ..firstName = json['firstName'] as String?
+          ..lastName = json['lastName'] as String?
+          ..searchDistance = json['searchDistance'] as int?
+          ..media = json['media'] == null
+              ? null
+              : BasicProfileMixin$Media.fromJson(
+                  json['media'] as Map<String, dynamic>)
+          ..softRejectionNote = json['softRejectionNote'] as String?
+          ..status = $enumDecode(_$DriverStatusEnumMap, json['status'],
+              unknownValue: DriverStatus.artemisUnknown)
+          ..currentOrders = (json['currentOrders'] as List<dynamic>)
+              .map((e) =>
+                  BasicProfileMixin$Order.fromJson(e as Map<String, dynamic>))
+              .toList()
+          ..wallets = (json['wallets'] as List<dynamic>)
+              .map((e) => BasicProfileMixin$DriverWallet.fromJson(
+                  e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$SetDocumentsOnDriver$Mutation$DriverToJson(
+    SetDocumentsOnDriver$Mutation$Driver instance) {
   final val = <String, dynamic>{
     'mobileNumber': instance.mobileNumber,
   };
@@ -51,34 +291,20 @@ Map<String, dynamic> _$Me$Query$DriverToJson(Me$Query$Driver instance) {
   return val;
 }
 
-const _$DriverStatusEnumMap = {
-  DriverStatus.online: 'Online',
-  DriverStatus.offline: 'Offline',
-  DriverStatus.blocked: 'Blocked',
-  DriverStatus.inService: 'InService',
-  DriverStatus.waitingDocuments: 'WaitingDocuments',
-  DriverStatus.pendingApproval: 'PendingApproval',
-  DriverStatus.softReject: 'SoftReject',
-  DriverStatus.hardReject: 'HardReject',
-  DriverStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
+SetDocumentsOnDriver$Mutation _$SetDocumentsOnDriver$MutationFromJson(
+        Map<String, dynamic> json) =>
+    SetDocumentsOnDriver$Mutation()
+      ..updateOneDriver = SetDocumentsOnDriver$Mutation$Driver.fromJson(
+          json['updateOneDriver'] as Map<String, dynamic>)
+      ..setDocumentsOnDriver = SetDocumentsOnDriver$Mutation$Driver.fromJson(
+          json['setDocumentsOnDriver'] as Map<String, dynamic>);
 
-Me$Query _$Me$QueryFromJson(Map<String, dynamic> json) => Me$Query()
-  ..driver = Me$Query$Driver.fromJson(json['driver'] as Map<String, dynamic>)
-  ..requireUpdate = $enumDecode(_$VersionStatusEnumMap, json['requireUpdate'],
-      unknownValue: VersionStatus.artemisUnknown);
-
-Map<String, dynamic> _$Me$QueryToJson(Me$Query instance) => <String, dynamic>{
-      'driver': instance.driver.toJson(),
-      'requireUpdate': _$VersionStatusEnumMap[instance.requireUpdate]!,
+Map<String, dynamic> _$SetDocumentsOnDriver$MutationToJson(
+        SetDocumentsOnDriver$Mutation instance) =>
+    <String, dynamic>{
+      'updateOneDriver': instance.updateOneDriver.toJson(),
+      'setDocumentsOnDriver': instance.setDocumentsOnDriver.toJson(),
     };
-
-const _$VersionStatusEnumMap = {
-  VersionStatus.latest: 'Latest',
-  VersionStatus.mandatoryUpdate: 'MandatoryUpdate',
-  VersionStatus.optionalUpdate: 'OptionalUpdate',
-  VersionStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
 
 BasicProfileMixin$Media _$BasicProfileMixin$MediaFromJson(
         Map<String, dynamic> json) =>
@@ -280,6 +506,88 @@ Map<String, dynamic> _$CurrentOrderMixin$PassengerToJson(
   writeNotNull('media', instance.media?.toJson());
   return val;
 }
+
+DeleteUser$Mutation$Driver _$DeleteUser$Mutation$DriverFromJson(
+        Map<String, dynamic> json) =>
+    DeleteUser$Mutation$Driver()..id = json['id'] as String;
+
+Map<String, dynamic> _$DeleteUser$Mutation$DriverToJson(
+        DeleteUser$Mutation$Driver instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+DeleteUser$Mutation _$DeleteUser$MutationFromJson(Map<String, dynamic> json) =>
+    DeleteUser$Mutation()
+      ..deleteUser = DeleteUser$Mutation$Driver.fromJson(
+          json['deleteUser'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$DeleteUser$MutationToJson(
+        DeleteUser$Mutation instance) =>
+    <String, dynamic>{
+      'deleteUser': instance.deleteUser.toJson(),
+    };
+
+Me$Query$Driver _$Me$Query$DriverFromJson(Map<String, dynamic> json) =>
+    Me$Query$Driver()
+      ..mobileNumber = json['mobileNumber'] as String
+      ..firstName = json['firstName'] as String?
+      ..lastName = json['lastName'] as String?
+      ..searchDistance = json['searchDistance'] as int?
+      ..media = json['media'] == null
+          ? null
+          : BasicProfileMixin$Media.fromJson(
+              json['media'] as Map<String, dynamic>)
+      ..softRejectionNote = json['softRejectionNote'] as String?
+      ..status = $enumDecode(_$DriverStatusEnumMap, json['status'],
+          unknownValue: DriverStatus.artemisUnknown)
+      ..currentOrders = (json['currentOrders'] as List<dynamic>)
+          .map((e) =>
+              BasicProfileMixin$Order.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..wallets = (json['wallets'] as List<dynamic>)
+          .map((e) => BasicProfileMixin$DriverWallet.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$Me$Query$DriverToJson(Me$Query$Driver instance) {
+  final val = <String, dynamic>{
+    'mobileNumber': instance.mobileNumber,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  writeNotNull('searchDistance', instance.searchDistance);
+  writeNotNull('media', instance.media?.toJson());
+  writeNotNull('softRejectionNote', instance.softRejectionNote);
+  val['status'] = _$DriverStatusEnumMap[instance.status]!;
+  val['currentOrders'] = instance.currentOrders.map((e) => e.toJson()).toList();
+  val['wallets'] = instance.wallets.map((e) => e.toJson()).toList();
+  return val;
+}
+
+Me$Query _$Me$QueryFromJson(Map<String, dynamic> json) => Me$Query()
+  ..driver = Me$Query$Driver.fromJson(json['driver'] as Map<String, dynamic>)
+  ..requireUpdate = $enumDecode(_$VersionStatusEnumMap, json['requireUpdate'],
+      unknownValue: VersionStatus.artemisUnknown);
+
+Map<String, dynamic> _$Me$QueryToJson(Me$Query instance) => <String, dynamic>{
+      'driver': instance.driver.toJson(),
+      'requireUpdate': _$VersionStatusEnumMap[instance.requireUpdate]!,
+    };
+
+const _$VersionStatusEnumMap = {
+  VersionStatus.latest: 'Latest',
+  VersionStatus.mandatoryUpdate: 'MandatoryUpdate',
+  VersionStatus.optionalUpdate: 'OptionalUpdate',
+  VersionStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
 
 AvailableOrders$Query$Order _$AvailableOrders$Query$OrderFromJson(
         Map<String, dynamic> json) =>
@@ -727,6 +1035,44 @@ Map<String, dynamic> _$UpdateDriverSearchDistance$MutationToJson(
         UpdateDriverSearchDistance$Mutation instance) =>
     <String, dynamic>{
       'updateOneDriver': instance.updateOneDriver.toJson(),
+    };
+
+UpdateProfileArguments _$UpdateProfileArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateProfileArguments(
+      input: UpdateDriverInput.fromJson(json['input'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UpdateProfileArgumentsToJson(
+        UpdateProfileArguments instance) =>
+    <String, dynamic>{
+      'input': instance.input.toJson(),
+    };
+
+LoginArguments _$LoginArgumentsFromJson(Map<String, dynamic> json) =>
+    LoginArguments(
+      firebaseToken: json['firebaseToken'] as String,
+    );
+
+Map<String, dynamic> _$LoginArgumentsToJson(LoginArguments instance) =>
+    <String, dynamic>{
+      'firebaseToken': instance.firebaseToken,
+    };
+
+SetDocumentsOnDriverArguments _$SetDocumentsOnDriverArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    SetDocumentsOnDriverArguments(
+      driverId: json['driverId'] as String,
+      relationIds: (json['relationIds'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$SetDocumentsOnDriverArgumentsToJson(
+        SetDocumentsOnDriverArguments instance) =>
+    <String, dynamic>{
+      'driverId': instance.driverId,
+      'relationIds': instance.relationIds,
     };
 
 MeArguments _$MeArgumentsFromJson(Map<String, dynamic> json) => MeArguments(

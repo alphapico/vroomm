@@ -15,6 +15,7 @@ import 'current_location_cubit.dart';
 
 import 'config.dart';
 
+import 'drawer_view.dart';
 import 'generated/l10n.dart';
 
 import 'main_bloc.dart';
@@ -111,8 +112,9 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
             backgroundColor: CustomTheme.primaryColors.shade100,
             child: BlocBuilder<MainBloc, MainState>(
               builder: (context, state) {
-                //DrawerView
-                return Container();
+                return DrawerView(
+                  driver: state.driver,
+                );
               },
             ),
           ),

@@ -70,12 +70,307 @@ mixin AvailableOrderMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Me$Query$Driver extends JsonSerializable
-    with EquatableMixin, BasicProfileMixin {
-  Me$Query$Driver();
+class UpdateProfile$Mutation$Driver extends JsonSerializable
+    with EquatableMixin {
+  UpdateProfile$Mutation$Driver();
 
-  factory Me$Query$Driver.fromJson(Map<String, dynamic> json) =>
-      _$Me$Query$DriverFromJson(json);
+  factory UpdateProfile$Mutation$Driver.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProfile$Mutation$DriverFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateProfile$Mutation$DriverToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateProfile$Mutation extends JsonSerializable with EquatableMixin {
+  UpdateProfile$Mutation();
+
+  factory UpdateProfile$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProfile$MutationFromJson(json);
+
+  late UpdateProfile$Mutation$Driver updateOneDriver;
+
+  @override
+  List<Object?> get props => [updateOneDriver];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateProfile$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateDriverInput extends JsonSerializable with EquatableMixin {
+  UpdateDriverInput({
+    this.firstName,
+    this.lastName,
+    this.status,
+    this.certificateNumber,
+    this.email,
+    this.carProductionYear,
+    this.carPlate,
+    this.mediaId,
+    this.gender,
+    this.accountNumber,
+    this.bankName,
+    this.bankRoutingNumber,
+    this.bankSwift,
+    this.address,
+    this.carModelId,
+    this.carColorId,
+    this.notificationPlayerId,
+    this.searchDistance,
+  });
+
+  factory UpdateDriverInput.fromJson(Map<String, dynamic> json) =>
+      _$UpdateDriverInputFromJson(json);
+
+  String? firstName;
+
+  String? lastName;
+
+  @JsonKey(unknownEnumValue: DriverStatus.artemisUnknown)
+  DriverStatus? status;
+
+  String? certificateNumber;
+
+  String? email;
+
+  int? carProductionYear;
+
+  String? carPlate;
+
+  String? mediaId;
+
+  @JsonKey(unknownEnumValue: Gender.artemisUnknown)
+  Gender? gender;
+
+  String? accountNumber;
+
+  String? bankName;
+
+  String? bankRoutingNumber;
+
+  String? bankSwift;
+
+  String? address;
+
+  String? carModelId;
+
+  String? carColorId;
+
+  String? notificationPlayerId;
+
+  int? searchDistance;
+
+  @override
+  List<Object?> get props => [
+        firstName,
+        lastName,
+        status,
+        certificateNumber,
+        email,
+        carProductionYear,
+        carPlate,
+        mediaId,
+        gender,
+        accountNumber,
+        bankName,
+        bankRoutingNumber,
+        bankSwift,
+        address,
+        carModelId,
+        carColorId,
+        notificationPlayerId,
+        searchDistance
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateDriverInputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetDriver$Query$Driver$Media extends JsonSerializable
+    with EquatableMixin {
+  GetDriver$Query$Driver$Media();
+
+  factory GetDriver$Query$Driver$Media.fromJson(Map<String, dynamic> json) =>
+      _$GetDriver$Query$Driver$MediaFromJson(json);
+
+  late String id;
+
+  late String address;
+
+  @override
+  List<Object?> get props => [id, address];
+  @override
+  Map<String, dynamic> toJson() => _$GetDriver$Query$Driver$MediaToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetDriver$Query$Driver extends JsonSerializable with EquatableMixin {
+  GetDriver$Query$Driver();
+
+  factory GetDriver$Query$Driver.fromJson(Map<String, dynamic> json) =>
+      _$GetDriver$Query$DriverFromJson(json);
+
+  late String id;
+
+  @JsonKey(unknownEnumValue: DriverStatus.artemisUnknown)
+  late DriverStatus status;
+
+  String? firstName;
+
+  String? lastName;
+
+  @JsonKey(unknownEnumValue: Gender.artemisUnknown)
+  Gender? gender;
+
+  String? email;
+
+  late String mobileNumber;
+
+  String? accountNumber;
+
+  String? bankName;
+
+  String? bankRoutingNumber;
+
+  String? address;
+
+  late List<GetDriver$Query$Driver$Media> documents;
+
+  String? bankSwift;
+
+  GetDriver$Query$Driver$Media? media;
+
+  String? carPlate;
+
+  int? carProductionYear;
+
+  String? certificateNumber;
+
+  String? carColorId;
+
+  String? carModelId;
+
+  @override
+  List<Object?> get props => [
+        id,
+        status,
+        firstName,
+        lastName,
+        gender,
+        email,
+        mobileNumber,
+        accountNumber,
+        bankName,
+        bankRoutingNumber,
+        address,
+        documents,
+        bankSwift,
+        media,
+        carPlate,
+        carProductionYear,
+        certificateNumber,
+        carColorId,
+        carModelId
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$GetDriver$Query$DriverToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetDriver$Query$CarModel extends JsonSerializable with EquatableMixin {
+  GetDriver$Query$CarModel();
+
+  factory GetDriver$Query$CarModel.fromJson(Map<String, dynamic> json) =>
+      _$GetDriver$Query$CarModelFromJson(json);
+
+  late String id;
+
+  late String name;
+
+  @override
+  List<Object?> get props => [id, name];
+  @override
+  Map<String, dynamic> toJson() => _$GetDriver$Query$CarModelToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetDriver$Query$CarColor extends JsonSerializable with EquatableMixin {
+  GetDriver$Query$CarColor();
+
+  factory GetDriver$Query$CarColor.fromJson(Map<String, dynamic> json) =>
+      _$GetDriver$Query$CarColorFromJson(json);
+
+  late String id;
+
+  late String name;
+
+  @override
+  List<Object?> get props => [id, name];
+  @override
+  Map<String, dynamic> toJson() => _$GetDriver$Query$CarColorToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetDriver$Query extends JsonSerializable with EquatableMixin {
+  GetDriver$Query();
+
+  factory GetDriver$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetDriver$QueryFromJson(json);
+
+  late GetDriver$Query$Driver driver;
+
+  late List<GetDriver$Query$CarModel> carModels;
+
+  late List<GetDriver$Query$CarColor> carColors;
+
+  @override
+  List<Object?> get props => [driver, carModels, carColors];
+  @override
+  Map<String, dynamic> toJson() => _$GetDriver$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Login$Mutation$Login extends JsonSerializable with EquatableMixin {
+  Login$Mutation$Login();
+
+  factory Login$Mutation$Login.fromJson(Map<String, dynamic> json) =>
+      _$Login$Mutation$LoginFromJson(json);
+
+  late String jwtToken;
+
+  @override
+  List<Object?> get props => [jwtToken];
+  @override
+  Map<String, dynamic> toJson() => _$Login$Mutation$LoginToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Login$Mutation extends JsonSerializable with EquatableMixin {
+  Login$Mutation();
+
+  factory Login$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$Login$MutationFromJson(json);
+
+  late Login$Mutation$Login login;
+
+  @override
+  List<Object?> get props => [login];
+  @override
+  Map<String, dynamic> toJson() => _$Login$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SetDocumentsOnDriver$Mutation$Driver extends JsonSerializable
+    with EquatableMixin, BasicProfileMixin {
+  SetDocumentsOnDriver$Mutation$Driver();
+
+  factory SetDocumentsOnDriver$Mutation$Driver.fromJson(
+          Map<String, dynamic> json) =>
+      _$SetDocumentsOnDriver$Mutation$DriverFromJson(json);
 
   @override
   List<Object?> get props => [
@@ -90,25 +385,26 @@ class Me$Query$Driver extends JsonSerializable
         wallets
       ];
   @override
-  Map<String, dynamic> toJson() => _$Me$Query$DriverToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$SetDocumentsOnDriver$Mutation$DriverToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class Me$Query extends JsonSerializable with EquatableMixin {
-  Me$Query();
+class SetDocumentsOnDriver$Mutation extends JsonSerializable
+    with EquatableMixin {
+  SetDocumentsOnDriver$Mutation();
 
-  factory Me$Query.fromJson(Map<String, dynamic> json) =>
-      _$Me$QueryFromJson(json);
+  factory SetDocumentsOnDriver$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$SetDocumentsOnDriver$MutationFromJson(json);
 
-  late Me$Query$Driver driver;
+  late SetDocumentsOnDriver$Mutation$Driver updateOneDriver;
 
-  @JsonKey(unknownEnumValue: VersionStatus.artemisUnknown)
-  late VersionStatus requireUpdate;
+  late SetDocumentsOnDriver$Mutation$Driver setDocumentsOnDriver;
 
   @override
-  List<Object?> get props => [driver, requireUpdate];
+  List<Object?> get props => [updateOneDriver, setDocumentsOnDriver];
   @override
-  Map<String, dynamic> toJson() => _$Me$QueryToJson(this);
+  Map<String, dynamic> toJson() => _$SetDocumentsOnDriver$MutationToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -263,6 +559,78 @@ class CurrentOrderMixin$Passenger extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [mobileNumber, firstName, lastName, media];
   @override
   Map<String, dynamic> toJson() => _$CurrentOrderMixin$PassengerToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteUser$Mutation$Driver extends JsonSerializable with EquatableMixin {
+  DeleteUser$Mutation$Driver();
+
+  factory DeleteUser$Mutation$Driver.fromJson(Map<String, dynamic> json) =>
+      _$DeleteUser$Mutation$DriverFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$DeleteUser$Mutation$DriverToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteUser$Mutation extends JsonSerializable with EquatableMixin {
+  DeleteUser$Mutation();
+
+  factory DeleteUser$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$DeleteUser$MutationFromJson(json);
+
+  late DeleteUser$Mutation$Driver deleteUser;
+
+  @override
+  List<Object?> get props => [deleteUser];
+  @override
+  Map<String, dynamic> toJson() => _$DeleteUser$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Me$Query$Driver extends JsonSerializable
+    with EquatableMixin, BasicProfileMixin {
+  Me$Query$Driver();
+
+  factory Me$Query$Driver.fromJson(Map<String, dynamic> json) =>
+      _$Me$Query$DriverFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        mobileNumber,
+        firstName,
+        lastName,
+        searchDistance,
+        media,
+        softRejectionNote,
+        status,
+        currentOrders,
+        wallets
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$Me$Query$DriverToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Me$Query extends JsonSerializable with EquatableMixin {
+  Me$Query();
+
+  factory Me$Query.fromJson(Map<String, dynamic> json) =>
+      _$Me$QueryFromJson(json);
+
+  late Me$Query$Driver driver;
+
+  @JsonKey(unknownEnumValue: VersionStatus.artemisUnknown)
+  late VersionStatus requireUpdate;
+
+  @override
+  List<Object?> get props => [driver, requireUpdate];
+  @override
+  Map<String, dynamic> toJson() => _$Me$QueryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -705,6 +1073,17 @@ enum DriverStatus {
   artemisUnknown,
 }
 
+enum Gender {
+  @JsonValue('Male')
+  male,
+  @JsonValue('Female')
+  female,
+  @JsonValue('Unknown')
+  unknown,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+
 enum OrderStatus {
   @JsonValue('Requested')
   requested,
@@ -774,6 +1153,936 @@ enum VersionStatus {
   optionalUpdate,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateProfileArguments extends JsonSerializable with EquatableMixin {
+  UpdateProfileArguments({required this.input});
+
+  @override
+  factory UpdateProfileArguments.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProfileArgumentsFromJson(json);
+
+  late UpdateDriverInput input;
+
+  @override
+  List<Object?> get props => [input];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateProfileArgumentsToJson(this);
+}
+
+final UPDATE_PROFILE_MUTATION_DOCUMENT_OPERATION_NAME = 'UpdateProfile';
+final UPDATE_PROFILE_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'UpdateProfile'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'input')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'UpdateDriverInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateOneDriver'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'id'),
+                value: StringValueNode(
+                  value: '1',
+                  isBlock: false,
+                ),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'update'),
+                value: VariableNode(name: NameNode(value: 'input')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateProfileMutation
+    extends GraphQLQuery<UpdateProfile$Mutation, UpdateProfileArguments> {
+  UpdateProfileMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_PROFILE_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = UPDATE_PROFILE_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateProfileArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateProfile$Mutation parse(Map<String, dynamic> json) =>
+      UpdateProfile$Mutation.fromJson(json);
+}
+
+final GET_DRIVER_QUERY_DOCUMENT_OPERATION_NAME = 'GetDriver';
+final GET_DRIVER_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetDriver'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'driver'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'id'),
+            value: StringValueNode(
+              value: '1',
+              isBlock: false,
+            ),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'firstName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'lastName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'gender'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'email'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'mobileNumber'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'accountNumber'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'bankName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'bankRoutingNumber'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'address'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'documents'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'id'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'address'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'bankSwift'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'media'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'id'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'address'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'carPlate'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'carProductionYear'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'certificateNumber'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'carColorId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'carModelId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'carModels'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'carColors'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+    ]),
+  )
+]);
+
+class GetDriverQuery extends GraphQLQuery<GetDriver$Query, JsonSerializable> {
+  GetDriverQuery();
+
+  @override
+  final DocumentNode document = GET_DRIVER_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_DRIVER_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  GetDriver$Query parse(Map<String, dynamic> json) =>
+      GetDriver$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class LoginArguments extends JsonSerializable with EquatableMixin {
+  LoginArguments({required this.firebaseToken});
+
+  @override
+  factory LoginArguments.fromJson(Map<String, dynamic> json) =>
+      _$LoginArgumentsFromJson(json);
+
+  late String firebaseToken;
+
+  @override
+  List<Object?> get props => [firebaseToken];
+  @override
+  Map<String, dynamic> toJson() => _$LoginArgumentsToJson(this);
+}
+
+final LOGIN_MUTATION_DOCUMENT_OPERATION_NAME = 'Login';
+final LOGIN_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'Login'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'firebaseToken')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'login'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'firebaseToken'),
+                value: VariableNode(name: NameNode(value: 'firebaseToken')),
+              )
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'jwtToken'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class LoginMutation extends GraphQLQuery<Login$Mutation, LoginArguments> {
+  LoginMutation({required this.variables});
+
+  @override
+  final DocumentNode document = LOGIN_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = LOGIN_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final LoginArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  Login$Mutation parse(Map<String, dynamic> json) =>
+      Login$Mutation.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SetDocumentsOnDriverArguments extends JsonSerializable
+    with EquatableMixin {
+  SetDocumentsOnDriverArguments({
+    required this.driverId,
+    required this.relationIds,
+  });
+
+  @override
+  factory SetDocumentsOnDriverArguments.fromJson(Map<String, dynamic> json) =>
+      _$SetDocumentsOnDriverArgumentsFromJson(json);
+
+  late String driverId;
+
+  late List<String> relationIds;
+
+  @override
+  List<Object?> get props => [driverId, relationIds];
+  @override
+  Map<String, dynamic> toJson() => _$SetDocumentsOnDriverArgumentsToJson(this);
+}
+
+final SET_DOCUMENTS_ON_DRIVER_MUTATION_DOCUMENT_OPERATION_NAME =
+    'SetDocumentsOnDriver';
+final SET_DOCUMENTS_ON_DRIVER_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'SetDocumentsOnDriver'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'driverId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'relationIds')),
+        type: ListTypeNode(
+          type: NamedTypeNode(
+            name: NameNode(value: 'ID'),
+            isNonNull: true,
+          ),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateOneDriver'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'id'),
+                value: VariableNode(name: NameNode(value: 'driverId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'update'),
+                value: ObjectValueNode(fields: [
+                  ObjectFieldNode(
+                    name: NameNode(value: 'status'),
+                    value:
+                        EnumValueNode(name: NameNode(value: 'PendingApproval')),
+                  )
+                ]),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'BasicProfile'),
+            directives: [],
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'setDocumentsOnDriver'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'id'),
+                value: VariableNode(name: NameNode(value: 'driverId')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'relationIds'),
+                value: VariableNode(name: NameNode(value: 'relationIds')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'BasicProfile'),
+            directives: [],
+          )
+        ]),
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'BasicProfile'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Driver'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'mobileNumber'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'firstName'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'lastName'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'searchDistance'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'media'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'address'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'softRejectionNote'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'currentOrders'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'CurrentOrder'),
+            directives: [],
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'wallets'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'balance'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'currency'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'CurrentOrder'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Order'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'createdOn'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'expectedTimestamp'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'status'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'currency'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'costBest'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'costAfterCoupon'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'paidAmount'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'etaPickup'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'tipAmount'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'directions'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'Point'),
+            directives: [],
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'points'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'Point'),
+            directives: [],
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'service'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'options'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'name'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'icon'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'addresses'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'passenger'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'mobileNumber'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'firstName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'lastName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'media'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'address'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              )
+            ]),
+          ),
+        ]),
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'Point'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Point'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'lat'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'lng'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class SetDocumentsOnDriverMutation extends GraphQLQuery<
+    SetDocumentsOnDriver$Mutation, SetDocumentsOnDriverArguments> {
+  SetDocumentsOnDriverMutation({required this.variables});
+
+  @override
+  final DocumentNode document = SET_DOCUMENTS_ON_DRIVER_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      SET_DOCUMENTS_ON_DRIVER_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final SetDocumentsOnDriverArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  SetDocumentsOnDriver$Mutation parse(Map<String, dynamic> json) =>
+      SetDocumentsOnDriver$Mutation.fromJson(json);
+}
+
+final DELETE_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'DeleteUser';
+final DELETE_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'DeleteUser'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'deleteUser'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class DeleteUserMutation
+    extends GraphQLQuery<DeleteUser$Mutation, JsonSerializable> {
+  DeleteUserMutation();
+
+  @override
+  final DocumentNode document = DELETE_USER_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = DELETE_USER_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  DeleteUser$Mutation parse(Map<String, dynamic> json) =>
+      DeleteUser$Mutation.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)
