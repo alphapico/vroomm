@@ -33,6 +33,8 @@ import 'graphql_provider.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'notice_bar.dart';
+import 'order_status_card_view.dart';
+import 'orders_carousel_view.dart';
 import 'query_result_view.dart';
 import 'unregistered_driver_messages_view.dart';
 
@@ -225,8 +227,7 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                           width:
                                               MediaQuery.of(context).size.width,
                                           height: 350,
-                                          child: //OrdersCarouselView
-                                              Container()),
+                                          child: OrdersCarouselView()),
                                     ),
                                   if (state is StatusInService &&
                                       state.driver!.currentOrders.isNotEmpty)
@@ -248,8 +249,9 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
-                                                child: //OrderStatusCardView
-                                                    Container());
+                                                child: OrderStatusCardView(
+                                                    order: state.driver!
+                                                        .currentOrders.first));
                                           }),
                                     ),
                                 ]);
