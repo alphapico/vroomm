@@ -44,6 +44,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_map: ^1.1.0
+  flutter_map_location_marker: ^4.0.1
   flutter_svg: ^1.1.0
   flutter_vector_icons: ^1.0.0
   geolocator: ^8.0.1
