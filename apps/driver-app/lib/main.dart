@@ -32,6 +32,7 @@ import 'graphql/generated/graphql_api.dart';
 import 'graphql_provider.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'map_providers/google_map_provider.dart';
 import 'map_providers/open_street_map_provider.dart';
 import 'notice_bar.dart';
 import 'order_status_card_view.dart';
@@ -192,23 +193,22 @@ class MyHomePage extends StatelessWidget with WidgetsBindingObserver {
                                       mapProvider == MapProvider.mapBox)
                                     OpenStreetMapProvider(),
                                   if (mapProvider == MapProvider.googleMap)
-                                    // GoogleMapProvider,
-                                    SafeArea(
-                                      minimum: const EdgeInsets.all(16),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          _getMenuButton(),
+                                    GoogleMapProvider(),
+                                  SafeArea(
+                                    minimum: const EdgeInsets.all(16),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _getMenuButton(),
+                                        const Spacer(),
+                                        _getWalletButton(context, state),
+                                        if (state is! StatusInService)
                                           const Spacer(),
-                                          _getWalletButton(context, state),
-                                          if (state is! StatusInService)
-                                            const Spacer(),
-                                          _getOnlineOfflineButton(
-                                              context, state)
-                                        ],
-                                      ),
+                                        _getOnlineOfflineButton(context, state)
+                                      ],
                                     ),
+                                  ),
                                   if (state is StatusOffline ||
                                       (state is StatusOnline &&
                                           state.orders.isEmpty))
