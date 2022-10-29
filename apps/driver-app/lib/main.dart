@@ -37,6 +37,7 @@ import 'map_providers/open_street_map_provider.dart';
 import 'notice_bar.dart';
 import 'order_status_card_view.dart';
 import 'orders_carousel_view.dart';
+import 'profile/profile_view.dart';
 import 'query_result_view.dart';
 import 'unregistered_driver_messages_view.dart';
 
@@ -85,6 +86,9 @@ class MyApp extends StatelessWidget {
                   GlobalWidgetsLocalizations.delegate,
                 ],
                 supportedLocales: S.delegate.supportedLocales,
+                routes: {
+                  'register': (context) => const ProfileView(),
+                },
                 theme: CustomTheme.theme1,
                 home: MyHomePage()),
           ),

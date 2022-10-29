@@ -45,3 +45,6 @@ app.*.map.json
 
 # images
 images/**
+
+# firebase
+ios/GoogleService-Info.plist

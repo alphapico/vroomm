@@ -207,8 +207,10 @@ Map<String, dynamic> _$GetDriver$Query$CarColorToJson(
 
 GetDriver$Query _$GetDriver$QueryFromJson(Map<String, dynamic> json) =>
     GetDriver$Query()
-      ..driver = GetDriver$Query$Driver.fromJson(
-          json['driver'] as Map<String, dynamic>)
+      ..driver = json['driver'] == null
+          ? null
+          : GetDriver$Query$Driver.fromJson(
+              json['driver'] as Map<String, dynamic>)
       ..carModels = (json['carModels'] as List<dynamic>)
           .map((e) =>
               GetDriver$Query$CarModel.fromJson(e as Map<String, dynamic>))
@@ -218,12 +220,20 @@ GetDriver$Query _$GetDriver$QueryFromJson(Map<String, dynamic> json) =>
               GetDriver$Query$CarColor.fromJson(e as Map<String, dynamic>))
           .toList();
 
-Map<String, dynamic> _$GetDriver$QueryToJson(GetDriver$Query instance) =>
-    <String, dynamic>{
-      'driver': instance.driver.toJson(),
-      'carModels': instance.carModels.map((e) => e.toJson()).toList(),
-      'carColors': instance.carColors.map((e) => e.toJson()).toList(),
-    };
+Map<String, dynamic> _$GetDriver$QueryToJson(GetDriver$Query instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('driver', instance.driver?.toJson());
+  val['carModels'] = instance.carModels.map((e) => e.toJson()).toList();
+  val['carColors'] = instance.carColors.map((e) => e.toJson()).toList();
+  return val;
+}
 
 Login$Mutation$Login _$Login$Mutation$LoginFromJson(
         Map<String, dynamic> json) =>
@@ -573,14 +583,25 @@ Map<String, dynamic> _$Me$Query$DriverToJson(Me$Query$Driver instance) {
 }
 
 Me$Query _$Me$QueryFromJson(Map<String, dynamic> json) => Me$Query()
-  ..driver = Me$Query$Driver.fromJson(json['driver'] as Map<String, dynamic>)
+  ..driver = json['driver'] == null
+      ? null
+      : Me$Query$Driver.fromJson(json['driver'] as Map<String, dynamic>)
   ..requireUpdate = $enumDecode(_$VersionStatusEnumMap, json['requireUpdate'],
       unknownValue: VersionStatus.artemisUnknown);
 
-Map<String, dynamic> _$Me$QueryToJson(Me$Query instance) => <String, dynamic>{
-      'driver': instance.driver.toJson(),
-      'requireUpdate': _$VersionStatusEnumMap[instance.requireUpdate]!,
-    };
+Map<String, dynamic> _$Me$QueryToJson(Me$Query instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('driver', instance.driver?.toJson());
+  val['requireUpdate'] = _$VersionStatusEnumMap[instance.requireUpdate]!;
+  return val;
+}
 
 const _$VersionStatusEnumMap = {
   VersionStatus.latest: 'Latest',

@@ -5,7 +5,8 @@ import 'package:latlong2/latlong.dart';
 
 // String serverIP = "x.x.x.x";
 // 10.0.2.2 // android localhost
-String serverIP = "10.0.2.2";
+// localhost or mini.local // ios localhost
+String serverIP = "localhost";
 
 bool demoMode = false;
 String companyName = "vroom";

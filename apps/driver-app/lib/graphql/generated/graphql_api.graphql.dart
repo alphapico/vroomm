@@ -321,7 +321,7 @@ class GetDriver$Query extends JsonSerializable with EquatableMixin {
   factory GetDriver$Query.fromJson(Map<String, dynamic> json) =>
       _$GetDriver$QueryFromJson(json);
 
-  late GetDriver$Query$Driver driver;
+  GetDriver$Query$Driver? driver;
 
   late List<GetDriver$Query$CarModel> carModels;
 
@@ -622,7 +622,7 @@ class Me$Query extends JsonSerializable with EquatableMixin {
   factory Me$Query.fromJson(Map<String, dynamic> json) =>
       _$Me$QueryFromJson(json);
 
-  late Me$Query$Driver driver;
+  Me$Query$Driver? driver;
 
   @JsonKey(unknownEnumValue: VersionStatus.artemisUnknown)
   late VersionStatus requireUpdate;

@@ -786,7 +786,7 @@ type Query {
   driver(
     """The id of the record to find."""
     id: ID!
-  ): Driver
+  ): Driver!
   carModels(
     """Specify to filter the records returned."""
     filter: CarModelFilter = {}
@@ -808,7 +808,7 @@ type Query {
   order(
     """The id of the record to find."""
     id: ID!
-  ): Order
+  ): Order!
   orders(
     """Limit or page results."""
     paging: CursorPaging = {first: 10}
