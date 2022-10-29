@@ -68,6 +68,10 @@ mixin AvailableOrderMixin {
   late AvailableOrderMixin$Service service;
   late List<AvailableOrderMixin$Point> points;
 }
+mixin HistoryOrderItemMixin {
+  late List<HistoryOrderItemMixin$OrderEdge> edges;
+  late HistoryOrderItemMixin$PageInfo pageInfo;
+}
 
 @JsonSerializable(explicitToJson: true)
 class UpdateProfile$Mutation$Driver extends JsonSerializable
@@ -1050,6 +1054,258 @@ class UpdateDriverSearchDistance$Mutation extends JsonSerializable
   @override
   Map<String, dynamic> toJson() =>
       _$UpdateDriverSearchDistance$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class History$Query$OrderConnection extends JsonSerializable
+    with EquatableMixin, HistoryOrderItemMixin {
+  History$Query$OrderConnection();
+
+  factory History$Query$OrderConnection.fromJson(Map<String, dynamic> json) =>
+      _$History$Query$OrderConnectionFromJson(json);
+
+  @override
+  List<Object?> get props => [edges, pageInfo];
+  @override
+  Map<String, dynamic> toJson() => _$History$Query$OrderConnectionToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class History$Query extends JsonSerializable with EquatableMixin {
+  History$Query();
+
+  factory History$Query.fromJson(Map<String, dynamic> json) =>
+      _$History$QueryFromJson(json);
+
+  late History$Query$OrderConnection orders;
+
+  @override
+  List<Object?> get props => [orders];
+  @override
+  Map<String, dynamic> toJson() => _$History$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HistoryOrderItemMixin$OrderEdge$Order$Service extends JsonSerializable
+    with EquatableMixin {
+  HistoryOrderItemMixin$OrderEdge$Order$Service();
+
+  factory HistoryOrderItemMixin$OrderEdge$Order$Service.fromJson(
+          Map<String, dynamic> json) =>
+      _$HistoryOrderItemMixin$OrderEdge$Order$ServiceFromJson(json);
+
+  late String name;
+
+  @override
+  List<Object?> get props => [name];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$HistoryOrderItemMixin$OrderEdge$Order$ServiceToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HistoryOrderItemMixin$OrderEdge$Order extends JsonSerializable
+    with EquatableMixin {
+  HistoryOrderItemMixin$OrderEdge$Order();
+
+  factory HistoryOrderItemMixin$OrderEdge$Order.fromJson(
+          Map<String, dynamic> json) =>
+      _$HistoryOrderItemMixin$OrderEdge$OrderFromJson(json);
+
+  late String id;
+
+  @JsonKey(unknownEnumValue: OrderStatus.artemisUnknown)
+  late OrderStatus status;
+
+  @JsonKey(
+      fromJson: fromGraphQLTimestampToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLTimestamp)
+  late DateTime createdOn;
+
+  late String currency;
+
+  late double costAfterCoupon;
+
+  late double providerShare;
+
+  late HistoryOrderItemMixin$OrderEdge$Order$Service service;
+
+  @override
+  List<Object?> get props => [
+        id,
+        status,
+        createdOn,
+        currency,
+        costAfterCoupon,
+        providerShare,
+        service
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$HistoryOrderItemMixin$OrderEdge$OrderToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HistoryOrderItemMixin$OrderEdge extends JsonSerializable
+    with EquatableMixin {
+  HistoryOrderItemMixin$OrderEdge();
+
+  factory HistoryOrderItemMixin$OrderEdge.fromJson(Map<String, dynamic> json) =>
+      _$HistoryOrderItemMixin$OrderEdgeFromJson(json);
+
+  late HistoryOrderItemMixin$OrderEdge$Order node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$HistoryOrderItemMixin$OrderEdgeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class HistoryOrderItemMixin$PageInfo extends JsonSerializable
+    with EquatableMixin {
+  HistoryOrderItemMixin$PageInfo();
+
+  factory HistoryOrderItemMixin$PageInfo.fromJson(Map<String, dynamic> json) =>
+      _$HistoryOrderItemMixin$PageInfoFromJson(json);
+
+  bool? hasNextPage;
+
+  @JsonKey(
+      fromJson: fromGraphQLConnectionCursorNullableToDartStringNullable,
+      toJson: fromDartStringNullableToGraphQLConnectionCursorNullable)
+  String? endCursor;
+
+  @JsonKey(
+      fromJson: fromGraphQLConnectionCursorNullableToDartStringNullable,
+      toJson: fromDartStringNullableToGraphQLConnectionCursorNullable)
+  String? startCursor;
+
+  bool? hasPreviousPage;
+
+  @override
+  List<Object?> get props =>
+      [hasNextPage, endCursor, startCursor, hasPreviousPage];
+  @override
+  Map<String, dynamic> toJson() => _$HistoryOrderItemMixin$PageInfoToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetOrderDetails$Query$Order$Point extends JsonSerializable
+    with EquatableMixin, PointMixin {
+  GetOrderDetails$Query$Order$Point();
+
+  factory GetOrderDetails$Query$Order$Point.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetOrderDetails$Query$Order$PointFromJson(json);
+
+  @override
+  List<Object?> get props => [lat, lng];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetOrderDetails$Query$Order$PointToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetOrderDetails$Query$Order extends JsonSerializable with EquatableMixin {
+  GetOrderDetails$Query$Order();
+
+  factory GetOrderDetails$Query$Order.fromJson(Map<String, dynamic> json) =>
+      _$GetOrderDetails$Query$OrderFromJson(json);
+
+  late List<GetOrderDetails$Query$Order$Point> points;
+
+  late List<String> addresses;
+
+  late double costBest;
+
+  late String currency;
+
+  @JsonKey(
+      fromJson: fromGraphQLTimestampNullableToDartDateTimeNullable,
+      toJson: fromDartDateTimeNullableToGraphQLTimestampNullable)
+  DateTime? startTimestamp;
+
+  @JsonKey(
+      fromJson: fromGraphQLTimestampNullableToDartDateTimeNullable,
+      toJson: fromDartDateTimeNullableToGraphQLTimestampNullable)
+  DateTime? finishTimestamp;
+
+  late int distanceBest;
+
+  late int durationBest;
+
+  String? paymentGatewayId;
+
+  @JsonKey(
+      fromJson: fromGraphQLTimestampToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLTimestamp)
+  late DateTime expectedTimestamp;
+
+  @override
+  List<Object?> get props => [
+        points,
+        addresses,
+        costBest,
+        currency,
+        startTimestamp,
+        finishTimestamp,
+        distanceBest,
+        durationBest,
+        paymentGatewayId,
+        expectedTimestamp
+      ];
+  @override
+  Map<String, dynamic> toJson() => _$GetOrderDetails$Query$OrderToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetOrderDetails$Query extends JsonSerializable with EquatableMixin {
+  GetOrderDetails$Query();
+
+  factory GetOrderDetails$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetOrderDetails$QueryFromJson(json);
+
+  GetOrderDetails$Query$Order? order;
+
+  @override
+  List<Object?> get props => [order];
+  @override
+  Map<String, dynamic> toJson() => _$GetOrderDetails$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SubmitComplaint$Mutation$Complaint extends JsonSerializable
+    with EquatableMixin {
+  SubmitComplaint$Mutation$Complaint();
+
+  factory SubmitComplaint$Mutation$Complaint.fromJson(
+          Map<String, dynamic> json) =>
+      _$SubmitComplaint$Mutation$ComplaintFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$SubmitComplaint$Mutation$ComplaintToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SubmitComplaint$Mutation extends JsonSerializable with EquatableMixin {
+  SubmitComplaint$Mutation();
+
+  factory SubmitComplaint$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$SubmitComplaint$MutationFromJson(json);
+
+  late SubmitComplaint$Mutation$Complaint createOneComplaint;
+
+  @override
+  List<Object?> get props => [createOneComplaint];
+  @override
+  Map<String, dynamic> toJson() => _$SubmitComplaint$MutationToJson(this);
 }
 
 enum DriverStatus {
@@ -4169,4 +4425,485 @@ class UpdateDriverSearchDistanceMutation extends GraphQLQuery<
   @override
   UpdateDriverSearchDistance$Mutation parse(Map<String, dynamic> json) =>
       UpdateDriverSearchDistance$Mutation.fromJson(json);
+}
+
+final HISTORY_QUERY_DOCUMENT_OPERATION_NAME = 'History';
+final HISTORY_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'History'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'orders'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'sorting'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'field'),
+                value: EnumValueNode(name: NameNode(value: 'id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'direction'),
+                value: EnumValueNode(name: NameNode(value: 'DESC')),
+              ),
+            ]),
+          ),
+          ArgumentNode(
+            name: NameNode(value: 'paging'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'first'),
+                value: IntValueNode(value: '20'),
+              )
+            ]),
+          ),
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'historyOrderItem'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'historyOrderItem'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'OrderConnection'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'edges'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'node'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'id'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'status'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'createdOn'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'currency'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'costAfterCoupon'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'providerShare'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'service'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'name'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  )
+                ]),
+              ),
+            ]),
+          )
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'pageInfo'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'hasNextPage'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'endCursor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'startCursor'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'hasPreviousPage'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+    ]),
+  ),
+]);
+
+class HistoryQuery extends GraphQLQuery<History$Query, JsonSerializable> {
+  HistoryQuery();
+
+  @override
+  final DocumentNode document = HISTORY_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = HISTORY_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  History$Query parse(Map<String, dynamic> json) =>
+      History$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetOrderDetailsArguments extends JsonSerializable with EquatableMixin {
+  GetOrderDetailsArguments({required this.id});
+
+  @override
+  factory GetOrderDetailsArguments.fromJson(Map<String, dynamic> json) =>
+      _$GetOrderDetailsArgumentsFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$GetOrderDetailsArgumentsToJson(this);
+}
+
+final GET_ORDER_DETAILS_QUERY_DOCUMENT_OPERATION_NAME = 'GetOrderDetails';
+final GET_ORDER_DETAILS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetOrderDetails'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'order'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'id'),
+            value: VariableNode(name: NameNode(value: 'id')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'points'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'Point'),
+                directives: [],
+              )
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'addresses'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'costBest'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'currency'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'startTimestamp'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'finishTimestamp'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'distanceBest'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'durationBest'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'paymentGatewayId'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'expectedTimestamp'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'Point'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Point'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'lat'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'lng'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetOrderDetailsQuery
+    extends GraphQLQuery<GetOrderDetails$Query, GetOrderDetailsArguments> {
+  GetOrderDetailsQuery({required this.variables});
+
+  @override
+  final DocumentNode document = GET_ORDER_DETAILS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_ORDER_DETAILS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final GetOrderDetailsArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  GetOrderDetails$Query parse(Map<String, dynamic> json) =>
+      GetOrderDetails$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SubmitComplaintArguments extends JsonSerializable with EquatableMixin {
+  SubmitComplaintArguments({
+    required this.id,
+    required this.subject,
+    required this.content,
+  });
+
+  @override
+  factory SubmitComplaintArguments.fromJson(Map<String, dynamic> json) =>
+      _$SubmitComplaintArgumentsFromJson(json);
+
+  late String id;
+
+  late String subject;
+
+  late String content;
+
+  @override
+  List<Object?> get props => [id, subject, content];
+  @override
+  Map<String, dynamic> toJson() => _$SubmitComplaintArgumentsToJson(this);
+}
+
+final SUBMIT_COMPLAINT_MUTATION_DOCUMENT_OPERATION_NAME = 'SubmitComplaint';
+final SUBMIT_COMPLAINT_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'SubmitComplaint'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'subject')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'content')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'createOneComplaint'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'complaint'),
+                value: ObjectValueNode(fields: [
+                  ObjectFieldNode(
+                    name: NameNode(value: 'requestId'),
+                    value: VariableNode(name: NameNode(value: 'id')),
+                  ),
+                  ObjectFieldNode(
+                    name: NameNode(value: 'requestedByDriver'),
+                    value: BooleanValueNode(value: false),
+                  ),
+                  ObjectFieldNode(
+                    name: NameNode(value: 'subject'),
+                    value: VariableNode(name: NameNode(value: 'subject')),
+                  ),
+                  ObjectFieldNode(
+                    name: NameNode(value: 'content'),
+                    value: VariableNode(name: NameNode(value: 'content')),
+                  ),
+                ]),
+              )
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class SubmitComplaintMutation
+    extends GraphQLQuery<SubmitComplaint$Mutation, SubmitComplaintArguments> {
+  SubmitComplaintMutation({required this.variables});
+
+  @override
+  final DocumentNode document = SUBMIT_COMPLAINT_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName =
+      SUBMIT_COMPLAINT_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final SubmitComplaintArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  SubmitComplaint$Mutation parse(Map<String, dynamic> json) =>
+      SubmitComplaint$Mutation.fromJson(json);
 }

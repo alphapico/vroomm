@@ -39,6 +39,7 @@ import 'order_status_card_view.dart';
 import 'orders_carousel_view.dart';
 import 'profile/profile_view.dart';
 import 'query_result_view.dart';
+import 'trip-history/trip_history_list_view.dart';
 import 'unregistered_driver_messages_view.dart';
 
 // ignore: avoid_void_async
@@ -88,6 +89,7 @@ class MyApp extends StatelessWidget {
                 supportedLocales: S.delegate.supportedLocales,
                 routes: {
                   'register': (context) => const ProfileView(),
+                  'trip-history': (context) => const TripHistoryListView(),
                 },
                 theme: CustomTheme.theme1,
                 home: MyHomePage()),

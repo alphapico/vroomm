@@ -813,7 +813,7 @@ packages:
     source: hosted
     version: "1.0.3"
   modal_bottom_sheet:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: modal_bottom_sheet
       url: "https://pub.dartlang.org"
