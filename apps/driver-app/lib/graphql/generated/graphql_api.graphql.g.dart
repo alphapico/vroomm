@@ -1278,6 +1278,34 @@ Map<String, dynamic> _$SubmitComplaint$MutationToJson(
       'createOneComplaint': instance.createOneComplaint.toJson(),
     };
 
+Announcements$Query$Announcement _$Announcements$Query$AnnouncementFromJson(
+        Map<String, dynamic> json) =>
+    Announcements$Query$Announcement()
+      ..title = json['title'] as String
+      ..description = json['description'] as String
+      ..startAt = fromGraphQLTimestampToDartDateTime(json['startAt'] as int);
+
+Map<String, dynamic> _$Announcements$Query$AnnouncementToJson(
+        Announcements$Query$Announcement instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'description': instance.description,
+      'startAt': fromDartDateTimeToGraphQLTimestamp(instance.startAt),
+    };
+
+Announcements$Query _$Announcements$QueryFromJson(Map<String, dynamic> json) =>
+    Announcements$Query()
+      ..announcements = (json['announcements'] as List<dynamic>)
+          .map((e) => Announcements$Query$Announcement.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$Announcements$QueryToJson(
+        Announcements$Query instance) =>
+    <String, dynamic>{
+      'announcements': instance.announcements.map((e) => e.toJson()).toList(),
+    };
+
 UpdateProfileArguments _$UpdateProfileArgumentsFromJson(
         Map<String, dynamic> json) =>
     UpdateProfileArguments(

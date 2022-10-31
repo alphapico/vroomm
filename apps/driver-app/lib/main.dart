@@ -11,6 +11,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import 'announcements/announcements_view.dart';
 import 'current_location_cubit.dart';
 
 import 'config.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
                 routes: {
                   'register': (context) => const ProfileView(),
                   'trip-history': (context) => const TripHistoryListView(),
+                  'announcements': (context) => const AnnouncementsView(),
                 },
                 theme: CustomTheme.theme1,
                 home: MyHomePage()),

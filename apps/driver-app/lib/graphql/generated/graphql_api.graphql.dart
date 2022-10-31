@@ -1308,6 +1308,46 @@ class SubmitComplaint$Mutation extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$SubmitComplaint$MutationToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
+class Announcements$Query$Announcement extends JsonSerializable
+    with EquatableMixin {
+  Announcements$Query$Announcement();
+
+  factory Announcements$Query$Announcement.fromJson(
+          Map<String, dynamic> json) =>
+      _$Announcements$Query$AnnouncementFromJson(json);
+
+  late String title;
+
+  late String description;
+
+  @JsonKey(
+      fromJson: fromGraphQLTimestampToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLTimestamp)
+  late DateTime startAt;
+
+  @override
+  List<Object?> get props => [title, description, startAt];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$Announcements$Query$AnnouncementToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Announcements$Query extends JsonSerializable with EquatableMixin {
+  Announcements$Query();
+
+  factory Announcements$Query.fromJson(Map<String, dynamic> json) =>
+      _$Announcements$QueryFromJson(json);
+
+  late List<Announcements$Query$Announcement> announcements;
+
+  @override
+  List<Object?> get props => [announcements];
+  @override
+  Map<String, dynamic> toJson() => _$Announcements$QueryToJson(this);
+}
+
 enum DriverStatus {
   @JsonValue('Online')
   online,
@@ -4906,4 +4946,62 @@ class SubmitComplaintMutation
   @override
   SubmitComplaint$Mutation parse(Map<String, dynamic> json) =>
       SubmitComplaint$Mutation.fromJson(json);
+}
+
+final ANNOUNCEMENTS_QUERY_DOCUMENT_OPERATION_NAME = 'Announcements';
+final ANNOUNCEMENTS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'Announcements'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'announcements'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'title'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'description'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'startAt'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class AnnouncementsQuery
+    extends GraphQLQuery<Announcements$Query, JsonSerializable> {
+  AnnouncementsQuery();
+
+  @override
+  final DocumentNode document = ANNOUNCEMENTS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = ANNOUNCEMENTS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  Announcements$Query parse(Map<String, dynamic> json) =>
+      Announcements$Query.fromJson(json);
 }
