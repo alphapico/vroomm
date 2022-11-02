@@ -12,6 +12,7 @@ import 'package:lifecycle/lifecycle.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'announcements/announcements_view.dart';
+import 'chat/chat_view.dart';
 import 'current_location_cubit.dart';
 
 import 'config.dart';
@@ -52,8 +53,8 @@ void main() async {
   await Firebase.initializeApp();
   await Hive.openBox('user');
   await CountryCodes.init();
-  // final locale = CountryCode.fromDialCode('+60');
-  final locale = CountryCodes.detailsForLocale();
+  final locale = CountryCode.fromDialCode('+60');
+  // final locale = CountryCodes.detailsForLocale();
   if (locale.dialCode != null) {
     defaultCountryCode = locale.dialCode!;
   }
@@ -94,6 +95,7 @@ class MyApp extends StatelessWidget {
                   'trip-history': (context) => const TripHistoryListView(),
                   'announcements': (context) => const AnnouncementsView(),
                   'earnings': (context) => const EarningsView(),
+                  'chat': (context) => const ChatView(),
                 },
                 theme: CustomTheme.theme1,
                 home: MyHomePage()),
