@@ -17,6 +17,7 @@ import 'current_location_cubit.dart';
 import 'config.dart';
 
 import 'drawer_view.dart';
+import 'earnings/earnings_view.dart';
 import 'generated/l10n.dart';
 
 import 'main_bloc.dart';
@@ -92,6 +93,7 @@ class MyApp extends StatelessWidget {
                   'register': (context) => const ProfileView(),
                   'trip-history': (context) => const TripHistoryListView(),
                   'announcements': (context) => const AnnouncementsView(),
+                  'earnings': (context) => const EarningsView(),
                 },
                 theme: CustomTheme.theme1,
                 home: MyHomePage()),
