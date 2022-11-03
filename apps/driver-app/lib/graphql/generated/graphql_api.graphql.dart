@@ -1749,6 +1749,259 @@ class UpdateDriverSearchDistance$Mutation extends JsonSerializable
       _$UpdateDriverSearchDistance$MutationToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
+class Wallet$Query$DriverWallet extends JsonSerializable with EquatableMixin {
+  Wallet$Query$DriverWallet();
+
+  factory Wallet$Query$DriverWallet.fromJson(Map<String, dynamic> json) =>
+      _$Wallet$Query$DriverWalletFromJson(json);
+
+  late String id;
+
+  late double balance;
+
+  late String currency;
+
+  @override
+  List<Object?> get props => [id, balance, currency];
+  @override
+  Map<String, dynamic> toJson() => _$Wallet$Query$DriverWalletToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion
+    extends JsonSerializable with EquatableMixin {
+  Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion();
+
+  factory Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion.fromJson(
+          Map<String, dynamic> json) =>
+      _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacionFromJson(
+          json);
+
+  @JsonKey(
+      fromJson: fromGraphQLTimestampToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLTimestamp)
+  late DateTime createdAt;
+
+  late double amount;
+
+  late String currency;
+
+  String? refrenceNumber;
+
+  @JsonKey(unknownEnumValue: DriverDeductTransactionType.artemisUnknown)
+  DriverDeductTransactionType? deductType;
+
+  @JsonKey(unknownEnumValue: TransactionAction.artemisUnknown)
+  late TransactionAction action;
+
+  @JsonKey(unknownEnumValue: DriverRechargeTransactionType.artemisUnknown)
+  DriverRechargeTransactionType? rechargeType;
+
+  @override
+  List<Object?> get props => [
+        createdAt,
+        amount,
+        currency,
+        refrenceNumber,
+        deductType,
+        action,
+        rechargeType
+      ];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacionToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Wallet$Query$DriverTransacionConnection$DriverTransacionEdge
+    extends JsonSerializable with EquatableMixin {
+  Wallet$Query$DriverTransacionConnection$DriverTransacionEdge();
+
+  factory Wallet$Query$DriverTransacionConnection$DriverTransacionEdge.fromJson(
+          Map<String, dynamic> json) =>
+      _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdgeFromJson(
+          json);
+
+  late Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion
+      node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdgeToJson(
+          this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Wallet$Query$DriverTransacionConnection extends JsonSerializable
+    with EquatableMixin {
+  Wallet$Query$DriverTransacionConnection();
+
+  factory Wallet$Query$DriverTransacionConnection.fromJson(
+          Map<String, dynamic> json) =>
+      _$Wallet$Query$DriverTransacionConnectionFromJson(json);
+
+  late List<Wallet$Query$DriverTransacionConnection$DriverTransacionEdge> edges;
+
+  @override
+  List<Object?> get props => [edges];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$Wallet$Query$DriverTransacionConnectionToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Wallet$Query extends JsonSerializable with EquatableMixin {
+  Wallet$Query();
+
+  factory Wallet$Query.fromJson(Map<String, dynamic> json) =>
+      _$Wallet$QueryFromJson(json);
+
+  late List<Wallet$Query$DriverWallet> driverWallets;
+
+  late Wallet$Query$DriverTransacionConnection driverTransacions;
+
+  @override
+  List<Object?> get props => [driverWallets, driverTransacions];
+  @override
+  Map<String, dynamic> toJson() => _$Wallet$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PaymentGateways$Query$PaymentGateway$Media extends JsonSerializable
+    with EquatableMixin {
+  PaymentGateways$Query$PaymentGateway$Media();
+
+  factory PaymentGateways$Query$PaymentGateway$Media.fromJson(
+          Map<String, dynamic> json) =>
+      _$PaymentGateways$Query$PaymentGateway$MediaFromJson(json);
+
+  late String address;
+
+  @override
+  List<Object?> get props => [address];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PaymentGateways$Query$PaymentGateway$MediaToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PaymentGateways$Query$PaymentGateway extends JsonSerializable
+    with EquatableMixin {
+  PaymentGateways$Query$PaymentGateway();
+
+  factory PaymentGateways$Query$PaymentGateway.fromJson(
+          Map<String, dynamic> json) =>
+      _$PaymentGateways$Query$PaymentGatewayFromJson(json);
+
+  late String id;
+
+  late String title;
+
+  @JsonKey(unknownEnumValue: PaymentGatewayType.artemisUnknown)
+  late PaymentGatewayType type;
+
+  String? publicKey;
+
+  PaymentGateways$Query$PaymentGateway$Media? media;
+
+  @override
+  List<Object?> get props => [id, title, type, publicKey, media];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$PaymentGateways$Query$PaymentGatewayToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PaymentGateways$Query extends JsonSerializable with EquatableMixin {
+  PaymentGateways$Query();
+
+  factory PaymentGateways$Query.fromJson(Map<String, dynamic> json) =>
+      _$PaymentGateways$QueryFromJson(json);
+
+  late List<PaymentGateways$Query$PaymentGateway> paymentGateways;
+
+  @override
+  List<Object?> get props => [paymentGateways];
+  @override
+  Map<String, dynamic> toJson() => _$PaymentGateways$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class TopUpWallet$Mutation$TopUpWalletResponse extends JsonSerializable
+    with EquatableMixin {
+  TopUpWallet$Mutation$TopUpWalletResponse();
+
+  factory TopUpWallet$Mutation$TopUpWalletResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$TopUpWallet$Mutation$TopUpWalletResponseFromJson(json);
+
+  @JsonKey(unknownEnumValue: TopUpWalletStatus.artemisUnknown)
+  late TopUpWalletStatus status;
+
+  late String url;
+
+  @override
+  List<Object?> get props => [status, url];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$TopUpWallet$Mutation$TopUpWalletResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class TopUpWallet$Mutation extends JsonSerializable with EquatableMixin {
+  TopUpWallet$Mutation();
+
+  factory TopUpWallet$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$TopUpWallet$MutationFromJson(json);
+
+  late TopUpWallet$Mutation$TopUpWalletResponse topUpWallet;
+
+  @override
+  List<Object?> get props => [topUpWallet];
+  @override
+  Map<String, dynamic> toJson() => _$TopUpWallet$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class TopUpWalletInput extends JsonSerializable with EquatableMixin {
+  TopUpWalletInput({
+    required this.gatewayId,
+    required this.amount,
+    required this.currency,
+    this.token,
+    this.pin,
+    this.otp,
+    this.transactionId,
+  });
+
+  factory TopUpWalletInput.fromJson(Map<String, dynamic> json) =>
+      _$TopUpWalletInputFromJson(json);
+
+  late String gatewayId;
+
+  late double amount;
+
+  late String currency;
+
+  String? token;
+
+  double? pin;
+
+  double? otp;
+
+  String? transactionId;
+
+  @override
+  List<Object?> get props =>
+      [gatewayId, amount, currency, token, pin, otp, transactionId];
+  @override
+  Map<String, dynamic> toJson() => _$TopUpWalletInputToJson(this);
+}
+
 enum OrderStatus {
   @JsonValue('Requested')
   requested,
@@ -1848,6 +2101,61 @@ enum VersionStatus {
   mandatoryUpdate,
   @JsonValue('OptionalUpdate')
   optionalUpdate,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+
+enum DriverDeductTransactionType {
+  @JsonValue('Withdraw')
+  withdraw,
+  @JsonValue('Commission')
+  commission,
+  @JsonValue('Correction')
+  correction,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+
+enum TransactionAction {
+  @JsonValue('Recharge')
+  recharge,
+  @JsonValue('Deduct')
+  deduct,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+
+enum DriverRechargeTransactionType {
+  @JsonValue('OrderFee')
+  orderFee,
+  @JsonValue('BankTransfer')
+  bankTransfer,
+  @JsonValue('InAppPayment')
+  inAppPayment,
+  @JsonValue('Gift')
+  gift,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+
+enum PaymentGatewayType {
+  @JsonValue('Stripe')
+  stripe,
+  @JsonValue('BrainTree')
+  brainTree,
+  @JsonValue('PayPal')
+  payPal,
+  @JsonValue('CustomLink')
+  customLink,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+
+enum TopUpWalletStatus {
+  @JsonValue('OK')
+  ok,
+  @JsonValue('Redirect')
+  redirect,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
 }
@@ -6266,4 +6574,312 @@ class UpdateDriverSearchDistanceMutation extends GraphQLQuery<
   @override
   UpdateDriverSearchDistance$Mutation parse(Map<String, dynamic> json) =>
       UpdateDriverSearchDistance$Mutation.fromJson(json);
+}
+
+final WALLET_QUERY_DOCUMENT_OPERATION_NAME = 'Wallet';
+final WALLET_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'Wallet'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'driverWallets'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'balance'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'currency'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      ),
+      FieldNode(
+        name: NameNode(value: 'driverTransacions'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'sorting'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'field'),
+                value: EnumValueNode(name: NameNode(value: 'id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'direction'),
+                value: EnumValueNode(name: NameNode(value: 'DESC')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'createdAt'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'amount'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'currency'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'refrenceNumber'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'deductType'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'action'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'rechargeType'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ]),
+              )
+            ]),
+          )
+        ]),
+      ),
+    ]),
+  )
+]);
+
+class WalletQuery extends GraphQLQuery<Wallet$Query, JsonSerializable> {
+  WalletQuery();
+
+  @override
+  final DocumentNode document = WALLET_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = WALLET_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  Wallet$Query parse(Map<String, dynamic> json) => Wallet$Query.fromJson(json);
+}
+
+final PAYMENT_GATEWAYS_QUERY_DOCUMENT_OPERATION_NAME = 'PaymentGateways';
+final PAYMENT_GATEWAYS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'PaymentGateways'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'paymentGateways'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'title'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'publicKey'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'media'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'address'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              )
+            ]),
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class PaymentGatewaysQuery
+    extends GraphQLQuery<PaymentGateways$Query, JsonSerializable> {
+  PaymentGatewaysQuery();
+
+  @override
+  final DocumentNode document = PAYMENT_GATEWAYS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = PAYMENT_GATEWAYS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  PaymentGateways$Query parse(Map<String, dynamic> json) =>
+      PaymentGateways$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class TopUpWalletArguments extends JsonSerializable with EquatableMixin {
+  TopUpWalletArguments({required this.input});
+
+  @override
+  factory TopUpWalletArguments.fromJson(Map<String, dynamic> json) =>
+      _$TopUpWalletArgumentsFromJson(json);
+
+  late TopUpWalletInput input;
+
+  @override
+  List<Object?> get props => [input];
+  @override
+  Map<String, dynamic> toJson() => _$TopUpWalletArgumentsToJson(this);
+}
+
+final TOP_UP_WALLET_MUTATION_DOCUMENT_OPERATION_NAME = 'TopUpWallet';
+final TOP_UP_WALLET_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'TopUpWallet'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'input')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'TopUpWalletInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'topUpWallet'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: VariableNode(name: NameNode(value: 'input')),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'status'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'url'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class TopUpWalletMutation
+    extends GraphQLQuery<TopUpWallet$Mutation, TopUpWalletArguments> {
+  TopUpWalletMutation({required this.variables});
+
+  @override
+  final DocumentNode document = TOP_UP_WALLET_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = TOP_UP_WALLET_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final TopUpWalletArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  TopUpWallet$Mutation parse(Map<String, dynamic> json) =>
+      TopUpWallet$Mutation.fromJson(json);
 }

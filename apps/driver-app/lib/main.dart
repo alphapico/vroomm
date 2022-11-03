@@ -44,6 +44,7 @@ import 'profile/profile_view.dart';
 import 'query_result_view.dart';
 import 'trip-history/trip_history_list_view.dart';
 import 'unregistered_driver_messages_view.dart';
+import 'wallet/wallet_view.dart';
 
 // ignore: avoid_void_async
 void main() async {
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
                   'announcements': (context) => const AnnouncementsView(),
                   'earnings': (context) => const EarningsView(),
                   'chat': (context) => const ChatView(),
+                  'wallet': (context) => const WalletView(),
                 },
                 theme: CustomTheme.theme1,
                 home: MyHomePage()),
