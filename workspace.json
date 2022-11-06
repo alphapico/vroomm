@@ -8,6 +8,7 @@
     "passenger-api": "apps/passenger-api",
     "payment-gateway": "apps/payment-gateway",
     "driver-app": "apps/driver-app",
-    "client-shared": "libs/client-shared"
+    "client-shared": "libs/client-shared",
+    "passenger-app": "apps/passenger-app"
   }
 }
