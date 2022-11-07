@@ -1,4 +1,4 @@
-import { ObjectType, registerEnumType, Field } from '@nestjs/graphql';
+import { ObjectType, registerEnumType, Field, Float } from '@nestjs/graphql';
 import { Point } from '@vroom/database';
 import { ServiceCategoryDTO } from '../../service/dto/service-category.dto';
 
@@ -13,9 +13,14 @@ registerEnumType(CalculateFareError, { name: 'CalculateFareError' });
 export class CalculateFareDTO {
   @Field()
   currency: string;
+  @Field(() => Float)
   distance: number;
+  @Field(() => Float)
   duration: number;
+  @Field(() => [Point])
   directions: Point[];
+  @Field(() => [ServiceCategoryDTO])
   services: ServiceCategoryDTO[];
+  @Field(() => CalculateFareError, { nullable: true })
   error?: CalculateFareError;
 }

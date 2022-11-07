@@ -6,5 +6,6 @@ import { CreateOrderError } from './create-order-error.dto';
 export class APIErrors {
   @Field(() => CalculateFareError)
   calculateFare: CalculateFareError;
+  @Field(() => CreateOrderError)
   createOrder: CreateOrderError;
 }

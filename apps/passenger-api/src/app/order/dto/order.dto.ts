@@ -5,7 +5,14 @@ import {
   Relation,
   UnPagedRelation,
 } from '@ptc-org/nestjs-query-graphql';
-import { Field, GraphQLTimestamp, ID, Int, ObjectType } from '@nestjs/graphql';
+import {
+  Field,
+  Float,
+  GraphQLTimestamp,
+  ID,
+  Int,
+  ObjectType,
+} from '@nestjs/graphql';
 import { Point } from '@vroom/database';
 import { OrderStatus } from '@vroom/database/enums/order-status.enum';
 
@@ -63,19 +70,30 @@ export class OrderDTO {
   durationBest!: number;
   @Field(() => Int)
   waitMinutes!: number;
+  @Field(() => [Point])
   points: Point[];
+  @Field(() => [String])
   addresses: string[];
+  @Field()
   expectedTimestamp!: Date;
+  @Field({ nullable: true })
   startTimestamp?: Date;
+  @Field({ nullable: true })
   finishTimestamp?: Date;
   @FilterableField(() => ID)
   passengerId: number;
   @FilterableField(() => ID, { nullable: true })
   driverId?: number;
+  @Field(() => Float)
   costAfterCoupon: number;
+  @Field({ nullable: true })
   etaPickup?: Date;
+  @Field()
   costBest: number;
+  @Field()
   paidAmount: number;
+  @Field()
   currency: string;
+  @Field(() => [Point], { nullable: true })
   directions?: Point[];
 }

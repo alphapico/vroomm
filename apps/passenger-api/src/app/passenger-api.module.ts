@@ -29,10 +29,11 @@ import { ConfigModule } from '@nestjs/config';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       cors: false,
-      autoSchemaFile: join(
-        process.cwd(),
-        'apps/passenger-api/passenger.schema.gql'
-      ),
+      // autoSchemaFile: join(
+      //   process.cwd(),
+      //   'apps/passenger-app/passenger.schema.gql'
+      // ),
+      autoSchemaFile: join(process.cwd(), 'passenger.schema.gql'),
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
       },

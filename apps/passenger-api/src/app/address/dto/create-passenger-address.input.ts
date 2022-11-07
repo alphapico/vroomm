@@ -3,7 +3,7 @@ import {
   CreateOneInputType,
 } from '@ptc-org/nestjs-query-graphql';
 import { Logger } from '@nestjs/common';
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { Point } from '@vroom/database';
 import { PassengerAddressType } from '@vroom/database/enums/passenger-address-type.enum';
 import { UserContext } from '../../auth/authenticated-user';
@@ -20,7 +20,10 @@ import { UserContext } from '../../auth/authenticated-user';
 export class CreatePassengerAddressInput {
   @Field()
   title: string;
+  @Field()
   details: string;
+  @Field(() => Point)
   location: Point;
+  @Field(() => PassengerAddressType, { nullable: true })
   type?: PassengerAddressType;
 }

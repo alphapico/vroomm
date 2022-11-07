@@ -5,11 +5,16 @@ import { Point } from '@vroom/database';
 export class CreateOrderInput {
   @Field(() => Int)
   serviceId!: number;
+  @Field(() => [Point])
   points!: Point[];
+  @Field(() => [String])
   addresses!: string[];
   @Field(() => Int)
   intervalMinutes!: number;
+  @Field({ nullable: true })
   twoWay?: boolean;
+  @Field(() => [String], { nullable: true })
   optionIds?: string[];
+  @Field({ nullable: true })
   couponCode?: string;
 }

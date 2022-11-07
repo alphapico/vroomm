@@ -4,9 +4,10 @@ import { Field, ID, InputType, Int } from '@nestjs/graphql';
 export class SubmitFeedbackInput {
   @Field(() => Int)
   score: number;
+  @Field({ nullable: true })
   description?: string;
   @Field(() => ID)
   orderId: number;
-  @Field(() => [ID])
+  @Field(() => [ID], { nullable: true })
   parameterIds?: number[];
 }

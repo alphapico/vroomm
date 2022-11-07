@@ -6,5 +6,6 @@ import { OrderDTO } from './order.dto';
 export class CurrentOrder {
   @Field(() => OrderDTO)
   order: OrderDTO;
+  @Field(() => [Point], { nullable: true })
   driverLocation?: Point;
 }

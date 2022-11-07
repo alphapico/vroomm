@@ -1,5 +1,5 @@
 import { IDField, Relation } from '@ptc-org/nestjs-query-graphql';
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
 import { MediaDTO } from '../../upload/media.dto';
 import { CarColorDTO } from './car-color.dto';
 import { CarModelDTO } from './car-model.dto';
@@ -23,11 +23,16 @@ import { CarModelDTO } from './car-model.dto';
 export class DriverDTO {
   @IDField(() => ID)
   id: number;
+  @Field()
   mobileNumber: string;
+  @Field({ nullable: true })
   firstName?: string;
+  @Field({ nullable: true })
   carPlate?: string;
+  @Field({ nullable: true })
   lastName?: string;
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   rating?: number;
+  @Field(() => Float)
   reviewCount: number;
 }

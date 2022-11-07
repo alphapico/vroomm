@@ -15,13 +15,20 @@ import { UserContext } from '../../auth/authenticated-user';
   }
 )
 export class UpdatePassengerInput {
-  @Field()
+  @Field({ nullable: true })
   firstName?: string;
+  @Field({ nullable: true })
   lastName?: string;
+  @Field(() => Gender, { nullable: true })
   gender?: Gender;
+  @Field({ nullable: true })
   email?: string;
+  @Field({ nullable: true })
   notificationPlayerId?: string;
+  @Field({ nullable: true })
   isResident?: boolean;
+  @Field({ nullable: true })
   idNumber?: string;
+  @Field(() => PassengerDocumentType, { nullable: true })
   documentType?: PassengerDocumentType;
 }

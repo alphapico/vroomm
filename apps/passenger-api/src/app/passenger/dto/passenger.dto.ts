@@ -1,4 +1,4 @@
-import { ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import {
   Authorize,
   BeforeFindOne,
@@ -60,12 +60,20 @@ import { PassengerDocumentType } from '@vroom/database/enums/passenger-document-
 export class PassengerDTO {
   @IDField(() => ID)
   id!: number;
+  @Field()
   mobileNumber: string;
+  @Field({ nullable: true })
   firstName?: string;
+  @Field({ nullable: true })
   lastName?: string;
+  @Field({ nullable: true })
   email?: string;
+  @Field(() => Gender, { nullable: true })
   gender?: Gender;
+  @Field({ nullable: true })
   isResident?: boolean;
+  @Field({ nullable: true })
   idNumber?: string;
+  @Field(() => PassengerDocumentType, { nullable: true })
   documentType?: PassengerDocumentType;
 }
