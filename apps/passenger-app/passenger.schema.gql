@@ -82,10 +82,14 @@ type Service {
   twoWayAvailable: Boolean!
   media: Media!
   options(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: ServiceOptionFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [ServiceOptionSort!] = []
   ): [ServiceOption!]!
 }
@@ -129,13 +133,17 @@ enum ServiceOptionSortFields {
   id
 }
 
-"""Sort Directions"""
+"""
+Sort Directions
+"""
 enum SortDirection {
   ASC
   DESC
 }
 
-"""Sort Nulls Options"""
+"""
+Sort Nulls Options
+"""
 enum SortNulls {
   NULLS_FIRST
   NULLS_LAST
@@ -205,17 +213,25 @@ type Order {
   service: Service!
   paymentGateway: PaymentGateway
   options(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: ServiceOptionFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [ServiceOptionSort!] = []
   ): [ServiceOption!]!
   conversations(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: OrderMessageFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [OrderMessageSort!] = []
   ): [OrderMessage!]!
 }
@@ -267,23 +283,49 @@ type Passenger {
   idNumber: String
   documentType: PassengerDocumentType
   ordersAggregate(
-    """Filter to find records to aggregate on"""
+    """
+    Filter to find records to aggregate on
+    """
     filter: OrderAggregateFilter
   ): [PassengerOrdersAggregateResponse!]!
   media: Media
   coupons(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: CouponFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [CouponSort!] = []
   ): [Coupon!]!
   orders(
-    """Specify to filter the records returned."""
-    filter: OrderFilter = {status: {in: [Requested, Booked, Found, NotFound, NoCloseFound, DriverAccepted, Arrived, Started, WaitingForReview, WaitingForPostPay, WaitingForPrePay]}}
+    """
+    Specify to filter the records returned.
+    """
+    filter: OrderFilter = {
+      status: {
+        in: [
+          Requested
+          Booked
+          Found
+          NotFound
+          NoCloseFound
+          DriverAccepted
+          Arrived
+          Started
+          WaitingForReview
+          WaitingForPostPay
+          WaitingForPrePay
+        ]
+      }
+    }
 
-    """Specify to sort results."""
-    sorting: [OrderSort!] = [{field: id, direction: DESC}]
+    """
+    Specify to sort results.
+    """
+    sorting: [OrderSort!] = [{ field: id, direction: DESC }]
   ): [Order!]!
 }
 
@@ -388,27 +430,41 @@ enum OrderSortFields {
 }
 
 type PassengerEdge {
-  """The node containing the Passenger"""
+  """
+  The node containing the Passenger
+  """
   node: Passenger!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
-"""Cursor for paging through collections"""
+"""
+Cursor for paging through collections
+"""
 scalar ConnectionCursor
 
 type PageInfo {
-  """true if paging forward and there are more records."""
+  """
+  true if paging forward and there are more records.
+  """
   hasNextPage: Boolean
 
-  """true if paging backwards and there are more records."""
+  """
+  true if paging backwards and there are more records.
+  """
   hasPreviousPage: Boolean
 
-  """The cursor of the first returned record."""
+  """
+  The cursor of the first returned record.
+  """
   startCursor: ConnectionCursor
 
-  """The cursor of the last returned record."""
+  """
+  The cursor of the last returned record.
+  """
   endCursor: ConnectionCursor
 }
 
@@ -470,10 +526,14 @@ type Login {
 }
 
 type MediaEdge {
-  """The node containing the Media"""
+  """
+  The node containing the Media
+  """
   node: Media!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
@@ -484,10 +544,14 @@ type ServiceCategory {
 }
 
 type ServiceEdge {
-  """The node containing the Service"""
+  """
+  The node containing the Service
+  """
   node: Service!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
@@ -523,42 +587,62 @@ type FeedbackParameter {
 }
 
 type OrderEdge {
-  """The node containing the Order"""
+  """
+  The node containing the Order
+  """
   node: Order!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
 type OrderConnection {
-  """Paging information"""
+  """
+  Paging information
+  """
   pageInfo: PageInfo!
 
-  """Array of edges."""
+  """
+  Array of edges.
+  """
   edges: [OrderEdge!]!
 }
 
 type DriverEdge {
-  """The node containing the Driver"""
+  """
+  The node containing the Driver
+  """
   node: Driver!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
 type CarModelEdge {
-  """The node containing the CarModel"""
+  """
+  The node containing the CarModel
+  """
   node: CarModel!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
 type CarColorEdge {
-  """The node containing the CarColor"""
+  """
+  The node containing the CarColor
+  """
   node: CarColor!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
@@ -599,18 +683,26 @@ type Announcement {
 }
 
 type AnnouncementEdge {
-  """The node containing the Announcement"""
+  """
+  The node containing the Announcement
+  """
   node: Announcement!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
 type AnnouncementConnection {
-  """Paging information"""
+  """
+  Paging information
+  """
   pageInfo: PageInfo!
 
-  """Array of edges."""
+  """
+  Array of edges.
+  """
   edges: [AnnouncementEdge!]!
 }
 
@@ -655,18 +747,26 @@ enum TopUpWalletStatus {
 }
 
 type PassengerTransacionEdge {
-  """The node containing the PassengerTransacion"""
+  """
+  The node containing the PassengerTransacion
+  """
   node: PassengerTransacion!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
 type PassengerTransacionConnection {
-  """Paging information"""
+  """
+  Paging information
+  """
   pageInfo: PageInfo!
 
-  """Array of edges."""
+  """
+  Array of edges.
+  """
   edges: [PassengerTransacionEdge!]!
 }
 
@@ -684,10 +784,14 @@ enum ComplaintStatus {
 }
 
 type ComplaintEdge {
-  """The node containing the Complaint"""
+  """
+  The node containing the Complaint
+  """
   node: Complaint!
 
-  """Cursor for this node."""
+  """
+  Cursor for this node.
+  """
   cursor: ConnectionCursor!
 }
 
@@ -699,14 +803,20 @@ input PointInput {
 type Query {
   requireUpdate(versionCode: Int!): VersionStatus!
   passenger(
-    """The id of the record to find."""
+    """
+    The id of the record to find.
+    """
     id: ID!
   ): Passenger
   serviceCategories(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: ServiceCategoryFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [ServiceCategorySort!] = []
   ): [ServiceCategory!]!
   currentOrder: Order!
@@ -715,80 +825,124 @@ type Query {
   getCurrentOrderDriverLocation: Point
   getDriversLocation(center: PointInput): [Point!]!
   order(
-    """The id of the record to find."""
+    """
+    The id of the record to find.
+    """
     id: ID!
   ): Order
   orders(
-    """Limit or page results."""
-    paging: CursorPaging = {first: 10}
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging = { first: 10 }
 
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: OrderFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [OrderSort!] = []
   ): OrderConnection!
   feedbackParameters(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: FeedbackParameterFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [FeedbackParameterSort!] = []
   ): [FeedbackParameter!]!
   passengerAddress(
-    """The id of the record to find."""
+    """
+    The id of the record to find.
+    """
     id: ID!
-  ): PassengerAddress!
+  ): PassengerAddress
   passengerAddresses(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: PassengerAddressFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [PassengerAddressSort!] = []
   ): [PassengerAddress!]!
   announcement(
-    """The id of the record to find."""
+    """
+    The id of the record to find.
+    """
     id: ID!
   ): Announcement
   announcements(
-    """Limit or page results."""
-    paging: CursorPaging = {first: 10}
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging = { first: 10 }
 
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: AnnouncementFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [AnnouncementSort!] = []
   ): AnnouncementConnection!
   passengerTransacions(
-    """Limit or page results."""
-    paging: CursorPaging = {first: 10}
+    """
+    Limit or page results.
+    """
+    paging: CursorPaging = { first: 10 }
 
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: PassengerTransacionFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [PassengerTransacionSort!] = []
   ): PassengerTransacionConnection!
   passengerWallets(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: PassengerWalletFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [PassengerWalletSort!] = []
   ): [PassengerWallet!]!
   paymentGateways(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: PaymentGatewayFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [PaymentGatewaySort!] = []
   ): [PaymentGateway!]!
   orderMessages(
-    """Specify to filter the records returned."""
+    """
+    Specify to filter the records returned.
+    """
     filter: OrderMessageFilter = {}
 
-    """Specify to sort results."""
+    """
+    Specify to sort results.
+    """
     sorting: [OrderMessageSort!] = []
   ): [OrderMessage!]!
 }
@@ -823,16 +977,24 @@ input CalculateFareInput {
 }
 
 input CursorPaging {
-  """Paginate before opaque cursor"""
+  """
+  Paginate before opaque cursor
+  """
   before: ConnectionCursor
 
-  """Paginate after opaque cursor"""
+  """
+  Paginate after opaque cursor
+  """
   after: ConnectionCursor
 
-  """Paginate first"""
+  """
+  Paginate first
+  """
   first: Int
 
-  """Paginate last"""
+  """
+  Paginate last
+  """
   last: Int
 }
 
@@ -957,9 +1119,15 @@ type Mutation {
   applyCoupon(code: String!): Order!
   redeemGiftCard(code: String!): PassengerWallet!
   updateOneOrder(input: UpdateOneOrderInput!): Order!
-  createOnePassengerAddress(input: CreateOnePassengerAddressInput!): PassengerAddress!
-  updateOnePassengerAddress(input: UpdateOnePassengerAddressInput!): PassengerAddress!
-  deleteOnePassengerAddress(input: DeleteOnePassengerAddressInput!): PassengerAddressDeleteResponse!
+  createOnePassengerAddress(
+    input: CreateOnePassengerAddressInput!
+  ): PassengerAddress!
+  updateOnePassengerAddress(
+    input: UpdateOnePassengerAddressInput!
+  ): PassengerAddress!
+  deleteOnePassengerAddress(
+    input: DeleteOnePassengerAddressInput!
+  ): PassengerAddressDeleteResponse!
   createOneComplaint(input: CreateOneComplaintInput!): Complaint!
   topUpWallet(input: TopUpWalletInput!): TopUpWalletResponse!
   createOneOrderMessage(input: CreateOneOrderMessageInput!): OrderMessage!
@@ -970,10 +1138,14 @@ input LoginInput {
 }
 
 input UpdateOnePassengerInput {
-  """The id of the record to update"""
+  """
+  The id of the record to update
+  """
   id: ID!
 
-  """The update to apply."""
+  """
+  The update to apply.
+  """
   update: UpdatePassengerInput!
 }
 
@@ -1006,10 +1178,14 @@ input SubmitFeedbackInput {
 }
 
 input UpdateOneOrderInput {
-  """The id of the record to update"""
+  """
+  The id of the record to update
+  """
   id: ID!
 
-  """The update to apply."""
+  """
+  The update to apply.
+  """
   update: UpdateOrderInput!
 }
 
@@ -1021,7 +1197,9 @@ input UpdateOrderInput {
 }
 
 input CreateOnePassengerAddressInput {
-  """The record to create"""
+  """
+  The record to create
+  """
   passengerAddress: CreatePassengerAddressInput!
 }
 
@@ -1033,20 +1211,28 @@ input CreatePassengerAddressInput {
 }
 
 input UpdateOnePassengerAddressInput {
-  """The id of the record to update"""
+  """
+  The id of the record to update
+  """
   id: ID!
 
-  """The update to apply."""
+  """
+  The update to apply.
+  """
   update: CreatePassengerAddressInput!
 }
 
 input DeleteOnePassengerAddressInput {
-  """The id of the record to delete."""
+  """
+  The id of the record to delete.
+  """
   id: ID!
 }
 
 input CreateOneComplaintInput {
-  """The record to create"""
+  """
+  The record to create
+  """
   complaint: ComplaintInput!
 }
 
@@ -1068,7 +1254,9 @@ input TopUpWalletInput {
 }
 
 input CreateOneOrderMessageInput {
-  """The record to create"""
+  """
+  The record to create
+  """
   orderMessage: OrderMessageInput!
 }
 
