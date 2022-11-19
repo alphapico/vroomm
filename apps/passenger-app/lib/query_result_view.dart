@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+import 'generated/l10n.dart';
+
 class QueryResultView extends StatelessWidget {
   final QueryResult queryResult;
 
@@ -15,7 +17,7 @@ class QueryResultView extends StatelessWidget {
         children: [
           const CircularProgressIndicator.adaptive(),
           Text(
-            'Loading', //S.of(context).loading,
+            S.of(context).loading,
             style: Theme.of(context).textTheme.caption,
           )
         ],
