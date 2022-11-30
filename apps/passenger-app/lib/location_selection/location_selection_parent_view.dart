@@ -27,6 +27,7 @@ import '../main/bloc/main_bloc.dart';
 //import '../main/drawer_logged_out.dart';
 //import '../main/order_status_sheet_view.dart';
 //import '../main/service_selection_card_view.dart';
+import '../main/map_providers/open_street_map_provider.dart';
 import 'welcome_card/welcome_card_view.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:latlong2/latlong.dart';
@@ -48,15 +49,57 @@ class LocationSelectionParentView extends StatelessWidget {
       context.read<JWTCubit>().login(jwt);
     }
     return Scaffold(
-        key: scaffoldKey,
-        drawer: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Drawer(
-              backgroundColor: CustomTheme.primaryColors.shade100,
-              child: Container() //passenger profile draw,
-              ),
+      key: scaffoldKey,
+      drawer: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Drawer(
+            backgroundColor: CustomTheme.primaryColors.shade100,
+            child: Container() //passenger profile draw,
+            ),
+      ),
+      body: Stack(children: [
+        if (mapProvider == MapProvider.mapBox ||
+            mapProvider == MapProvider.openStreetMap)
+          const OpenStreetMapProvider(),
+        if (mapProvider == MapProvider.googleMap) const GoogleMapProvider(),
+        LifecycleWrapper(
+          onLifecycleEvent: (event) {
+            if (event == LifecycleEvent.visible && refetch != null) {
+              refetch!();
+            }
+          },
+          child: FutureBuilder<PackageInfo>(
+              future: PackageInfo.fromPlatform(),
+              builder: (context, snapshot) {
+                return BlocBuilder<JWTCubit, String?>(
+                    builder: (context, jwtState) {
+                  return Query(
+                      options: QueryOptions(
+                          document: GET_CURRENT_ORDER_QUERY_DOCUMENT,
+                          variables: GetCurrentOrderArguments(
+                                  versionCode: int.parse(
+                                      snapshot.data?.buildNumber ?? "99999"))
+                              .toJson(),
+                          fetchPolicy: FetchPolicy.noCache),
+                      builder: (QueryResult result,
+                          {Refetch? refetch, FetchMore? fetchMore}) {
+                        if (result.isLoading) {
+                          return const Center(
+                              child: CircularProgressIndicator.adaptive());
+                        }
+                        this.refetch = refetch;
+                        final query = result.data != null
+                            ? GetCurrentOrder$Query.fromJson(result.data!)
+                            : null;
+                        // PassengerProfile
+
+                        return const SizedBox();
+                      });
+                });
+              }),
         ),
-        body: Container());
+      ]),
+    );
   }
 
   void setCurrentLocation(BuildContext context, Position position) async {
