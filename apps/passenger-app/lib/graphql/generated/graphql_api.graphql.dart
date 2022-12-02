@@ -1197,6 +1197,36 @@ class ApplyCoupon$Mutation extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$ApplyCoupon$MutationToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
+class Login$Mutation$Login extends JsonSerializable with EquatableMixin {
+  Login$Mutation$Login();
+
+  factory Login$Mutation$Login.fromJson(Map<String, dynamic> json) =>
+      _$Login$Mutation$LoginFromJson(json);
+
+  late String jwtToken;
+
+  @override
+  List<Object?> get props => [jwtToken];
+  @override
+  Map<String, dynamic> toJson() => _$Login$Mutation$LoginToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Login$Mutation extends JsonSerializable with EquatableMixin {
+  Login$Mutation();
+
+  factory Login$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$Login$MutationFromJson(json);
+
+  late Login$Mutation$Login login;
+
+  @override
+  List<Object?> get props => [login];
+  @override
+  Map<String, dynamic> toJson() => _$Login$MutationToJson(this);
+}
+
 enum Gender {
   @JsonValue('Male')
   male,
@@ -4441,4 +4471,86 @@ class ApplyCouponMutation
   @override
   ApplyCoupon$Mutation parse(Map<String, dynamic> json) =>
       ApplyCoupon$Mutation.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class LoginArguments extends JsonSerializable with EquatableMixin {
+  LoginArguments({required this.firebaseToken});
+
+  @override
+  factory LoginArguments.fromJson(Map<String, dynamic> json) =>
+      _$LoginArgumentsFromJson(json);
+
+  late String firebaseToken;
+
+  @override
+  List<Object?> get props => [firebaseToken];
+  @override
+  Map<String, dynamic> toJson() => _$LoginArgumentsToJson(this);
+}
+
+final LOGIN_MUTATION_DOCUMENT_OPERATION_NAME = 'Login';
+final LOGIN_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'Login'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'firebaseToken')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'login'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'firebaseToken'),
+                value: VariableNode(name: NameNode(value: 'firebaseToken')),
+              )
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'jwtToken'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class LoginMutation extends GraphQLQuery<Login$Mutation, LoginArguments> {
+  LoginMutation({required this.variables});
+
+  @override
+  final DocumentNode document = LOGIN_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = LOGIN_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final LoginArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  Login$Mutation parse(Map<String, dynamic> json) =>
+      Login$Mutation.fromJson(json);
 }

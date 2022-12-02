@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:osm_nominatim/osm_nominatim.dart';
-import 'package:ridy/location_selection/welcome_card/place_confirm_sheet_view.dart';
+import 'place_confirm_sheet_view.dart';
 import 'package:client_shared/theme/theme.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:latlong2/latlong.dart';

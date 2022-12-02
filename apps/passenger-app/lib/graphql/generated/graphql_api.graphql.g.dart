@@ -1335,6 +1335,26 @@ Map<String, dynamic> _$ApplyCoupon$MutationToJson(
       'applyCoupon': instance.applyCoupon.toJson(),
     };
 
+Login$Mutation$Login _$Login$Mutation$LoginFromJson(
+        Map<String, dynamic> json) =>
+    Login$Mutation$Login()..jwtToken = json['jwtToken'] as String;
+
+Map<String, dynamic> _$Login$Mutation$LoginToJson(
+        Login$Mutation$Login instance) =>
+    <String, dynamic>{
+      'jwtToken': instance.jwtToken,
+    };
+
+Login$Mutation _$Login$MutationFromJson(Map<String, dynamic> json) =>
+    Login$Mutation()
+      ..login =
+          Login$Mutation$Login.fromJson(json['login'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$Login$MutationToJson(Login$Mutation instance) =>
+    <String, dynamic>{
+      'login': instance.login.toJson(),
+    };
+
 GetCurrentOrderArguments _$GetCurrentOrderArgumentsFromJson(
         Map<String, dynamic> json) =>
     GetCurrentOrderArguments(
@@ -1466,4 +1486,14 @@ Map<String, dynamic> _$ApplyCouponArgumentsToJson(
         ApplyCouponArguments instance) =>
     <String, dynamic>{
       'code': instance.code,
+    };
+
+LoginArguments _$LoginArgumentsFromJson(Map<String, dynamic> json) =>
+    LoginArguments(
+      firebaseToken: json['firebaseToken'] as String,
+    );
+
+Map<String, dynamic> _$LoginArgumentsToJson(LoginArguments instance) =>
+    <String, dynamic>{
+      'firebaseToken': instance.firebaseToken,
     };
