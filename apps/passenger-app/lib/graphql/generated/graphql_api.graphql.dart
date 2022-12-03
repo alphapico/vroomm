@@ -39,6 +39,133 @@ mixin PointMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetPassenger$Query$Passenger$Media extends JsonSerializable
+    with EquatableMixin {
+  GetPassenger$Query$Passenger$Media();
+
+  factory GetPassenger$Query$Passenger$Media.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetPassenger$Query$Passenger$MediaFromJson(json);
+
+  late String address;
+
+  @override
+  List<Object?> get props => [address];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetPassenger$Query$Passenger$MediaToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetPassenger$Query$Passenger extends JsonSerializable
+    with EquatableMixin {
+  GetPassenger$Query$Passenger();
+
+  factory GetPassenger$Query$Passenger.fromJson(Map<String, dynamic> json) =>
+      _$GetPassenger$Query$PassengerFromJson(json);
+
+  late String id;
+
+  late String mobileNumber;
+
+  String? firstName;
+
+  String? lastName;
+
+  @JsonKey(unknownEnumValue: Gender.artemisUnknown)
+  Gender? gender;
+
+  String? email;
+
+  GetPassenger$Query$Passenger$Media? media;
+
+  @override
+  List<Object?> get props =>
+      [id, mobileNumber, firstName, lastName, gender, email, media];
+  @override
+  Map<String, dynamic> toJson() => _$GetPassenger$Query$PassengerToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetPassenger$Query extends JsonSerializable with EquatableMixin {
+  GetPassenger$Query();
+
+  factory GetPassenger$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetPassenger$QueryFromJson(json);
+
+  GetPassenger$Query$Passenger? passenger;
+
+  @override
+  List<Object?> get props => [passenger];
+  @override
+  Map<String, dynamic> toJson() => _$GetPassenger$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateProfile$Mutation$Passenger extends JsonSerializable
+    with EquatableMixin {
+  UpdateProfile$Mutation$Passenger();
+
+  factory UpdateProfile$Mutation$Passenger.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateProfile$Mutation$PassengerFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateProfile$Mutation$PassengerToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateProfile$Mutation extends JsonSerializable with EquatableMixin {
+  UpdateProfile$Mutation();
+
+  factory UpdateProfile$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProfile$MutationFromJson(json);
+
+  late UpdateProfile$Mutation$Passenger updateOnePassenger;
+
+  @override
+  List<Object?> get props => [updateOnePassenger];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateProfile$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteUser$Mutation$Passenger extends JsonSerializable
+    with EquatableMixin {
+  DeleteUser$Mutation$Passenger();
+
+  factory DeleteUser$Mutation$Passenger.fromJson(Map<String, dynamic> json) =>
+      _$DeleteUser$Mutation$PassengerFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$DeleteUser$Mutation$PassengerToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteUser$Mutation extends JsonSerializable with EquatableMixin {
+  DeleteUser$Mutation();
+
+  factory DeleteUser$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$DeleteUser$MutationFromJson(json);
+
+  late DeleteUser$Mutation$Passenger deleteUser;
+
+  @override
+  List<Object?> get props => [deleteUser];
+  @override
+  Map<String, dynamic> toJson() => _$DeleteUser$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetCurrentOrder$Query$Passenger$Media extends JsonSerializable
     with EquatableMixin {
   GetCurrentOrder$Query$Passenger$Media();
@@ -1327,6 +1454,295 @@ enum CalculateFareError {
   noServiceInRegion,
   @JsonValue('ARTEMIS_UNKNOWN')
   artemisUnknown,
+}
+
+final GET_PASSENGER_QUERY_DOCUMENT_OPERATION_NAME = 'GetPassenger';
+final GET_PASSENGER_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetPassenger'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'passenger'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'id'),
+            value: IntValueNode(value: '1'),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'mobileNumber'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'firstName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'lastName'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'gender'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'email'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'media'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'address'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              )
+            ]),
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class GetPassengerQuery
+    extends GraphQLQuery<GetPassenger$Query, JsonSerializable> {
+  GetPassengerQuery();
+
+  @override
+  final DocumentNode document = GET_PASSENGER_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_PASSENGER_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  GetPassenger$Query parse(Map<String, dynamic> json) =>
+      GetPassenger$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateProfileArguments extends JsonSerializable with EquatableMixin {
+  UpdateProfileArguments({
+    required this.firstName,
+    required this.lastName,
+    this.gender,
+    this.email,
+  });
+
+  @override
+  factory UpdateProfileArguments.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProfileArgumentsFromJson(json);
+
+  late String firstName;
+
+  late String lastName;
+
+  @JsonKey(unknownEnumValue: Gender.artemisUnknown)
+  final Gender? gender;
+
+  final String? email;
+
+  @override
+  List<Object?> get props => [firstName, lastName, gender, email];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateProfileArgumentsToJson(this);
+}
+
+final UPDATE_PROFILE_MUTATION_DOCUMENT_OPERATION_NAME = 'UpdateProfile';
+final UPDATE_PROFILE_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'UpdateProfile'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'firstName')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'lastName')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'gender')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'Gender'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'email')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateOnePassenger'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'id'),
+                value: StringValueNode(
+                  value: '1',
+                  isBlock: false,
+                ),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'update'),
+                value: ObjectValueNode(fields: [
+                  ObjectFieldNode(
+                    name: NameNode(value: 'firstName'),
+                    value: VariableNode(name: NameNode(value: 'firstName')),
+                  ),
+                  ObjectFieldNode(
+                    name: NameNode(value: 'lastName'),
+                    value: VariableNode(name: NameNode(value: 'lastName')),
+                  ),
+                  ObjectFieldNode(
+                    name: NameNode(value: 'gender'),
+                    value: VariableNode(name: NameNode(value: 'gender')),
+                  ),
+                  ObjectFieldNode(
+                    name: NameNode(value: 'email'),
+                    value: VariableNode(name: NameNode(value: 'email')),
+                  ),
+                ]),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateProfileMutation
+    extends GraphQLQuery<UpdateProfile$Mutation, UpdateProfileArguments> {
+  UpdateProfileMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_PROFILE_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = UPDATE_PROFILE_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateProfileArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateProfile$Mutation parse(Map<String, dynamic> json) =>
+      UpdateProfile$Mutation.fromJson(json);
+}
+
+final DELETE_USER_MUTATION_DOCUMENT_OPERATION_NAME = 'DeleteUser';
+final DELETE_USER_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'DeleteUser'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'deleteUser'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class DeleteUserMutation
+    extends GraphQLQuery<DeleteUser$Mutation, JsonSerializable> {
+  DeleteUserMutation();
+
+  @override
+  final DocumentNode document = DELETE_USER_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = DELETE_USER_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  DeleteUser$Mutation parse(Map<String, dynamic> json) =>
+      DeleteUser$Mutation.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

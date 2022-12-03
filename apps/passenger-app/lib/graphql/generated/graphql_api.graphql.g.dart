@@ -7,6 +7,122 @@ part of 'graphql_api.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+GetPassenger$Query$Passenger$Media _$GetPassenger$Query$Passenger$MediaFromJson(
+        Map<String, dynamic> json) =>
+    GetPassenger$Query$Passenger$Media()..address = json['address'] as String;
+
+Map<String, dynamic> _$GetPassenger$Query$Passenger$MediaToJson(
+        GetPassenger$Query$Passenger$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+GetPassenger$Query$Passenger _$GetPassenger$Query$PassengerFromJson(
+        Map<String, dynamic> json) =>
+    GetPassenger$Query$Passenger()
+      ..id = json['id'] as String
+      ..mobileNumber = json['mobileNumber'] as String
+      ..firstName = json['firstName'] as String?
+      ..lastName = json['lastName'] as String?
+      ..gender = $enumDecodeNullable(_$GenderEnumMap, json['gender'],
+          unknownValue: Gender.artemisUnknown)
+      ..email = json['email'] as String?
+      ..media = json['media'] == null
+          ? null
+          : GetPassenger$Query$Passenger$Media.fromJson(
+              json['media'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetPassenger$Query$PassengerToJson(
+    GetPassenger$Query$Passenger instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'mobileNumber': instance.mobileNumber,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  writeNotNull('gender', _$GenderEnumMap[instance.gender]);
+  writeNotNull('email', instance.email);
+  writeNotNull('media', instance.media?.toJson());
+  return val;
+}
+
+const _$GenderEnumMap = {
+  Gender.male: 'Male',
+  Gender.female: 'Female',
+  Gender.unknown: 'Unknown',
+  Gender.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+GetPassenger$Query _$GetPassenger$QueryFromJson(Map<String, dynamic> json) =>
+    GetPassenger$Query()
+      ..passenger = json['passenger'] == null
+          ? null
+          : GetPassenger$Query$Passenger.fromJson(
+              json['passenger'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetPassenger$QueryToJson(GetPassenger$Query instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('passenger', instance.passenger?.toJson());
+  return val;
+}
+
+UpdateProfile$Mutation$Passenger _$UpdateProfile$Mutation$PassengerFromJson(
+        Map<String, dynamic> json) =>
+    UpdateProfile$Mutation$Passenger()..id = json['id'] as String;
+
+Map<String, dynamic> _$UpdateProfile$Mutation$PassengerToJson(
+        UpdateProfile$Mutation$Passenger instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+UpdateProfile$Mutation _$UpdateProfile$MutationFromJson(
+        Map<String, dynamic> json) =>
+    UpdateProfile$Mutation()
+      ..updateOnePassenger = UpdateProfile$Mutation$Passenger.fromJson(
+          json['updateOnePassenger'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateProfile$MutationToJson(
+        UpdateProfile$Mutation instance) =>
+    <String, dynamic>{
+      'updateOnePassenger': instance.updateOnePassenger.toJson(),
+    };
+
+DeleteUser$Mutation$Passenger _$DeleteUser$Mutation$PassengerFromJson(
+        Map<String, dynamic> json) =>
+    DeleteUser$Mutation$Passenger()..id = json['id'] as String;
+
+Map<String, dynamic> _$DeleteUser$Mutation$PassengerToJson(
+        DeleteUser$Mutation$Passenger instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+DeleteUser$Mutation _$DeleteUser$MutationFromJson(Map<String, dynamic> json) =>
+    DeleteUser$Mutation()
+      ..deleteUser = DeleteUser$Mutation$Passenger.fromJson(
+          json['deleteUser'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$DeleteUser$MutationToJson(
+        DeleteUser$Mutation instance) =>
+    <String, dynamic>{
+      'deleteUser': instance.deleteUser.toJson(),
+    };
+
 GetCurrentOrder$Query$Passenger$Media
     _$GetCurrentOrder$Query$Passenger$MediaFromJson(
             Map<String, dynamic> json) =>
@@ -197,13 +313,6 @@ Map<String, dynamic> _$GetCurrentOrder$Query$PassengerToJson(
   val['bookedOrders'] = instance.bookedOrders.map((e) => e.toJson()).toList();
   return val;
 }
-
-const _$GenderEnumMap = {
-  Gender.male: 'Male',
-  Gender.female: 'Female',
-  Gender.unknown: 'Unknown',
-  Gender.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
 
 GetCurrentOrder$Query$Point _$GetCurrentOrder$Query$PointFromJson(
         Map<String, dynamic> json) =>
@@ -1354,6 +1463,34 @@ Map<String, dynamic> _$Login$MutationToJson(Login$Mutation instance) =>
     <String, dynamic>{
       'login': instance.login.toJson(),
     };
+
+UpdateProfileArguments _$UpdateProfileArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateProfileArguments(
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+      gender: $enumDecodeNullable(_$GenderEnumMap, json['gender'],
+          unknownValue: Gender.artemisUnknown),
+      email: json['email'] as String?,
+    );
+
+Map<String, dynamic> _$UpdateProfileArgumentsToJson(
+    UpdateProfileArguments instance) {
+  final val = <String, dynamic>{
+    'firstName': instance.firstName,
+    'lastName': instance.lastName,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('gender', _$GenderEnumMap[instance.gender]);
+  writeNotNull('email', instance.email);
+  return val;
+}
 
 GetCurrentOrderArguments _$GetCurrentOrderArgumentsFromJson(
         Map<String, dynamic> json) =>

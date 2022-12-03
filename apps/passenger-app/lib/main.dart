@@ -9,17 +9,26 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lifecycle/lifecycle.dart';
 import '../main/bloc/jwt_cubit.dart';
 
+import 'location_selection/location_selection_parent_view.dart';
+import 'location_selection/welcome_card/location_history_item.dart';
+import 'main/bloc/current_location_cubit.dart';
+import 'main/bloc/passenger_profile_cubit.dart';
 import 'main/graphql_provider.dart';
 
 import 'package:client_shared/theme/theme.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 import 'package:geolocator/geolocator.dart';
+
+import 'profile/profile_view.dart';
 
 // ignore: avoid_void_async
 void main() async {
   await initHiveForFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Hive.registerAdapter(LocationHistoryItemAdapter());
+  await Hive.openBox<List<LocationHistoryItem>>("history2");
   await Hive.openBox("user");
   if (!kIsWeb) {
     await CountryCodes.init();
@@ -38,15 +47,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => JWTCubit())],
+      providers: [
+        BlocProvider(create: (context) => JWTCubit()),
+        BlocProvider(create: (context) => CurrentLocationCubit()),
+        BlocProvider(create: (context) => PassengerProfileCubit()),
+        BlocProvider(create: (context) => JWTCubit())
+      ],
       child: MyGraphqlProvider(
         child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            navigatorObservers: [defaultLifecycleObserver],
-            //supportedLocales: S.delegate.supportedLocales,
-            theme: CustomTheme.theme1,
-            home: Container() //LocationSelectionParentView(),
-            ),
+          debugShowCheckedModeBanner: false,
+          navigatorObservers: [defaultLifecycleObserver],
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          routes: {
+            'profile': (context) => BlocProvider.value(
+                  value: context.read<PassengerProfileCubit>(),
+                  child: BlocProvider.value(
+                    value: context.read<JWTCubit>(),
+                    child: ProfileView(),
+                  ),
+                )
+          },
+          theme: CustomTheme.theme1,
+          home: LocationSelectionParentView(),
+        ),
       ),
     );
   }
