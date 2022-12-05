@@ -123,6 +123,187 @@ Map<String, dynamic> _$DeleteUser$MutationToJson(
       'deleteUser': instance.deleteUser.toJson(),
     };
 
+GetAddresses$Query$PassengerAddress$Point
+    _$GetAddresses$Query$PassengerAddress$PointFromJson(
+            Map<String, dynamic> json) =>
+        GetAddresses$Query$PassengerAddress$Point()
+          ..lat = (json['lat'] as num).toDouble()
+          ..lng = (json['lng'] as num).toDouble();
+
+Map<String, dynamic> _$GetAddresses$Query$PassengerAddress$PointToJson(
+        GetAddresses$Query$PassengerAddress$Point instance) =>
+    <String, dynamic>{
+      'lat': instance.lat,
+      'lng': instance.lng,
+    };
+
+GetAddresses$Query$PassengerAddress
+    _$GetAddresses$Query$PassengerAddressFromJson(Map<String, dynamic> json) =>
+        GetAddresses$Query$PassengerAddress()
+          ..id = json['id'] as String
+          ..title = json['title'] as String
+          ..type = $enumDecode(_$PassengerAddressTypeEnumMap, json['type'],
+              unknownValue: PassengerAddressType.artemisUnknown)
+          ..details = json['details'] as String
+          ..location = GetAddresses$Query$PassengerAddress$Point.fromJson(
+              json['location'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetAddresses$Query$PassengerAddressToJson(
+        GetAddresses$Query$PassengerAddress instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'type': _$PassengerAddressTypeEnumMap[instance.type]!,
+      'details': instance.details,
+      'location': instance.location.toJson(),
+    };
+
+const _$PassengerAddressTypeEnumMap = {
+  PassengerAddressType.home: 'Home',
+  PassengerAddressType.work: 'Work',
+  PassengerAddressType.partner: 'Partner',
+  PassengerAddressType.gym: 'Gym',
+  PassengerAddressType.parent: 'Parent',
+  PassengerAddressType.cafe: 'Cafe',
+  PassengerAddressType.park: 'Park',
+  PassengerAddressType.other: 'Other',
+  PassengerAddressType.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+GetAddresses$Query _$GetAddresses$QueryFromJson(Map<String, dynamic> json) =>
+    GetAddresses$Query()
+      ..passengerAddresses = (json['passengerAddresses'] as List<dynamic>)
+          .map((e) => GetAddresses$Query$PassengerAddress.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetAddresses$QueryToJson(GetAddresses$Query instance) =>
+    <String, dynamic>{
+      'passengerAddresses':
+          instance.passengerAddresses.map((e) => e.toJson()).toList(),
+    };
+
+CreateAddress$Mutation$PassengerAddress
+    _$CreateAddress$Mutation$PassengerAddressFromJson(
+            Map<String, dynamic> json) =>
+        CreateAddress$Mutation$PassengerAddress()..id = json['id'] as String;
+
+Map<String, dynamic> _$CreateAddress$Mutation$PassengerAddressToJson(
+        CreateAddress$Mutation$PassengerAddress instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+CreateAddress$Mutation _$CreateAddress$MutationFromJson(
+        Map<String, dynamic> json) =>
+    CreateAddress$Mutation()
+      ..createOnePassengerAddress =
+          CreateAddress$Mutation$PassengerAddress.fromJson(
+              json['createOnePassengerAddress'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$CreateAddress$MutationToJson(
+        CreateAddress$Mutation instance) =>
+    <String, dynamic>{
+      'createOnePassengerAddress': instance.createOnePassengerAddress.toJson(),
+    };
+
+CreatePassengerAddressInput _$CreatePassengerAddressInputFromJson(
+        Map<String, dynamic> json) =>
+    CreatePassengerAddressInput(
+      title: json['title'] as String,
+      details: json['details'] as String,
+      location: PointInput.fromJson(json['location'] as Map<String, dynamic>),
+      type: $enumDecodeNullable(_$PassengerAddressTypeEnumMap, json['type'],
+          unknownValue: PassengerAddressType.artemisUnknown),
+    );
+
+Map<String, dynamic> _$CreatePassengerAddressInputToJson(
+    CreatePassengerAddressInput instance) {
+  final val = <String, dynamic>{
+    'title': instance.title,
+    'details': instance.details,
+    'location': instance.location.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('type', _$PassengerAddressTypeEnumMap[instance.type]);
+  return val;
+}
+
+PointInput _$PointInputFromJson(Map<String, dynamic> json) => PointInput(
+      lat: (json['lat'] as num).toDouble(),
+      lng: (json['lng'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$PointInputToJson(PointInput instance) =>
+    <String, dynamic>{
+      'lat': instance.lat,
+      'lng': instance.lng,
+    };
+
+UpdateAddress$Mutation$PassengerAddress
+    _$UpdateAddress$Mutation$PassengerAddressFromJson(
+            Map<String, dynamic> json) =>
+        UpdateAddress$Mutation$PassengerAddress()..id = json['id'] as String;
+
+Map<String, dynamic> _$UpdateAddress$Mutation$PassengerAddressToJson(
+        UpdateAddress$Mutation$PassengerAddress instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+UpdateAddress$Mutation _$UpdateAddress$MutationFromJson(
+        Map<String, dynamic> json) =>
+    UpdateAddress$Mutation()
+      ..updateOnePassengerAddress =
+          UpdateAddress$Mutation$PassengerAddress.fromJson(
+              json['updateOnePassengerAddress'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$UpdateAddress$MutationToJson(
+        UpdateAddress$Mutation instance) =>
+    <String, dynamic>{
+      'updateOnePassengerAddress': instance.updateOnePassengerAddress.toJson(),
+    };
+
+DeleteAddress$Mutation$PassengerAddressDeleteResponse
+    _$DeleteAddress$Mutation$PassengerAddressDeleteResponseFromJson(
+            Map<String, dynamic> json) =>
+        DeleteAddress$Mutation$PassengerAddressDeleteResponse()
+          ..id = json['id'] as String?;
+
+Map<String, dynamic>
+    _$DeleteAddress$Mutation$PassengerAddressDeleteResponseToJson(
+        DeleteAddress$Mutation$PassengerAddressDeleteResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
+DeleteAddress$Mutation _$DeleteAddress$MutationFromJson(
+        Map<String, dynamic> json) =>
+    DeleteAddress$Mutation()
+      ..deleteOnePassengerAddress =
+          DeleteAddress$Mutation$PassengerAddressDeleteResponse.fromJson(
+              json['deleteOnePassengerAddress'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$DeleteAddress$MutationToJson(
+        DeleteAddress$Mutation instance) =>
+    <String, dynamic>{
+      'deleteOnePassengerAddress': instance.deleteOnePassengerAddress.toJson(),
+    };
+
 GetCurrentOrder$Query$Passenger$Media
     _$GetCurrentOrder$Query$Passenger$MediaFromJson(
             Map<String, dynamic> json) =>
@@ -605,17 +786,6 @@ Map<String, dynamic> _$CreateOrderInputToJson(CreateOrderInput instance) {
   writeNotNull('couponCode', instance.couponCode);
   return val;
 }
-
-PointInput _$PointInputFromJson(Map<String, dynamic> json) => PointInput(
-      lat: (json['lat'] as num).toDouble(),
-      lng: (json['lng'] as num).toDouble(),
-    );
-
-Map<String, dynamic> _$PointInputToJson(PointInput instance) =>
-    <String, dynamic>{
-      'lat': instance.lat,
-      'lng': instance.lng,
-    };
 
 CancelOrder$Mutation$Order _$CancelOrder$Mutation$OrderFromJson(
         Map<String, dynamic> json) =>
@@ -1491,6 +1661,46 @@ Map<String, dynamic> _$UpdateProfileArgumentsToJson(
   writeNotNull('email', instance.email);
   return val;
 }
+
+CreateAddressArguments _$CreateAddressArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    CreateAddressArguments(
+      input: CreatePassengerAddressInput.fromJson(
+          json['input'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$CreateAddressArgumentsToJson(
+        CreateAddressArguments instance) =>
+    <String, dynamic>{
+      'input': instance.input.toJson(),
+    };
+
+UpdateAddressArguments _$UpdateAddressArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    UpdateAddressArguments(
+      id: json['id'] as String,
+      update: CreatePassengerAddressInput.fromJson(
+          json['update'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UpdateAddressArgumentsToJson(
+        UpdateAddressArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'update': instance.update.toJson(),
+    };
+
+DeleteAddressArguments _$DeleteAddressArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    DeleteAddressArguments(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$DeleteAddressArgumentsToJson(
+        DeleteAddressArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
 
 GetCurrentOrderArguments _$GetCurrentOrderArgumentsFromJson(
         Map<String, dynamic> json) =>

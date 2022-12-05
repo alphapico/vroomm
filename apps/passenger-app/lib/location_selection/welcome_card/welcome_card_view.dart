@@ -5,6 +5,9 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:client_shared/components/vroom_sheet_view.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+import '../../address/address_details_view.dart';
+import '../../address/address_item_view.dart';
+import '../../address/address_list_view.dart';
 import '../../graphql/generated/graphql_api.graphql.dart';
 import '../../location_selection/welcome_card/place_search_sheet_view.dart';
 import '../../main/bloc/main_bloc.dart';
@@ -47,7 +50,8 @@ class WelcomeCardView extends StatelessWidget {
                   builder: (context) => PlaceSearchSheetView(
                       context.read<CurrentLocationCubit>().state));
               if (result == null) return;
-              // read MainBloC
+              context.read<MainBloc>().add(ShowPreview(
+                  points: result, selectedOptions: [], couponCode: null));
             },
             child: Container(
                 padding: const EdgeInsets.all(12),
@@ -66,7 +70,72 @@ class WelcomeCardView extends StatelessWidget {
                   ],
                 )),
           ),
-          // Bloc Address
+          BlocBuilder<PassengerProfileCubit, GetCurrentOrder$Query$Passenger?>(
+              builder: (context, state) {
+            if (state == null) {
+              return const SizedBox();
+            }
+            return Query(
+                options: QueryOptions(document: GET_ADDRESSES_QUERY_DOCUMENT),
+                builder: (QueryResult result,
+                    {Refetch? refetch, FetchMore? fetchMore}) {
+                  if (result.isLoading) {
+                    return const Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+                  }
+                  final addresses = result.data != null
+                      ? GetAddresses$Query.fromJson(result.data!)
+                          .passengerAddresses
+                      : <GetAddresses$Query$PassengerAddress>[];
+                  return Column(children: [
+                    Container(
+                      constraints: const BoxConstraints(maxHeight: 150),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: addresses
+                              .map((GetAddresses$Query$PassengerAddress
+                                      address) =>
+                                  WelcomeCardSavedLocationButton(
+                                      onTap: () {
+                                        final currentLocation = context
+                                            .read<CurrentLocationCubit>()
+                                            .state;
+                                        if (currentLocation == null) {
+                                          showLocationNotDeterminedDialog(
+                                              context);
+                                          return;
+                                        }
+                                        context.read<MainBloc>().add(
+                                                ShowPreview(points: [
+                                              currentLocation,
+                                              address.toFullLocation()
+                                            ], selectedOptions: []));
+                                      },
+                                      type: address.type,
+                                      address: address.details))
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                    AddressListAddLocationButton(onTap: () async {
+                      final currentLocation =
+                          context.read<CurrentLocationCubit>().state;
+                      await showBarModalBottomSheet(
+                          context: context,
+                          builder: (_) {
+                            return BlocProvider.value(
+                                value: BlocProvider.of<CurrentLocationCubit>(
+                                    context),
+                                child: AddressDetailsView(
+                                    currentLocation: currentLocation));
+                          });
+                      refetch!();
+                    })
+                  ]);
+                });
+          })
         ],
       ),
     );
@@ -87,5 +156,55 @@ class WelcomeCardView extends StatelessWidget {
             ],
           );
         });
+  }
+}
+
+extension PassengerAddressToFullLocation
+    on GetAddresses$Query$PassengerAddress {
+  FullLocation toFullLocation() {
+    return FullLocation(
+        latlng: LatLng(location.lat, location.lng),
+        address: details,
+        title: title);
+  }
+}
+
+class WelcomeCardSavedLocationButton extends StatelessWidget {
+  final Function() onTap;
+  final PassengerAddressType type;
+  final String address;
+
+  const WelcomeCardSavedLocationButton(
+      {required this.onTap,
+      required this.type,
+      required this.address,
+      Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        onPressed: onTap,
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          AddressListIcon(getAddressTypeIcon(type)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  getAddressTypeName(context, type),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Text(
+                  address,
+                  style: Theme.of(context).textTheme.labelMedium,
+                )
+              ],
+            ),
+          )
+        ]));
   }
 }

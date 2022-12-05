@@ -23,8 +23,8 @@ export class PassengerAddressDTO {
   type: PassengerAddressType;
   @Field()
   title: string;
-  @Field(() => Point)
-  details: Point;
+  @Field()
+  details: string;
   @Field(() => Point)
   location: Point;
   @FilterableField(() => ID, { filterOnly: true })

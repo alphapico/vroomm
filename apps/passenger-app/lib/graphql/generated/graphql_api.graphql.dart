@@ -166,6 +166,215 @@ class DeleteUser$Mutation extends JsonSerializable with EquatableMixin {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetAddresses$Query$PassengerAddress$Point extends JsonSerializable
+    with EquatableMixin {
+  GetAddresses$Query$PassengerAddress$Point();
+
+  factory GetAddresses$Query$PassengerAddress$Point.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetAddresses$Query$PassengerAddress$PointFromJson(json);
+
+  late double lat;
+
+  late double lng;
+
+  @override
+  List<Object?> get props => [lat, lng];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetAddresses$Query$PassengerAddress$PointToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetAddresses$Query$PassengerAddress extends JsonSerializable
+    with EquatableMixin {
+  GetAddresses$Query$PassengerAddress();
+
+  factory GetAddresses$Query$PassengerAddress.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetAddresses$Query$PassengerAddressFromJson(json);
+
+  late String id;
+
+  late String title;
+
+  @JsonKey(unknownEnumValue: PassengerAddressType.artemisUnknown)
+  late PassengerAddressType type;
+
+  late String details;
+
+  late GetAddresses$Query$PassengerAddress$Point location;
+
+  @override
+  List<Object?> get props => [id, title, type, details, location];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetAddresses$Query$PassengerAddressToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetAddresses$Query extends JsonSerializable with EquatableMixin {
+  GetAddresses$Query();
+
+  factory GetAddresses$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetAddresses$QueryFromJson(json);
+
+  late List<GetAddresses$Query$PassengerAddress> passengerAddresses;
+
+  @override
+  List<Object?> get props => [passengerAddresses];
+  @override
+  Map<String, dynamic> toJson() => _$GetAddresses$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreateAddress$Mutation$PassengerAddress extends JsonSerializable
+    with EquatableMixin {
+  CreateAddress$Mutation$PassengerAddress();
+
+  factory CreateAddress$Mutation$PassengerAddress.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateAddress$Mutation$PassengerAddressFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$CreateAddress$Mutation$PassengerAddressToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreateAddress$Mutation extends JsonSerializable with EquatableMixin {
+  CreateAddress$Mutation();
+
+  factory CreateAddress$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$CreateAddress$MutationFromJson(json);
+
+  late CreateAddress$Mutation$PassengerAddress createOnePassengerAddress;
+
+  @override
+  List<Object?> get props => [createOnePassengerAddress];
+  @override
+  Map<String, dynamic> toJson() => _$CreateAddress$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreatePassengerAddressInput extends JsonSerializable with EquatableMixin {
+  CreatePassengerAddressInput({
+    required this.title,
+    required this.details,
+    required this.location,
+    this.type,
+  });
+
+  factory CreatePassengerAddressInput.fromJson(Map<String, dynamic> json) =>
+      _$CreatePassengerAddressInputFromJson(json);
+
+  late String title;
+
+  late String details;
+
+  late PointInput location;
+
+  @JsonKey(unknownEnumValue: PassengerAddressType.artemisUnknown)
+  PassengerAddressType? type;
+
+  @override
+  List<Object?> get props => [title, details, location, type];
+  @override
+  Map<String, dynamic> toJson() => _$CreatePassengerAddressInputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class PointInput extends JsonSerializable with EquatableMixin {
+  PointInput({
+    required this.lat,
+    required this.lng,
+  });
+
+  factory PointInput.fromJson(Map<String, dynamic> json) =>
+      _$PointInputFromJson(json);
+
+  late double lat;
+
+  late double lng;
+
+  @override
+  List<Object?> get props => [lat, lng];
+  @override
+  Map<String, dynamic> toJson() => _$PointInputToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateAddress$Mutation$PassengerAddress extends JsonSerializable
+    with EquatableMixin {
+  UpdateAddress$Mutation$PassengerAddress();
+
+  factory UpdateAddress$Mutation$PassengerAddress.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateAddress$Mutation$PassengerAddressFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$UpdateAddress$Mutation$PassengerAddressToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateAddress$Mutation extends JsonSerializable with EquatableMixin {
+  UpdateAddress$Mutation();
+
+  factory UpdateAddress$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAddress$MutationFromJson(json);
+
+  late UpdateAddress$Mutation$PassengerAddress updateOnePassengerAddress;
+
+  @override
+  List<Object?> get props => [updateOnePassengerAddress];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateAddress$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteAddress$Mutation$PassengerAddressDeleteResponse
+    extends JsonSerializable with EquatableMixin {
+  DeleteAddress$Mutation$PassengerAddressDeleteResponse();
+
+  factory DeleteAddress$Mutation$PassengerAddressDeleteResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteAddress$Mutation$PassengerAddressDeleteResponseFromJson(json);
+
+  String? id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$DeleteAddress$Mutation$PassengerAddressDeleteResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteAddress$Mutation extends JsonSerializable with EquatableMixin {
+  DeleteAddress$Mutation();
+
+  factory DeleteAddress$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$DeleteAddress$MutationFromJson(json);
+
+  late DeleteAddress$Mutation$PassengerAddressDeleteResponse
+      deleteOnePassengerAddress;
+
+  @override
+  List<Object?> get props => [deleteOnePassengerAddress];
+  @override
+  Map<String, dynamic> toJson() => _$DeleteAddress$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetCurrentOrder$Query$Passenger$Media extends JsonSerializable
     with EquatableMixin {
   GetCurrentOrder$Query$Passenger$Media();
@@ -577,26 +786,6 @@ class CreateOrderInput extends JsonSerializable with EquatableMixin {
       ];
   @override
   Map<String, dynamic> toJson() => _$CreateOrderInputToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class PointInput extends JsonSerializable with EquatableMixin {
-  PointInput({
-    required this.lat,
-    required this.lng,
-  });
-
-  factory PointInput.fromJson(Map<String, dynamic> json) =>
-      _$PointInputFromJson(json);
-
-  late double lat;
-
-  late double lng;
-
-  @override
-  List<Object?> get props => [lat, lng];
-  @override
-  Map<String, dynamic> toJson() => _$PointInputToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -1365,6 +1554,27 @@ enum Gender {
   artemisUnknown,
 }
 
+enum PassengerAddressType {
+  @JsonValue('Home')
+  home,
+  @JsonValue('Work')
+  work,
+  @JsonValue('Partner')
+  partner,
+  @JsonValue('Gym')
+  gym,
+  @JsonValue('Parent')
+  parent,
+  @JsonValue('Cafe')
+  cafe,
+  @JsonValue('Park')
+  park,
+  @JsonValue('Other')
+  other,
+  @JsonValue('ARTEMIS_UNKNOWN')
+  artemisUnknown,
+}
+
 enum OrderStatus {
   @JsonValue('Requested')
   requested,
@@ -1743,6 +1953,360 @@ class DeleteUserMutation
   @override
   DeleteUser$Mutation parse(Map<String, dynamic> json) =>
       DeleteUser$Mutation.fromJson(json);
+}
+
+final GET_ADDRESSES_QUERY_DOCUMENT_OPERATION_NAME = 'GetAddresses';
+final GET_ADDRESSES_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetAddresses'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'passengerAddresses'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'title'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'type'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'details'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'location'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'lat'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+              FieldNode(
+                name: NameNode(value: 'lng'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: null,
+              ),
+            ]),
+          ),
+        ]),
+      )
+    ]),
+  )
+]);
+
+class GetAddressesQuery
+    extends GraphQLQuery<GetAddresses$Query, JsonSerializable> {
+  GetAddressesQuery();
+
+  @override
+  final DocumentNode document = GET_ADDRESSES_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_ADDRESSES_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  GetAddresses$Query parse(Map<String, dynamic> json) =>
+      GetAddresses$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreateAddressArguments extends JsonSerializable with EquatableMixin {
+  CreateAddressArguments({required this.input});
+
+  @override
+  factory CreateAddressArguments.fromJson(Map<String, dynamic> json) =>
+      _$CreateAddressArgumentsFromJson(json);
+
+  late CreatePassengerAddressInput input;
+
+  @override
+  List<Object?> get props => [input];
+  @override
+  Map<String, dynamic> toJson() => _$CreateAddressArgumentsToJson(this);
+}
+
+final CREATE_ADDRESS_MUTATION_DOCUMENT_OPERATION_NAME = 'CreateAddress';
+final CREATE_ADDRESS_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'CreateAddress'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'input')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'CreatePassengerAddressInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'createOnePassengerAddress'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'passengerAddress'),
+                value: VariableNode(name: NameNode(value: 'input')),
+              )
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class CreateAddressMutation
+    extends GraphQLQuery<CreateAddress$Mutation, CreateAddressArguments> {
+  CreateAddressMutation({required this.variables});
+
+  @override
+  final DocumentNode document = CREATE_ADDRESS_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = CREATE_ADDRESS_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final CreateAddressArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  CreateAddress$Mutation parse(Map<String, dynamic> json) =>
+      CreateAddress$Mutation.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateAddressArguments extends JsonSerializable with EquatableMixin {
+  UpdateAddressArguments({
+    required this.id,
+    required this.update,
+  });
+
+  @override
+  factory UpdateAddressArguments.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAddressArgumentsFromJson(json);
+
+  late String id;
+
+  late CreatePassengerAddressInput update;
+
+  @override
+  List<Object?> get props => [id, update];
+  @override
+  Map<String, dynamic> toJson() => _$UpdateAddressArgumentsToJson(this);
+}
+
+final UPDATE_ADDRESS_MUTATION_DOCUMENT_OPERATION_NAME = 'UpdateAddress';
+final UPDATE_ADDRESS_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'UpdateAddress'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'update')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'CreatePassengerAddressInput'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'updateOnePassengerAddress'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'id'),
+                value: VariableNode(name: NameNode(value: 'id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'update'),
+                value: VariableNode(name: NameNode(value: 'update')),
+              ),
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class UpdateAddressMutation
+    extends GraphQLQuery<UpdateAddress$Mutation, UpdateAddressArguments> {
+  UpdateAddressMutation({required this.variables});
+
+  @override
+  final DocumentNode document = UPDATE_ADDRESS_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = UPDATE_ADDRESS_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final UpdateAddressArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  UpdateAddress$Mutation parse(Map<String, dynamic> json) =>
+      UpdateAddress$Mutation.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteAddressArguments extends JsonSerializable with EquatableMixin {
+  DeleteAddressArguments({required this.id});
+
+  @override
+  factory DeleteAddressArguments.fromJson(Map<String, dynamic> json) =>
+      _$DeleteAddressArgumentsFromJson(json);
+
+  late String id;
+
+  @override
+  List<Object?> get props => [id];
+  @override
+  Map<String, dynamic> toJson() => _$DeleteAddressArgumentsToJson(this);
+}
+
+final DELETE_ADDRESS_MUTATION_DOCUMENT_OPERATION_NAME = 'DeleteAddress';
+final DELETE_ADDRESS_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'DeleteAddress'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'id')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      )
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'deleteOnePassengerAddress'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'id'),
+                value: VariableNode(name: NameNode(value: 'id')),
+              )
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class DeleteAddressMutation
+    extends GraphQLQuery<DeleteAddress$Mutation, DeleteAddressArguments> {
+  DeleteAddressMutation({required this.variables});
+
+  @override
+  final DocumentNode document = DELETE_ADDRESS_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = DELETE_ADDRESS_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final DeleteAddressArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  DeleteAddress$Mutation parse(Map<String, dynamic> json) =>
+      DeleteAddress$Mutation.fromJson(json);
 }
 
 @JsonSerializable(explicitToJson: true)

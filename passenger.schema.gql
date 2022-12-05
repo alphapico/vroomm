@@ -566,7 +566,7 @@ type PassengerAddress {
   id: ID!
   type: PassengerAddressType!
   title: String!
-  details: Point!
+  details: String!
   location: Point!
 }
 
@@ -585,7 +585,7 @@ type PassengerAddressDeleteResponse {
   id: ID
   type: PassengerAddressType
   title: String
-  details: Point
+  details: String
   location: Point
 }
 
