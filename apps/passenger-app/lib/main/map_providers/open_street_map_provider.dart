@@ -58,12 +58,45 @@ class OpenStreetMapState extends State<OpenStreetMapProvider>
                           centerOnLocationUpdate:
                               CenterOnLocationUpdate.once))),
           BlocConsumer<MainBloc, MainBlocState>(listener: (context, state) {
-            // OrderPreview
+            if (state is OrderPreview) {
+              controller?.fitBounds(
+                  LatLngBounds.fromPoints(
+                      state.points.map((e) => e.latlng).toList()),
+                  options: fitBoundsOptions);
+            }
+            if (state is StateWithActiveOrder) {
+              controller?.fitBounds(
+                  LatLngBounds.fromPoints(state.currentOrder.points
+                      .map((e) => e.toLatLng())
+                      .toList()),
+                  options: fitBoundsOptions);
+            }
           }, builder: (context, state) {
             return Stack(
               children: [
-                // OrderPreview
-                // StateWithActiveOrder
+                if (state is OrderPreview &&
+                    state.directions != null &&
+                    state.directions!.isNotEmpty)
+                  PolylineLayerWidget(
+                      options:
+                          PolylineLayerOptions(saveLayers: true, polylines: [
+                    Polyline(
+                        points: state.directions!,
+                        strokeWidth: 5,
+                        color: CustomTheme.primaryColors)
+                  ])),
+                if (state is StateWithActiveOrder &&
+                    state.currentOrder.directions != null)
+                  PolylineLayerWidget(
+                      options:
+                          PolylineLayerOptions(saveLayers: true, polylines: [
+                    Polyline(
+                        points: state.currentOrder.directions!
+                            .map((e) => LatLng(e.lat, e.lng))
+                            .toList(),
+                        strokeWidth: 5,
+                        color: CustomTheme.primaryColors)
+                  ])),
                 if (state is SelectingPoints)
                   FutureBuilder<List<Position?>>(
                       future: Future.wait([

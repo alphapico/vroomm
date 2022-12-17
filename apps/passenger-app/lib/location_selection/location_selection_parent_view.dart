@@ -15,6 +15,9 @@ import '../location_selection/welcome_card/place_search_sheet_view.dart';
 import '../main/bloc/current_location_cubit.dart';
 import '../main/bloc/jwt_cubit.dart';
 // passenger-profile
+import '../main/bloc/passenger_profile_cubit.dart';
+import '../main/drawer_logged_in.dart';
+import '../main/drawer_logged_out.dart';
 import '../main/map_providers/google_map_provider.dart';
 // open street map
 //import 'package:ridy/main/pay_for_ride_sheet_view.dart';
@@ -28,6 +31,10 @@ import '../main/bloc/main_bloc.dart';
 //import '../main/order_status_sheet_view.dart';
 //import '../main/service_selection_card_view.dart';
 import '../main/map_providers/open_street_map_provider.dart';
+import '../main/order_status_sheet_view.dart';
+import '../main/pay_for_ride_sheet_view.dart';
+import '../main/rate_ride_sheet_view.dart';
+import '../main/service_selection_card_view.dart';
 import 'welcome_card/welcome_card_view.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:latlong2/latlong.dart';
@@ -43,7 +50,7 @@ class LocationSelectionParentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    // mainBloc
+    final mainBloc = context.read<MainBloc>();
     final jwt = Hive.box('user').get('jwt').toString();
     if (!jwt.isEmptyOrNull) {
       context.read<JWTCubit>().login(jwt);
@@ -53,9 +60,13 @@ class LocationSelectionParentView extends StatelessWidget {
       drawer: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Drawer(
-            backgroundColor: CustomTheme.primaryColors.shade100,
-            child: Container() //passenger profile draw,
-            ),
+          backgroundColor: CustomTheme.primaryColors.shade100,
+          child: BlocBuilder<PassengerProfileCubit,
+                  GetCurrentOrder$Query$Passenger?>(
+              builder: (context, state) => state == null
+                  ? const DrawerLoggedOut()
+                  : DrawerLoggedIn(passenger: state)),
+        ),
       ),
       body: Stack(children: [
         if (mapProvider == MapProvider.mapBox ||
@@ -91,13 +102,114 @@ class LocationSelectionParentView extends StatelessWidget {
                         final query = result.data != null
                             ? GetCurrentOrder$Query.fromJson(result.data!)
                             : null;
-                        // PassengerProfile
+                        if (result.data != null && query != null) {
+                          context
+                              .read<PassengerProfileCubit>()
+                              .updateProfile(query.passenger!);
+                          if (query.requireUpdate ==
+                              VersionStatus.mandatoryUpdate) {
+                            mainBloc
+                                .add(VersionStatusEvent(query.requireUpdate));
+                          } else {
+                            mainBloc.add(ProfileUpdated(
+                                profile: query.passenger!,
+                                driverLocation:
+                                    query.getCurrentOrderDriverLocation));
+                          }
+                        }
 
                         return const SizedBox();
                       });
                 });
               }),
         ),
+        BlocBuilder<MainBloc, MainBlocState>(builder: (context, state) {
+          return Stack(children: [
+            if (state is OrderPreview)
+              SmallBackFloatingActionButton(
+                  onPressed: () => context.read<MainBloc>().add(ResetState())),
+            if (state is SelectingPoints)
+              MenuButton(
+                  onPressed: () {
+                    scaffoldKey.currentState?.openDrawer();
+                  },
+                  bookingCount: state.bookingsCount),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 500),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.width >
+                          CustomTheme.tabletBreakpoint
+                      ? 16
+                      : 0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (state is SelectingPoints) const WelcomeCardView(),
+                    if (state is OrderPreview) const ServiceSelectionCardView(),
+                    if (state is StateWithActiveOrder)
+                      Subscription(
+                          options: SubscriptionOptions(
+                              document: UPDATED_ORDER_SUBSCRIPTION_DOCUMENT,
+                              fetchPolicy: FetchPolicy.noCache),
+                          builder: (QueryResult result) {
+                            if (result.data != null) {
+                              final order =
+                                  GetCurrentOrder$Query$Passenger$Order
+                                      .fromJson(result.data!['orderUpdated']);
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                mainBloc.add(CurrentOrderUpdated(order));
+                              });
+                            }
+                            if (state is OrderInProgress) {
+                              return const OrderStatusSheetView();
+                            }
+                            if (state is OrderInvoice) {
+                              return Mutation(
+                                  options: MutationOptions(
+                                      document: UPDATE_ORDER_MUTATION_DOCUMENT),
+                                  builder: (RunMutation runMutation,
+                                      QueryResult? result) {
+                                    return PayForRideSheetView(
+                                      onClosePressed: state.order.status ==
+                                              OrderStatus.waitingForPostPay
+                                          ? null
+                                          : () async {
+                                              final result = await runMutation(
+                                                      UpdateOrderArguments(
+                                                              id:
+                                                                  state
+                                                                      .order.id,
+                                                              update: UpdateOrderInput(
+                                                                  status: OrderStatus
+                                                                      .passengerCanceled,
+                                                                  waitMinutes:
+                                                                      0,
+                                                                  tipAmount: 0))
+                                                          .toJson())
+                                                  .networkResult;
+                                              final order =
+                                                  UpdateOrder$Mutation.fromJson(
+                                                      result!.data!);
+                                              mainBloc.add(CurrentOrderUpdated(
+                                                  order.updateOneOrder));
+                                            },
+                                      order: state.order,
+                                    );
+                                  });
+                            }
+                            if (state is OrderReview) {
+                              return const RateRideSheetView();
+                            }
+                            if (state is OrderLooking) {
+                              return const LookingSheetView();
+                            }
+                            return const Text("Unacceptable state");
+                          }),
+                  ]),
+            ).centered()
+          ]);
+        })
       ]),
     );
   }

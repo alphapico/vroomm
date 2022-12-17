@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
 import 'package:latlong2/latlong.dart';
+import '../../location_selection/location_selection_parent_view.dart';
 import '../../location_selection/welcome_card/place_search_sheet_view.dart';
 import '../../graphql/generated/graphql_api.graphql.dart';
 import 'package:collection/collection.dart';
@@ -111,6 +112,125 @@ class SelectingPoints extends MainBlocState {
                 .toList());
 }
 
+class OrderPreview extends MainBlocState {
+  List<FullLocation> points = [];
+  List<String> selectedOptions = [];
+  String? couponCode;
+  GetFare$Query$CalculateFareDTO$ServiceCategory$Service? selectedService;
+  List<LatLng>? directions;
+
+  OrderPreview(
+      {required this.points,
+      required this.selectedOptions,
+      this.selectedService,
+      required this.directions,
+      this.couponCode})
+      : super(
+            isInteractive: false,
+            markers: points
+                .mapIndexed((index, element) => MarkerDataPosition(
+                    id: index.toString(),
+                    position: element.latlng,
+                    address: element.address))
+                .toList());
+}
+
+class StateWithActiveOrder extends MainBlocState {
+  CurrentOrderMixin currentOrder;
+  List<FullLocation> locations;
+  List<MarkerDataInterface> visibleMarkers;
+
+  StateWithActiveOrder(this.currentOrder,
+      {required this.locations, required this.visibleMarkers})
+      : super(isInteractive: false, markers: visibleMarkers);
+}
+
+class OrderLooking extends StateWithActiveOrder {
+  CurrentOrderMixin order;
+
+  OrderLooking(this.order)
+      : super(order,
+            locations: order.addresses
+                .mapIndexed((index, e) => FullLocation(
+                    latlng: order.points[index].toLatLng(),
+                    address: order.addresses[index],
+                    title: "title"))
+                .toList(),
+            visibleMarkers: order.points
+                .mapIndexed((index, element) => MarkerDataPosition(
+                    id: index.toString(),
+                    position: element.toLatLng(),
+                    address: order.addresses[index]))
+                .toList());
+}
+
+class OrderInProgress extends StateWithActiveOrder {
+  CurrentOrderMixin order;
+  LatLng? driverLocation;
+
+  OrderInProgress(this.order, {this.driverLocation})
+      : super(order, locations: [], visibleMarkers: []) {
+    switch (order.status) {
+      case OrderStatus.driverAccepted:
+      case OrderStatus.arrived:
+        markers = <MarkerDataInterface>[
+          MarkerDataPosition(
+              id: order.points[0].lat.toString(),
+              position: LatLng(order.points[0].lat, order.points[0].lng),
+              address: order.addresses[0])
+        ];
+        break;
+
+      case OrderStatus.started:
+        markers = order.points
+            .sublist(1)
+            .mapIndexed<MarkerDataInterface>((index, point) =>
+                MarkerDataPosition(
+                    id: point.lat.toString(),
+                    position: LatLng(point.lat, point.lng),
+                    address: order.addresses[index]))
+            .toList();
+        break;
+
+      default:
+    }
+    if (driverLocation != null) {
+      markers = markers.followedBy([
+        MarkerDataDriver(
+            id: driverLocation!.latitude.toString(), position: driverLocation!)
+      ]).toList();
+    }
+  }
+}
+
+class OrderInvoice extends StateWithActiveOrder {
+  CurrentOrderMixin order;
+
+  OrderInvoice(this.order)
+      : super(order,
+            locations: [],
+            visibleMarkers: order.points
+                .mapIndexed((index, element) => MarkerDataPosition(
+                    id: index.toString(),
+                    position: element.toLatLng(),
+                    address: order.addresses[index]))
+                .toList());
+}
+
+class OrderReview extends StateWithActiveOrder {
+  CurrentOrderMixin order;
+
+  OrderReview(this.order)
+      : super(order,
+            locations: [],
+            visibleMarkers: order.points
+                .mapIndexed((index, element) => MarkerDataPosition(
+                    id: index.toString(),
+                    position: element.toLatLng(),
+                    address: order.addresses[index]))
+                .toList());
+}
+
 class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
   MainBloc() : super(SelectingPoints([], [], true)) {
     on<VersionStatusEvent>(((event, emit) => emit(RequireUpdateState())));
@@ -123,15 +243,145 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
 
     on<ResetState>((event, emit) => emit(SelectingPoints([], [], true)));
 
-    // ShowPreview
-    // SelectService
-    // ShowPreviewDirections
-    // ProfileUpdated
-    // CurrentOrderUpdated
-    // DriverLocationUpdatedEvent
-    // SetDriversLocations
-    // DriverLocationUpdatedEvent
-    // SetDriversLocations
+    on<ShowPreview>((event, emit) => emit(OrderPreview(
+        points: event.points,
+        selectedOptions: event.selectedOptions,
+        couponCode: event.couponCode,
+        directions: [])));
+
+    on<SelectService>((event, emit) => emit(OrderPreview(
+        points: (state as OrderPreview).points,
+        selectedOptions: (state as OrderPreview).selectedOptions,
+        couponCode: (state as OrderPreview).couponCode,
+        selectedService: event.service,
+        directions: (state as OrderPreview).directions)));
+
+    on<ShowPreviewDirections>((event, emit) {
+      emit(OrderPreview(
+          points: (state as OrderPreview).points,
+          selectedOptions: (state as OrderPreview).selectedOptions,
+          couponCode: (state as OrderPreview).couponCode,
+          selectedService: (state as OrderPreview).selectedService,
+          directions:
+              event.directions.map((e) => LatLng(e.lat, e.lng)).toList()));
+    });
+
+    on<ProfileUpdated>((event, emit) {
+      LatLng? driverLocation = event.driverLocation?.toLatLng();
+      if (driverLocation == null &&
+          state is OrderInProgress &&
+          (state as OrderInProgress).driverLocation != null) {
+        driverLocation = (state as OrderInProgress).driverLocation;
+      }
+      int bookings = event.profile.bookedOrders.first.count?.id ?? 0;
+      if (event.profile.orders.isEmpty &&
+          (state is! SelectingPoints || state is! OrderPreview)) {
+        //emit(SelectingPoints([], [], true, bookingsCount: bookings));
+        return;
+      }
+      GetCurrentOrder$Query$Passenger$Order order = event.profile.orders.first;
+      switch (order.status) {
+        case OrderStatus.requested:
+        case OrderStatus.notFound:
+        case OrderStatus.noCloseFound:
+        case OrderStatus.found:
+        case OrderStatus.booked:
+          emit(OrderLooking(order));
+          return;
+
+        case OrderStatus.driverAccepted:
+        case OrderStatus.arrived:
+        case OrderStatus.started:
+          emit(OrderInProgress(order, driverLocation: driverLocation));
+          return;
+
+        case OrderStatus.expired:
+        case OrderStatus.finished:
+        case OrderStatus.passengerCanceled:
+        case OrderStatus.driverCanceled:
+        case OrderStatus.artemisUnknown:
+          if (state is! SelectingPoints || state is! OrderPreview) {
+            emit(SelectingPoints([], [], true, bookingsCount: bookings));
+          }
+          return;
+
+        case OrderStatus.waitingForPostPay:
+        case OrderStatus.waitingForPrePay:
+          emit(OrderInvoice(order));
+          return;
+
+        case OrderStatus.waitingForReview:
+          emit(OrderReview(order));
+          return;
+      }
+    });
+
+    on<CurrentOrderUpdated>(((event, emit) {
+      LatLng? driverLocation = event.driverLocation?.toLatLng();
+
+      if (driverLocation == null &&
+          state is OrderInProgress &&
+          (state as OrderInProgress).driverLocation != null) {
+        driverLocation = (state as OrderInProgress).driverLocation;
+      }
+      if (state is StateWithActiveOrder) {
+        // ignore: no_leading_underscores_for_local_identifiers
+        final _state = state as StateWithActiveOrder;
+        if (_state.currentOrder.status == event.order.status &&
+            _state.currentOrder.costAfterCoupon ==
+                event.order.costAfterCoupon) {
+          return;
+        }
+      }
+      switch (event.order.status) {
+        case OrderStatus.requested:
+        case OrderStatus.notFound:
+        case OrderStatus.noCloseFound:
+        case OrderStatus.found:
+        case OrderStatus.booked:
+          emit(OrderLooking(event.order));
+          return;
+
+        case OrderStatus.driverAccepted:
+        case OrderStatus.arrived:
+        case OrderStatus.started:
+          emit(OrderInProgress(event.order, driverLocation: driverLocation));
+          return;
+
+        case OrderStatus.expired:
+        case OrderStatus.finished:
+        case OrderStatus.passengerCanceled:
+        case OrderStatus.driverCanceled:
+        case OrderStatus.artemisUnknown:
+          emit(SelectingPoints([], [], true, bookingsCount: 0));
+          return;
+
+        case OrderStatus.waitingForPostPay:
+        case OrderStatus.waitingForPrePay:
+          emit(OrderInvoice(event.order));
+          return;
+
+        case OrderStatus.waitingForReview:
+          emit(OrderReview(event.order));
+          return;
+      }
+    }));
+
+    on<DriverLocationUpdatedEvent>((event, emit) {
+      if (state is OrderInProgress) {
+        emit(OrderInProgress((state as OrderInProgress).currentOrder,
+            driverLocation: LatLng(event.location.lat, event.location.lng)));
+      }
+    });
+    on<SetDriversLocations>((event, emit) {
+      if (state is SelectingPoints &&
+          (state as SelectingPoints).driverLocations.length ==
+              event.driversLocations.length) return;
+      if (state is! SelectingPoints) return;
+      emit(SelectingPoints(
+          (state as SelectingPoints).points, event.driversLocations, false,
+          bookingsCount: (state as SelectingPoints).bookingsCount));
+    });
   }
 }
 

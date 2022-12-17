@@ -69,7 +69,18 @@ class _GoogleMapProviderState extends State<GoogleMapProvider> {
                     ),
                   );
                 }
-                // animateCamera
+                if (state is OrderPreview ||
+                    state is OrderInProgress ||
+                    state is OrderReview ||
+                    state is OrderInvoice) {
+                  (await _controller.future).animateCamera(
+                      CameraUpdate.newLatLngBounds(
+                          boundsFromLatLngList(state.markers
+                              .map((e) => LatLng(
+                                  e.position.latitude, e.position.longitude))
+                              .toList()),
+                          50));
+                }
               },
               builder: (context, state) => Column(
                 children: [
@@ -101,7 +112,9 @@ class _GoogleMapProviderState extends State<GoogleMapProvider> {
                           .toSet(),
                     ),
                   ),
-                  // getStateSize
+                  SizedBox(
+                    height: getStateSize(state),
+                  )
                 ],
               ),
             ));
@@ -140,7 +153,13 @@ class _GoogleMapProviderState extends State<GoogleMapProvider> {
     context.read<MainBloc>().add(SetDriversLocations(locations));
   }
 
-  // getStateSize
+  double getStateSize(MainBlocState state) {
+    if (state is SelectingPoints) return 140;
+    if (state is OrderPreview || state is OrderInProgress) return 390;
+    if (state is OrderLooking) return 160;
+    if (state is OrderReview || state is OrderInvoice) return 160;
+    return 0;
+  }
 }
 
 Future<Uint8List> getBytesFromAsset(String path, int width) async {
