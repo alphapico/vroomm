@@ -55,7 +55,93 @@ class _PayForRideSheetViewState extends State<PayForRideSheetView> {
                 driver: widget.order.driver!,
                 onTipSelected: (value) => setState(() => tipAmount = value),
               ),
-            // PAY_FOR_RIDE_QUERY_DOCUMENT
+            Query(
+                options: QueryOptions(document: PAY_FOR_RIDE_QUERY_DOCUMENT),
+                builder: (QueryResult result,
+                    {Refetch? refetch, FetchMore? fetchMore}) {
+                  if (result.isLoading) {
+                    return const Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+                  }
+                  final queryResult = PayForRide$Query.fromJson(result.data!);
+                  balance = queryResult.passengerWallets
+                          .firstWhereOrNull((element) =>
+                              element.currency == widget.order.currency)
+                          ?.balance ??
+                      0;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Select Payment Method:",
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ).pOnly(bottom: 8),
+                      ...queryResult.paymentGateways.map((gateway) =>
+                          PaymentMethodItem(
+                              id: gateway.id,
+                              title: gateway.title,
+                              selectedValue: selectedGatewayId,
+                              imageAddress: gateway.media != null
+                                  ? (serverUrl + gateway.media!.address)
+                                  : null,
+                              onSelected: (value) {
+                                setState(() => selectedGatewayId = gateway.id);
+                              })),
+                      PayForRideInvoiceContainer(
+                        serviceName: widget.order.service.name,
+                        currency: widget.order.currency,
+                        serviceFee: widget.order.costAfterCoupon,
+                        tip: tipAmount,
+                        walletCredit: balance,
+                        customAmountUpdated: (value) {
+                          customAmount = value;
+                        },
+                      ).pOnly(top: 16, bottom: 16),
+                      SizedBox(
+                          width: double.infinity,
+                          child: Mutation(
+                              options: MutationOptions(
+                                  document: PAY_RIDE_MUTATION_DOCUMENT),
+                              builder: (RunMutation runMutation,
+                                  QueryResult? result) {
+                                return ElevatedButton(
+                                    onPressed: selectedGatewayId == null ||
+                                            getTotal() < 0
+                                        ? null
+                                        : () async {
+                                            final mutationResult =
+                                                await runMutation(PayRideArguments(
+                                                            orderId:
+                                                                widget.order.id,
+                                                            tipAmount:
+                                                                tipAmount,
+                                                            input: TopUpWalletInput(
+                                                                gatewayId:
+                                                                    selectedGatewayId!,
+                                                                amount:
+                                                                    getTotal(),
+                                                                currency: widget
+                                                                    .order
+                                                                    .currency))
+                                                        .toJson())
+                                                    .networkResult;
+                                            final resultParsed =
+                                                PayRide$Mutation.fromJson(
+                                                    mutationResult!.data!);
+                                            launchUrl(Uri.parse(
+                                                resultParsed.topUpWallet.url));
+                                            if (!mounted) {
+                                              return;
+                                            }
+                                            // Navigator.pop(context);
+                                          },
+                                    child: Text(
+                                        S.of(context).action_confirm_and_pay));
+                              }))
+                    ],
+                  );
+                }),
           ],
         ),
       ),
