@@ -30,6 +30,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   artemis: 7.7.0-beta
+  collection: ^1.16.0
   country_code_picker: ^2.0.2
   country_codes: ^2.2.0
   dotted_line: ^3.1.0

@@ -10,6 +10,7 @@ import 'package:lifecycle/lifecycle.dart';
 import '../main/bloc/jwt_cubit.dart';
 
 import 'address/address_list_view.dart';
+import 'history/trip_history_list_view.dart';
 import 'location_selection/location_selection_parent_view.dart';
 import 'location_selection/welcome_card/location_history_item.dart';
 import 'main/bloc/current_location_cubit.dart';
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: S.delegate.supportedLocales,
           routes: {
             'addresses': (context) => const AddressListView(),
+            'history': (context) => const TripHistoryListView(),
             'profile': (context) => BlocProvider.value(
                   value: context.read<PassengerProfileCubit>(),
                   child: BlocProvider.value(

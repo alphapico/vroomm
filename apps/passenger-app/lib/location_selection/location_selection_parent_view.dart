@@ -14,22 +14,14 @@ import '../location_selection/reservation_messages/looking_sheet_view.dart';
 import '../location_selection/welcome_card/place_search_sheet_view.dart';
 import '../main/bloc/current_location_cubit.dart';
 import '../main/bloc/jwt_cubit.dart';
-// passenger-profile
 import '../main/bloc/passenger_profile_cubit.dart';
 import '../main/drawer_logged_in.dart';
 import '../main/drawer_logged_out.dart';
 import '../main/map_providers/google_map_provider.dart';
-// open street map
-//import 'package:ridy/main/pay_for_ride_sheet_view.dart';
-//import 'package:ridy/main/rate_ride_sheet_view.dart';
 import 'package:client_shared/theme/theme.dart';
 
 import '../graphql/generated/graphql_api.graphql.dart';
 import '../main/bloc/main_bloc.dart';
-//import '../main/drawer_logged_in.dart';
-//import '../main/drawer_logged_out.dart';
-//import '../main/order_status_sheet_view.dart';
-//import '../main/service_selection_card_view.dart';
 import '../main/map_providers/open_street_map_provider.dart';
 import '../main/order_status_sheet_view.dart';
 import '../main/pay_for_ride_sheet_view.dart';
