@@ -2397,6 +2397,63 @@ Map<String, dynamic> _$SubmitComplaint$MutationToJson(
       'createOneComplaint': instance.createOneComplaint.toJson(),
     };
 
+Reservations$Query$OrderConnection$OrderEdge$Order
+    _$Reservations$Query$OrderConnection$OrderEdge$OrderFromJson(
+            Map<String, dynamic> json) =>
+        Reservations$Query$OrderConnection$OrderEdge$Order()
+          ..id = json['id'] as String
+          ..expectedTimestamp = fromGraphQLTimestampToDartDateTime(
+              json['expectedTimestamp'] as int)
+          ..addresses = (json['addresses'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList();
+
+Map<String, dynamic> _$Reservations$Query$OrderConnection$OrderEdge$OrderToJson(
+        Reservations$Query$OrderConnection$OrderEdge$Order instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'expectedTimestamp':
+          fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp),
+      'addresses': instance.addresses,
+    };
+
+Reservations$Query$OrderConnection$OrderEdge
+    _$Reservations$Query$OrderConnection$OrderEdgeFromJson(
+            Map<String, dynamic> json) =>
+        Reservations$Query$OrderConnection$OrderEdge()
+          ..node = Reservations$Query$OrderConnection$OrderEdge$Order.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$Reservations$Query$OrderConnection$OrderEdgeToJson(
+        Reservations$Query$OrderConnection$OrderEdge instance) =>
+    <String, dynamic>{
+      'node': instance.node.toJson(),
+    };
+
+Reservations$Query$OrderConnection _$Reservations$Query$OrderConnectionFromJson(
+        Map<String, dynamic> json) =>
+    Reservations$Query$OrderConnection()
+      ..edges = (json['edges'] as List<dynamic>)
+          .map((e) => Reservations$Query$OrderConnection$OrderEdge.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$Reservations$Query$OrderConnectionToJson(
+        Reservations$Query$OrderConnection instance) =>
+    <String, dynamic>{
+      'edges': instance.edges.map((e) => e.toJson()).toList(),
+    };
+
+Reservations$Query _$Reservations$QueryFromJson(Map<String, dynamic> json) =>
+    Reservations$Query()
+      ..orders = Reservations$Query$OrderConnection.fromJson(
+          json['orders'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$Reservations$QueryToJson(Reservations$Query instance) =>
+    <String, dynamic>{
+      'orders': instance.orders.toJson(),
+    };
+
 UpdateProfileArguments _$UpdateProfileArgumentsFromJson(
         Map<String, dynamic> json) =>
     UpdateProfileArguments(

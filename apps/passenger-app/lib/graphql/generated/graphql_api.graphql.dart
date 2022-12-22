@@ -2377,6 +2377,82 @@ class SubmitComplaint$Mutation extends JsonSerializable with EquatableMixin {
   Map<String, dynamic> toJson() => _$SubmitComplaint$MutationToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
+class Reservations$Query$OrderConnection$OrderEdge$Order
+    extends JsonSerializable with EquatableMixin {
+  Reservations$Query$OrderConnection$OrderEdge$Order();
+
+  factory Reservations$Query$OrderConnection$OrderEdge$Order.fromJson(
+          Map<String, dynamic> json) =>
+      _$Reservations$Query$OrderConnection$OrderEdge$OrderFromJson(json);
+
+  late String id;
+
+  @JsonKey(
+      fromJson: fromGraphQLTimestampToDartDateTime,
+      toJson: fromDartDateTimeToGraphQLTimestamp)
+  late DateTime expectedTimestamp;
+
+  late List<String> addresses;
+
+  @override
+  List<Object?> get props => [id, expectedTimestamp, addresses];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$Reservations$Query$OrderConnection$OrderEdge$OrderToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Reservations$Query$OrderConnection$OrderEdge extends JsonSerializable
+    with EquatableMixin {
+  Reservations$Query$OrderConnection$OrderEdge();
+
+  factory Reservations$Query$OrderConnection$OrderEdge.fromJson(
+          Map<String, dynamic> json) =>
+      _$Reservations$Query$OrderConnection$OrderEdgeFromJson(json);
+
+  late Reservations$Query$OrderConnection$OrderEdge$Order node;
+
+  @override
+  List<Object?> get props => [node];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$Reservations$Query$OrderConnection$OrderEdgeToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Reservations$Query$OrderConnection extends JsonSerializable
+    with EquatableMixin {
+  Reservations$Query$OrderConnection();
+
+  factory Reservations$Query$OrderConnection.fromJson(
+          Map<String, dynamic> json) =>
+      _$Reservations$Query$OrderConnectionFromJson(json);
+
+  late List<Reservations$Query$OrderConnection$OrderEdge> edges;
+
+  @override
+  List<Object?> get props => [edges];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$Reservations$Query$OrderConnectionToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class Reservations$Query extends JsonSerializable with EquatableMixin {
+  Reservations$Query();
+
+  factory Reservations$Query.fromJson(Map<String, dynamic> json) =>
+      _$Reservations$QueryFromJson(json);
+
+  late Reservations$Query$OrderConnection orders;
+
+  @override
+  List<Object?> get props => [orders];
+  @override
+  Map<String, dynamic> toJson() => _$Reservations$QueryToJson(this);
+}
+
 enum Gender {
   @JsonValue('Male')
   male,
@@ -7661,4 +7737,93 @@ class SubmitComplaintMutation
   @override
   SubmitComplaint$Mutation parse(Map<String, dynamic> json) =>
       SubmitComplaint$Mutation.fromJson(json);
+}
+
+final RESERVATIONS_QUERY_DOCUMENT_OPERATION_NAME = 'Reservations';
+final RESERVATIONS_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'Reservations'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'orders'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'filter'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'status'),
+                value: ObjectValueNode(fields: [
+                  ObjectFieldNode(
+                    name: NameNode(value: 'eq'),
+                    value: EnumValueNode(name: NameNode(value: 'Booked')),
+                  )
+                ]),
+              )
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'edges'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FieldNode(
+                name: NameNode(value: 'node'),
+                alias: null,
+                arguments: [],
+                directives: [],
+                selectionSet: SelectionSetNode(selections: [
+                  FieldNode(
+                    name: NameNode(value: 'id'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'expectedTimestamp'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                  FieldNode(
+                    name: NameNode(value: 'addresses'),
+                    alias: null,
+                    arguments: [],
+                    directives: [],
+                    selectionSet: null,
+                  ),
+                ]),
+              )
+            ]),
+          )
+        ]),
+      )
+    ]),
+  )
+]);
+
+class ReservationsQuery
+    extends GraphQLQuery<Reservations$Query, JsonSerializable> {
+  ReservationsQuery();
+
+  @override
+  final DocumentNode document = RESERVATIONS_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = RESERVATIONS_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  Reservations$Query parse(Map<String, dynamic> json) =>
+      Reservations$Query.fromJson(json);
 }

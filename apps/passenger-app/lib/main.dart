@@ -23,6 +23,7 @@ import 'generated/l10n.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'profile/profile_view.dart';
+import 'reservations/reservation_list_view.dart';
 
 // ignore: avoid_void_async
 void main() async {
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
           routes: {
             'addresses': (context) => const AddressListView(),
             'history': (context) => const TripHistoryListView(),
+            'reserves': (context) => const ReservationListView(),
             'profile': (context) => BlocProvider.value(
                   value: context.read<PassengerProfileCubit>(),
                   child: BlocProvider.value(
