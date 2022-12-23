@@ -41,6 +41,25 @@ mixin HistoryOrderItemMixin {
   late List<HistoryOrderItemMixin$OrderEdge> edges;
   late HistoryOrderItemMixin$PageInfo pageInfo;
 }
+mixin ChatPassengerMixin {
+  late String id;
+  String? firstName;
+  String? lastName;
+  late String mobileNumber;
+  ChatPassengerMixin$Media? media;
+}
+mixin ChatDriverMixin {
+  late String id;
+  String? firstName;
+  String? lastName;
+  late String mobileNumber;
+  ChatDriverMixin$Media? media;
+}
+mixin ChatMessageMixin {
+  late String id;
+  late String content;
+  late bool sentByDriver;
+}
 
 @JsonSerializable(explicitToJson: true)
 class GetPassenger$Query$Passenger$Media extends JsonSerializable
@@ -2451,6 +2470,182 @@ class Reservations$Query extends JsonSerializable with EquatableMixin {
   List<Object?> get props => [orders];
   @override
   Map<String, dynamic> toJson() => _$Reservations$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetMessages$Query$Order$Passenger extends JsonSerializable
+    with EquatableMixin, ChatPassengerMixin {
+  GetMessages$Query$Order$Passenger();
+
+  factory GetMessages$Query$Order$Passenger.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetMessages$Query$Order$PassengerFromJson(json);
+
+  @override
+  List<Object?> get props => [id, firstName, lastName, mobileNumber, media];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetMessages$Query$Order$PassengerToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetMessages$Query$Order$Driver extends JsonSerializable
+    with EquatableMixin, ChatDriverMixin {
+  GetMessages$Query$Order$Driver();
+
+  factory GetMessages$Query$Order$Driver.fromJson(Map<String, dynamic> json) =>
+      _$GetMessages$Query$Order$DriverFromJson(json);
+
+  @override
+  List<Object?> get props => [id, firstName, lastName, mobileNumber, media];
+  @override
+  Map<String, dynamic> toJson() => _$GetMessages$Query$Order$DriverToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetMessages$Query$Order$OrderMessage extends JsonSerializable
+    with EquatableMixin, ChatMessageMixin {
+  GetMessages$Query$Order$OrderMessage();
+
+  factory GetMessages$Query$Order$OrderMessage.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetMessages$Query$Order$OrderMessageFromJson(json);
+
+  @override
+  List<Object?> get props => [id, content, sentByDriver];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$GetMessages$Query$Order$OrderMessageToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetMessages$Query$Order extends JsonSerializable with EquatableMixin {
+  GetMessages$Query$Order();
+
+  factory GetMessages$Query$Order.fromJson(Map<String, dynamic> json) =>
+      _$GetMessages$Query$OrderFromJson(json);
+
+  late String id;
+
+  late GetMessages$Query$Order$Passenger passenger;
+
+  GetMessages$Query$Order$Driver? driver;
+
+  late List<GetMessages$Query$Order$OrderMessage> conversations;
+
+  @override
+  List<Object?> get props => [id, passenger, driver, conversations];
+  @override
+  Map<String, dynamic> toJson() => _$GetMessages$Query$OrderToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetMessages$Query extends JsonSerializable with EquatableMixin {
+  GetMessages$Query();
+
+  factory GetMessages$Query.fromJson(Map<String, dynamic> json) =>
+      _$GetMessages$QueryFromJson(json);
+
+  late GetMessages$Query$Order currentOrder;
+
+  @override
+  List<Object?> get props => [currentOrder];
+  @override
+  Map<String, dynamic> toJson() => _$GetMessages$QueryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ChatPassengerMixin$Media extends JsonSerializable with EquatableMixin {
+  ChatPassengerMixin$Media();
+
+  factory ChatPassengerMixin$Media.fromJson(Map<String, dynamic> json) =>
+      _$ChatPassengerMixin$MediaFromJson(json);
+
+  late String address;
+
+  @override
+  List<Object?> get props => [address];
+  @override
+  Map<String, dynamic> toJson() => _$ChatPassengerMixin$MediaToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class ChatDriverMixin$Media extends JsonSerializable with EquatableMixin {
+  ChatDriverMixin$Media();
+
+  factory ChatDriverMixin$Media.fromJson(Map<String, dynamic> json) =>
+      _$ChatDriverMixin$MediaFromJson(json);
+
+  late String address;
+
+  @override
+  List<Object?> get props => [address];
+  @override
+  Map<String, dynamic> toJson() => _$ChatDriverMixin$MediaToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SendMessage$Mutation$OrderMessage extends JsonSerializable
+    with EquatableMixin, ChatMessageMixin {
+  SendMessage$Mutation$OrderMessage();
+
+  factory SendMessage$Mutation$OrderMessage.fromJson(
+          Map<String, dynamic> json) =>
+      _$SendMessage$Mutation$OrderMessageFromJson(json);
+
+  @override
+  List<Object?> get props => [id, content, sentByDriver];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$SendMessage$Mutation$OrderMessageToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SendMessage$Mutation extends JsonSerializable with EquatableMixin {
+  SendMessage$Mutation();
+
+  factory SendMessage$Mutation.fromJson(Map<String, dynamic> json) =>
+      _$SendMessage$MutationFromJson(json);
+
+  late SendMessage$Mutation$OrderMessage createOneOrderMessage;
+
+  @override
+  List<Object?> get props => [createOneOrderMessage];
+  @override
+  Map<String, dynamic> toJson() => _$SendMessage$MutationToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class NewMessageReceived$Subscription$OrderMessage extends JsonSerializable
+    with EquatableMixin, ChatMessageMixin {
+  NewMessageReceived$Subscription$OrderMessage();
+
+  factory NewMessageReceived$Subscription$OrderMessage.fromJson(
+          Map<String, dynamic> json) =>
+      _$NewMessageReceived$Subscription$OrderMessageFromJson(json);
+
+  @override
+  List<Object?> get props => [id, content, sentByDriver];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$NewMessageReceived$Subscription$OrderMessageToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class NewMessageReceived$Subscription extends JsonSerializable
+    with EquatableMixin {
+  NewMessageReceived$Subscription();
+
+  factory NewMessageReceived$Subscription.fromJson(Map<String, dynamic> json) =>
+      _$NewMessageReceived$SubscriptionFromJson(json);
+
+  late NewMessageReceived$Subscription$OrderMessage newMessageReceived;
+
+  @override
+  List<Object?> get props => [newMessageReceived];
+  @override
+  Map<String, dynamic> toJson() =>
+      _$NewMessageReceived$SubscriptionToJson(this);
 }
 
 enum Gender {
@@ -7826,4 +8021,448 @@ class ReservationsQuery
   @override
   Reservations$Query parse(Map<String, dynamic> json) =>
       Reservations$Query.fromJson(json);
+}
+
+final GET_MESSAGES_QUERY_DOCUMENT_OPERATION_NAME = 'GetMessages';
+final GET_MESSAGES_QUERY_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.query,
+    name: NameNode(value: 'GetMessages'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'currentOrder'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'id'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          ),
+          FieldNode(
+            name: NameNode(value: 'passenger'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'ChatPassenger'),
+                directives: [],
+              )
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'driver'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'ChatDriver'),
+                directives: [],
+              )
+            ]),
+          ),
+          FieldNode(
+            name: NameNode(value: 'conversations'),
+            alias: null,
+            arguments: [
+              ArgumentNode(
+                name: NameNode(value: 'sorting'),
+                value: ObjectValueNode(fields: [
+                  ObjectFieldNode(
+                    name: NameNode(value: 'field'),
+                    value: EnumValueNode(name: NameNode(value: 'id')),
+                  ),
+                  ObjectFieldNode(
+                    name: NameNode(value: 'direction'),
+                    value: EnumValueNode(name: NameNode(value: 'DESC')),
+                  ),
+                ]),
+              )
+            ],
+            directives: [],
+            selectionSet: SelectionSetNode(selections: [
+              FragmentSpreadNode(
+                name: NameNode(value: 'ChatMessage'),
+                directives: [],
+              )
+            ]),
+          ),
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'ChatPassenger'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Passenger'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'firstName'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'lastName'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'mobileNumber'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'media'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'address'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'ChatDriver'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'Driver'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'firstName'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'lastName'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'mobileNumber'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'media'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FieldNode(
+            name: NameNode(value: 'address'),
+            alias: null,
+            arguments: [],
+            directives: [],
+            selectionSet: null,
+          )
+        ]),
+      ),
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'ChatMessage'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'OrderMessage'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'content'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sentByDriver'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class GetMessagesQuery
+    extends GraphQLQuery<GetMessages$Query, JsonSerializable> {
+  GetMessagesQuery();
+
+  @override
+  final DocumentNode document = GET_MESSAGES_QUERY_DOCUMENT;
+
+  @override
+  final String operationName = GET_MESSAGES_QUERY_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  GetMessages$Query parse(Map<String, dynamic> json) =>
+      GetMessages$Query.fromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class SendMessageArguments extends JsonSerializable with EquatableMixin {
+  SendMessageArguments({
+    required this.orderId,
+    required this.content,
+  });
+
+  @override
+  factory SendMessageArguments.fromJson(Map<String, dynamic> json) =>
+      _$SendMessageArgumentsFromJson(json);
+
+  late String orderId;
+
+  late String content;
+
+  @override
+  List<Object?> get props => [orderId, content];
+  @override
+  Map<String, dynamic> toJson() => _$SendMessageArgumentsToJson(this);
+}
+
+final SEND_MESSAGE_MUTATION_DOCUMENT_OPERATION_NAME = 'SendMessage';
+final SEND_MESSAGE_MUTATION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.mutation,
+    name: NameNode(value: 'SendMessage'),
+    variableDefinitions: [
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'orderId')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'ID'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'content')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+    ],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'createOneOrderMessage'),
+        alias: null,
+        arguments: [
+          ArgumentNode(
+            name: NameNode(value: 'input'),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'orderMessage'),
+                value: ObjectValueNode(fields: [
+                  ObjectFieldNode(
+                    name: NameNode(value: 'orderId'),
+                    value: VariableNode(name: NameNode(value: 'orderId')),
+                  ),
+                  ObjectFieldNode(
+                    name: NameNode(value: 'content'),
+                    value: VariableNode(name: NameNode(value: 'content')),
+                  ),
+                ]),
+              )
+            ]),
+          )
+        ],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'ChatMessage'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'ChatMessage'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'OrderMessage'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'content'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sentByDriver'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class SendMessageMutation
+    extends GraphQLQuery<SendMessage$Mutation, SendMessageArguments> {
+  SendMessageMutation({required this.variables});
+
+  @override
+  final DocumentNode document = SEND_MESSAGE_MUTATION_DOCUMENT;
+
+  @override
+  final String operationName = SEND_MESSAGE_MUTATION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  final SendMessageArguments variables;
+
+  @override
+  List<Object?> get props => [document, operationName, variables];
+  @override
+  SendMessage$Mutation parse(Map<String, dynamic> json) =>
+      SendMessage$Mutation.fromJson(json);
+}
+
+final NEW_MESSAGE_RECEIVED_SUBSCRIPTION_DOCUMENT_OPERATION_NAME =
+    'NewMessageReceived';
+final NEW_MESSAGE_RECEIVED_SUBSCRIPTION_DOCUMENT = DocumentNode(definitions: [
+  OperationDefinitionNode(
+    type: OperationType.subscription,
+    name: NameNode(value: 'NewMessageReceived'),
+    variableDefinitions: [],
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'newMessageReceived'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: SelectionSetNode(selections: [
+          FragmentSpreadNode(
+            name: NameNode(value: 'ChatMessage'),
+            directives: [],
+          )
+        ]),
+      )
+    ]),
+  ),
+  FragmentDefinitionNode(
+    name: NameNode(value: 'ChatMessage'),
+    typeCondition: TypeConditionNode(
+        on: NamedTypeNode(
+      name: NameNode(value: 'OrderMessage'),
+      isNonNull: false,
+    )),
+    directives: [],
+    selectionSet: SelectionSetNode(selections: [
+      FieldNode(
+        name: NameNode(value: 'id'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'content'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+      FieldNode(
+        name: NameNode(value: 'sentByDriver'),
+        alias: null,
+        arguments: [],
+        directives: [],
+        selectionSet: null,
+      ),
+    ]),
+  ),
+]);
+
+class NewMessageReceivedSubscription
+    extends GraphQLQuery<NewMessageReceived$Subscription, JsonSerializable> {
+  NewMessageReceivedSubscription();
+
+  @override
+  final DocumentNode document = NEW_MESSAGE_RECEIVED_SUBSCRIPTION_DOCUMENT;
+
+  @override
+  final String operationName =
+      NEW_MESSAGE_RECEIVED_SUBSCRIPTION_DOCUMENT_OPERATION_NAME;
+
+  @override
+  List<Object?> get props => [document, operationName];
+  @override
+  NewMessageReceived$Subscription parse(Map<String, dynamic> json) =>
+      NewMessageReceived$Subscription.fromJson(json);
 }

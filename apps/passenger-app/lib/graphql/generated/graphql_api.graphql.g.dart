@@ -2454,6 +2454,202 @@ Map<String, dynamic> _$Reservations$QueryToJson(Reservations$Query instance) =>
       'orders': instance.orders.toJson(),
     };
 
+GetMessages$Query$Order$Passenger _$GetMessages$Query$Order$PassengerFromJson(
+        Map<String, dynamic> json) =>
+    GetMessages$Query$Order$Passenger()
+      ..id = json['id'] as String
+      ..firstName = json['firstName'] as String?
+      ..lastName = json['lastName'] as String?
+      ..mobileNumber = json['mobileNumber'] as String
+      ..media = json['media'] == null
+          ? null
+          : ChatPassengerMixin$Media.fromJson(
+              json['media'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetMessages$Query$Order$PassengerToJson(
+    GetMessages$Query$Order$Passenger instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  val['mobileNumber'] = instance.mobileNumber;
+  writeNotNull('media', instance.media?.toJson());
+  return val;
+}
+
+GetMessages$Query$Order$Driver _$GetMessages$Query$Order$DriverFromJson(
+        Map<String, dynamic> json) =>
+    GetMessages$Query$Order$Driver()
+      ..id = json['id'] as String
+      ..firstName = json['firstName'] as String?
+      ..lastName = json['lastName'] as String?
+      ..mobileNumber = json['mobileNumber'] as String
+      ..media = json['media'] == null
+          ? null
+          : ChatDriverMixin$Media.fromJson(
+              json['media'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetMessages$Query$Order$DriverToJson(
+    GetMessages$Query$Order$Driver instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  val['mobileNumber'] = instance.mobileNumber;
+  writeNotNull('media', instance.media?.toJson());
+  return val;
+}
+
+GetMessages$Query$Order$OrderMessage
+    _$GetMessages$Query$Order$OrderMessageFromJson(Map<String, dynamic> json) =>
+        GetMessages$Query$Order$OrderMessage()
+          ..id = json['id'] as String
+          ..content = json['content'] as String
+          ..sentByDriver = json['sentByDriver'] as bool;
+
+Map<String, dynamic> _$GetMessages$Query$Order$OrderMessageToJson(
+        GetMessages$Query$Order$OrderMessage instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'sentByDriver': instance.sentByDriver,
+    };
+
+GetMessages$Query$Order _$GetMessages$Query$OrderFromJson(
+        Map<String, dynamic> json) =>
+    GetMessages$Query$Order()
+      ..id = json['id'] as String
+      ..passenger = GetMessages$Query$Order$Passenger.fromJson(
+          json['passenger'] as Map<String, dynamic>)
+      ..driver = json['driver'] == null
+          ? null
+          : GetMessages$Query$Order$Driver.fromJson(
+              json['driver'] as Map<String, dynamic>)
+      ..conversations = (json['conversations'] as List<dynamic>)
+          .map((e) => GetMessages$Query$Order$OrderMessage.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetMessages$Query$OrderToJson(
+    GetMessages$Query$Order instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'passenger': instance.passenger.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('driver', instance.driver?.toJson());
+  val['conversations'] = instance.conversations.map((e) => e.toJson()).toList();
+  return val;
+}
+
+GetMessages$Query _$GetMessages$QueryFromJson(Map<String, dynamic> json) =>
+    GetMessages$Query()
+      ..currentOrder = GetMessages$Query$Order.fromJson(
+          json['currentOrder'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetMessages$QueryToJson(GetMessages$Query instance) =>
+    <String, dynamic>{
+      'currentOrder': instance.currentOrder.toJson(),
+    };
+
+ChatPassengerMixin$Media _$ChatPassengerMixin$MediaFromJson(
+        Map<String, dynamic> json) =>
+    ChatPassengerMixin$Media()..address = json['address'] as String;
+
+Map<String, dynamic> _$ChatPassengerMixin$MediaToJson(
+        ChatPassengerMixin$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+ChatDriverMixin$Media _$ChatDriverMixin$MediaFromJson(
+        Map<String, dynamic> json) =>
+    ChatDriverMixin$Media()..address = json['address'] as String;
+
+Map<String, dynamic> _$ChatDriverMixin$MediaToJson(
+        ChatDriverMixin$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+SendMessage$Mutation$OrderMessage _$SendMessage$Mutation$OrderMessageFromJson(
+        Map<String, dynamic> json) =>
+    SendMessage$Mutation$OrderMessage()
+      ..id = json['id'] as String
+      ..content = json['content'] as String
+      ..sentByDriver = json['sentByDriver'] as bool;
+
+Map<String, dynamic> _$SendMessage$Mutation$OrderMessageToJson(
+        SendMessage$Mutation$OrderMessage instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'sentByDriver': instance.sentByDriver,
+    };
+
+SendMessage$Mutation _$SendMessage$MutationFromJson(
+        Map<String, dynamic> json) =>
+    SendMessage$Mutation()
+      ..createOneOrderMessage = SendMessage$Mutation$OrderMessage.fromJson(
+          json['createOneOrderMessage'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$SendMessage$MutationToJson(
+        SendMessage$Mutation instance) =>
+    <String, dynamic>{
+      'createOneOrderMessage': instance.createOneOrderMessage.toJson(),
+    };
+
+NewMessageReceived$Subscription$OrderMessage
+    _$NewMessageReceived$Subscription$OrderMessageFromJson(
+            Map<String, dynamic> json) =>
+        NewMessageReceived$Subscription$OrderMessage()
+          ..id = json['id'] as String
+          ..content = json['content'] as String
+          ..sentByDriver = json['sentByDriver'] as bool;
+
+Map<String, dynamic> _$NewMessageReceived$Subscription$OrderMessageToJson(
+        NewMessageReceived$Subscription$OrderMessage instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'sentByDriver': instance.sentByDriver,
+    };
+
+NewMessageReceived$Subscription _$NewMessageReceived$SubscriptionFromJson(
+        Map<String, dynamic> json) =>
+    NewMessageReceived$Subscription()
+      ..newMessageReceived =
+          NewMessageReceived$Subscription$OrderMessage.fromJson(
+              json['newMessageReceived'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$NewMessageReceived$SubscriptionToJson(
+        NewMessageReceived$Subscription instance) =>
+    <String, dynamic>{
+      'newMessageReceived': instance.newMessageReceived.toJson(),
+    };
+
 UpdateProfileArguments _$UpdateProfileArgumentsFromJson(
         Map<String, dynamic> json) =>
     UpdateProfileArguments(
@@ -2737,5 +2933,19 @@ Map<String, dynamic> _$SubmitComplaintArgumentsToJson(
     <String, dynamic>{
       'id': instance.id,
       'subject': instance.subject,
+      'content': instance.content,
+    };
+
+SendMessageArguments _$SendMessageArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    SendMessageArguments(
+      orderId: json['orderId'] as String,
+      content: json['content'] as String,
+    );
+
+Map<String, dynamic> _$SendMessageArgumentsToJson(
+        SendMessageArguments instance) =>
+    <String, dynamic>{
+      'orderId': instance.orderId,
       'content': instance.content,
     };
