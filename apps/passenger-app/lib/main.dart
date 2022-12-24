@@ -10,6 +10,7 @@ import 'package:lifecycle/lifecycle.dart';
 import '../main/bloc/jwt_cubit.dart';
 
 import 'address/address_list_view.dart';
+import 'announcements/announcements_list_view.dart';
 import 'chat/chat_view.dart';
 import 'history/trip_history_list_view.dart';
 import 'location_selection/location_selection_parent_view.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: S.delegate.supportedLocales,
           routes: {
             'addresses': (context) => const AddressListView(),
+            'announcements': (context) => const AnnouncementsListView(),
             'history': (context) => const TripHistoryListView(),
             'chat': (context) => const ChatView(),
             'reserves': (context) => const ReservationListView(),

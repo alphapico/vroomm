@@ -7,6 +7,334 @@ part of 'graphql_api.graphql.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+GetMessages$Query$Order$Passenger _$GetMessages$Query$Order$PassengerFromJson(
+        Map<String, dynamic> json) =>
+    GetMessages$Query$Order$Passenger()
+      ..id = json['id'] as String
+      ..firstName = json['firstName'] as String?
+      ..lastName = json['lastName'] as String?
+      ..mobileNumber = json['mobileNumber'] as String
+      ..media = json['media'] == null
+          ? null
+          : ChatPassengerMixin$Media.fromJson(
+              json['media'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetMessages$Query$Order$PassengerToJson(
+    GetMessages$Query$Order$Passenger instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  val['mobileNumber'] = instance.mobileNumber;
+  writeNotNull('media', instance.media?.toJson());
+  return val;
+}
+
+GetMessages$Query$Order$Driver _$GetMessages$Query$Order$DriverFromJson(
+        Map<String, dynamic> json) =>
+    GetMessages$Query$Order$Driver()
+      ..id = json['id'] as String
+      ..firstName = json['firstName'] as String?
+      ..lastName = json['lastName'] as String?
+      ..mobileNumber = json['mobileNumber'] as String
+      ..media = json['media'] == null
+          ? null
+          : ChatDriverMixin$Media.fromJson(
+              json['media'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetMessages$Query$Order$DriverToJson(
+    GetMessages$Query$Order$Driver instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  val['mobileNumber'] = instance.mobileNumber;
+  writeNotNull('media', instance.media?.toJson());
+  return val;
+}
+
+GetMessages$Query$Order$OrderMessage
+    _$GetMessages$Query$Order$OrderMessageFromJson(Map<String, dynamic> json) =>
+        GetMessages$Query$Order$OrderMessage()
+          ..id = json['id'] as String
+          ..content = json['content'] as String
+          ..sentByDriver = json['sentByDriver'] as bool;
+
+Map<String, dynamic> _$GetMessages$Query$Order$OrderMessageToJson(
+        GetMessages$Query$Order$OrderMessage instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'sentByDriver': instance.sentByDriver,
+    };
+
+GetMessages$Query$Order _$GetMessages$Query$OrderFromJson(
+        Map<String, dynamic> json) =>
+    GetMessages$Query$Order()
+      ..id = json['id'] as String
+      ..passenger = GetMessages$Query$Order$Passenger.fromJson(
+          json['passenger'] as Map<String, dynamic>)
+      ..driver = json['driver'] == null
+          ? null
+          : GetMessages$Query$Order$Driver.fromJson(
+              json['driver'] as Map<String, dynamic>)
+      ..conversations = (json['conversations'] as List<dynamic>)
+          .map((e) => GetMessages$Query$Order$OrderMessage.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetMessages$Query$OrderToJson(
+    GetMessages$Query$Order instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'passenger': instance.passenger.toJson(),
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('driver', instance.driver?.toJson());
+  val['conversations'] = instance.conversations.map((e) => e.toJson()).toList();
+  return val;
+}
+
+GetMessages$Query _$GetMessages$QueryFromJson(Map<String, dynamic> json) =>
+    GetMessages$Query()
+      ..currentOrder = GetMessages$Query$Order.fromJson(
+          json['currentOrder'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetMessages$QueryToJson(GetMessages$Query instance) =>
+    <String, dynamic>{
+      'currentOrder': instance.currentOrder.toJson(),
+    };
+
+ChatPassengerMixin$Media _$ChatPassengerMixin$MediaFromJson(
+        Map<String, dynamic> json) =>
+    ChatPassengerMixin$Media()..address = json['address'] as String;
+
+Map<String, dynamic> _$ChatPassengerMixin$MediaToJson(
+        ChatPassengerMixin$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+ChatDriverMixin$Media _$ChatDriverMixin$MediaFromJson(
+        Map<String, dynamic> json) =>
+    ChatDriverMixin$Media()..address = json['address'] as String;
+
+Map<String, dynamic> _$ChatDriverMixin$MediaToJson(
+        ChatDriverMixin$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+SendMessage$Mutation$OrderMessage _$SendMessage$Mutation$OrderMessageFromJson(
+        Map<String, dynamic> json) =>
+    SendMessage$Mutation$OrderMessage()
+      ..id = json['id'] as String
+      ..content = json['content'] as String
+      ..sentByDriver = json['sentByDriver'] as bool;
+
+Map<String, dynamic> _$SendMessage$Mutation$OrderMessageToJson(
+        SendMessage$Mutation$OrderMessage instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'sentByDriver': instance.sentByDriver,
+    };
+
+SendMessage$Mutation _$SendMessage$MutationFromJson(
+        Map<String, dynamic> json) =>
+    SendMessage$Mutation()
+      ..createOneOrderMessage = SendMessage$Mutation$OrderMessage.fromJson(
+          json['createOneOrderMessage'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$SendMessage$MutationToJson(
+        SendMessage$Mutation instance) =>
+    <String, dynamic>{
+      'createOneOrderMessage': instance.createOneOrderMessage.toJson(),
+    };
+
+NewMessageReceived$Subscription$OrderMessage
+    _$NewMessageReceived$Subscription$OrderMessageFromJson(
+            Map<String, dynamic> json) =>
+        NewMessageReceived$Subscription$OrderMessage()
+          ..id = json['id'] as String
+          ..content = json['content'] as String
+          ..sentByDriver = json['sentByDriver'] as bool;
+
+Map<String, dynamic> _$NewMessageReceived$Subscription$OrderMessageToJson(
+        NewMessageReceived$Subscription$OrderMessage instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'sentByDriver': instance.sentByDriver,
+    };
+
+NewMessageReceived$Subscription _$NewMessageReceived$SubscriptionFromJson(
+        Map<String, dynamic> json) =>
+    NewMessageReceived$Subscription()
+      ..newMessageReceived =
+          NewMessageReceived$Subscription$OrderMessage.fromJson(
+              json['newMessageReceived'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$NewMessageReceived$SubscriptionToJson(
+        NewMessageReceived$Subscription instance) =>
+    <String, dynamic>{
+      'newMessageReceived': instance.newMessageReceived.toJson(),
+    };
+
+Reservations$Query$OrderConnection$OrderEdge$Order
+    _$Reservations$Query$OrderConnection$OrderEdge$OrderFromJson(
+            Map<String, dynamic> json) =>
+        Reservations$Query$OrderConnection$OrderEdge$Order()
+          ..id = json['id'] as String
+          ..expectedTimestamp = fromGraphQLTimestampToDartDateTime(
+              json['expectedTimestamp'] as int)
+          ..addresses = (json['addresses'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList();
+
+Map<String, dynamic> _$Reservations$Query$OrderConnection$OrderEdge$OrderToJson(
+        Reservations$Query$OrderConnection$OrderEdge$Order instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'expectedTimestamp':
+          fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp),
+      'addresses': instance.addresses,
+    };
+
+Reservations$Query$OrderConnection$OrderEdge
+    _$Reservations$Query$OrderConnection$OrderEdgeFromJson(
+            Map<String, dynamic> json) =>
+        Reservations$Query$OrderConnection$OrderEdge()
+          ..node = Reservations$Query$OrderConnection$OrderEdge$Order.fromJson(
+              json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$Reservations$Query$OrderConnection$OrderEdgeToJson(
+        Reservations$Query$OrderConnection$OrderEdge instance) =>
+    <String, dynamic>{
+      'node': instance.node.toJson(),
+    };
+
+Reservations$Query$OrderConnection _$Reservations$Query$OrderConnectionFromJson(
+        Map<String, dynamic> json) =>
+    Reservations$Query$OrderConnection()
+      ..edges = (json['edges'] as List<dynamic>)
+          .map((e) => Reservations$Query$OrderConnection$OrderEdge.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$Reservations$Query$OrderConnectionToJson(
+        Reservations$Query$OrderConnection instance) =>
+    <String, dynamic>{
+      'edges': instance.edges.map((e) => e.toJson()).toList(),
+    };
+
+Reservations$Query _$Reservations$QueryFromJson(Map<String, dynamic> json) =>
+    Reservations$Query()
+      ..orders = Reservations$Query$OrderConnection.fromJson(
+          json['orders'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$Reservations$QueryToJson(Reservations$Query instance) =>
+    <String, dynamic>{
+      'orders': instance.orders.toJson(),
+    };
+
+GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge$Announcement
+    _$GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge$AnnouncementFromJson(
+            Map<String, dynamic> json) =>
+        GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge$Announcement()
+          ..id = json['id'] as String
+          ..title = json['title'] as String
+          ..startAt = fromGraphQLTimestampToDartDateTime(json['startAt'] as int)
+          ..description = json['description'] as String
+          ..url = json['url'] as String?;
+
+Map<String, dynamic>
+    _$GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge$AnnouncementToJson(
+        GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge$Announcement
+            instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'title': instance.title,
+    'startAt': fromDartDateTimeToGraphQLTimestamp(instance.startAt),
+    'description': instance.description,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('url', instance.url);
+  return val;
+}
+
+GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge
+    _$GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdgeFromJson(
+            Map<String, dynamic> json) =>
+        GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge()
+          ..node =
+              GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge$Announcement
+                  .fromJson(json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdgeToJson(
+            GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge
+                instance) =>
+        <String, dynamic>{
+          'node': instance.node.toJson(),
+        };
+
+GetAnnouncements$Query$AnnouncementConnection
+    _$GetAnnouncements$Query$AnnouncementConnectionFromJson(
+            Map<String, dynamic> json) =>
+        GetAnnouncements$Query$AnnouncementConnection()
+          ..edges = (json['edges'] as List<dynamic>)
+              .map((e) =>
+                  GetAnnouncements$Query$AnnouncementConnection$AnnouncementEdge
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$GetAnnouncements$Query$AnnouncementConnectionToJson(
+        GetAnnouncements$Query$AnnouncementConnection instance) =>
+    <String, dynamic>{
+      'edges': instance.edges.map((e) => e.toJson()).toList(),
+    };
+
+GetAnnouncements$Query _$GetAnnouncements$QueryFromJson(
+        Map<String, dynamic> json) =>
+    GetAnnouncements$Query()
+      ..announcements = GetAnnouncements$Query$AnnouncementConnection.fromJson(
+          json['announcements'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetAnnouncements$QueryToJson(
+        GetAnnouncements$Query instance) =>
+    <String, dynamic>{
+      'announcements': instance.announcements.toJson(),
+    };
+
 GetPassenger$Query$Passenger$Media _$GetPassenger$Query$Passenger$MediaFromJson(
         Map<String, dynamic> json) =>
     GetPassenger$Query$Passenger$Media()..address = json['address'] as String;
@@ -302,6 +630,416 @@ Map<String, dynamic> _$DeleteAddress$MutationToJson(
         DeleteAddress$Mutation instance) =>
     <String, dynamic>{
       'deleteOnePassengerAddress': instance.deleteOnePassengerAddress.toJson(),
+    };
+
+GetHistory$Query$OrderConnection _$GetHistory$Query$OrderConnectionFromJson(
+        Map<String, dynamic> json) =>
+    GetHistory$Query$OrderConnection()
+      ..edges = (json['edges'] as List<dynamic>)
+          .map((e) => HistoryOrderItemMixin$OrderEdge.fromJson(
+              e as Map<String, dynamic>))
+          .toList()
+      ..pageInfo = HistoryOrderItemMixin$PageInfo.fromJson(
+          json['pageInfo'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetHistory$Query$OrderConnectionToJson(
+        GetHistory$Query$OrderConnection instance) =>
+    <String, dynamic>{
+      'edges': instance.edges.map((e) => e.toJson()).toList(),
+      'pageInfo': instance.pageInfo.toJson(),
+    };
+
+GetHistory$Query _$GetHistory$QueryFromJson(Map<String, dynamic> json) =>
+    GetHistory$Query()
+      ..orders = GetHistory$Query$OrderConnection.fromJson(
+          json['orders'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetHistory$QueryToJson(GetHistory$Query instance) =>
+    <String, dynamic>{
+      'orders': instance.orders.toJson(),
+    };
+
+HistoryOrderItemMixin$OrderEdge$Order$Service$Media
+    _$HistoryOrderItemMixin$OrderEdge$Order$Service$MediaFromJson(
+            Map<String, dynamic> json) =>
+        HistoryOrderItemMixin$OrderEdge$Order$Service$Media()
+          ..address = json['address'] as String;
+
+Map<String, dynamic>
+    _$HistoryOrderItemMixin$OrderEdge$Order$Service$MediaToJson(
+            HistoryOrderItemMixin$OrderEdge$Order$Service$Media instance) =>
+        <String, dynamic>{
+          'address': instance.address,
+        };
+
+HistoryOrderItemMixin$OrderEdge$Order$Service
+    _$HistoryOrderItemMixin$OrderEdge$Order$ServiceFromJson(
+            Map<String, dynamic> json) =>
+        HistoryOrderItemMixin$OrderEdge$Order$Service()
+          ..media =
+              HistoryOrderItemMixin$OrderEdge$Order$Service$Media.fromJson(
+                  json['media'] as Map<String, dynamic>)
+          ..name = json['name'] as String;
+
+Map<String, dynamic> _$HistoryOrderItemMixin$OrderEdge$Order$ServiceToJson(
+        HistoryOrderItemMixin$OrderEdge$Order$Service instance) =>
+    <String, dynamic>{
+      'media': instance.media.toJson(),
+      'name': instance.name,
+    };
+
+HistoryOrderItemMixin$OrderEdge$Order
+    _$HistoryOrderItemMixin$OrderEdge$OrderFromJson(
+            Map<String, dynamic> json) =>
+        HistoryOrderItemMixin$OrderEdge$Order()
+          ..id = json['id'] as String
+          ..status = $enumDecode(_$OrderStatusEnumMap, json['status'],
+              unknownValue: OrderStatus.artemisUnknown)
+          ..createdOn =
+              fromGraphQLTimestampToDartDateTime(json['createdOn'] as int)
+          ..addresses = (json['addresses'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          ..currency = json['currency'] as String
+          ..costAfterCoupon = (json['costAfterCoupon'] as num).toDouble()
+          ..service = HistoryOrderItemMixin$OrderEdge$Order$Service.fromJson(
+              json['service'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$HistoryOrderItemMixin$OrderEdge$OrderToJson(
+        HistoryOrderItemMixin$OrderEdge$Order instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'status': _$OrderStatusEnumMap[instance.status]!,
+      'createdOn': fromDartDateTimeToGraphQLTimestamp(instance.createdOn),
+      'addresses': instance.addresses,
+      'currency': instance.currency,
+      'costAfterCoupon': instance.costAfterCoupon,
+      'service': instance.service.toJson(),
+    };
+
+const _$OrderStatusEnumMap = {
+  OrderStatus.requested: 'Requested',
+  OrderStatus.notFound: 'NotFound',
+  OrderStatus.noCloseFound: 'NoCloseFound',
+  OrderStatus.found: 'Found',
+  OrderStatus.driverAccepted: 'DriverAccepted',
+  OrderStatus.arrived: 'Arrived',
+  OrderStatus.waitingForPrePay: 'WaitingForPrePay',
+  OrderStatus.driverCanceled: 'DriverCanceled',
+  OrderStatus.passengerCanceled: 'PassengerCanceled',
+  OrderStatus.started: 'Started',
+  OrderStatus.waitingForPostPay: 'WaitingForPostPay',
+  OrderStatus.waitingForReview: 'WaitingForReview',
+  OrderStatus.finished: 'Finished',
+  OrderStatus.booked: 'Booked',
+  OrderStatus.expired: 'Expired',
+  OrderStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+HistoryOrderItemMixin$OrderEdge _$HistoryOrderItemMixin$OrderEdgeFromJson(
+        Map<String, dynamic> json) =>
+    HistoryOrderItemMixin$OrderEdge()
+      ..node = HistoryOrderItemMixin$OrderEdge$Order.fromJson(
+          json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$HistoryOrderItemMixin$OrderEdgeToJson(
+        HistoryOrderItemMixin$OrderEdge instance) =>
+    <String, dynamic>{
+      'node': instance.node.toJson(),
+    };
+
+HistoryOrderItemMixin$PageInfo _$HistoryOrderItemMixin$PageInfoFromJson(
+        Map<String, dynamic> json) =>
+    HistoryOrderItemMixin$PageInfo()
+      ..hasNextPage = json['hasNextPage'] as bool?
+      ..endCursor = fromGraphQLConnectionCursorNullableToDartStringNullable(
+          json['endCursor'] as String?)
+      ..startCursor = fromGraphQLConnectionCursorNullableToDartStringNullable(
+          json['startCursor'] as String?)
+      ..hasPreviousPage = json['hasPreviousPage'] as bool?;
+
+Map<String, dynamic> _$HistoryOrderItemMixin$PageInfoToJson(
+    HistoryOrderItemMixin$PageInfo instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('hasNextPage', instance.hasNextPage);
+  writeNotNull(
+      'endCursor',
+      fromDartStringNullableToGraphQLConnectionCursorNullable(
+          instance.endCursor));
+  writeNotNull(
+      'startCursor',
+      fromDartStringNullableToGraphQLConnectionCursorNullable(
+          instance.startCursor));
+  writeNotNull('hasPreviousPage', instance.hasPreviousPage);
+  return val;
+}
+
+GetOrderDetails$Query$Order$Point _$GetOrderDetails$Query$Order$PointFromJson(
+        Map<String, dynamic> json) =>
+    GetOrderDetails$Query$Order$Point()
+      ..lat = (json['lat'] as num).toDouble()
+      ..lng = (json['lng'] as num).toDouble();
+
+Map<String, dynamic> _$GetOrderDetails$Query$Order$PointToJson(
+        GetOrderDetails$Query$Order$Point instance) =>
+    <String, dynamic>{
+      'lat': instance.lat,
+      'lng': instance.lng,
+    };
+
+GetOrderDetails$Query$Order$Driver$Media
+    _$GetOrderDetails$Query$Order$Driver$MediaFromJson(
+            Map<String, dynamic> json) =>
+        GetOrderDetails$Query$Order$Driver$Media()
+          ..address = json['address'] as String;
+
+Map<String, dynamic> _$GetOrderDetails$Query$Order$Driver$MediaToJson(
+        GetOrderDetails$Query$Order$Driver$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+GetOrderDetails$Query$Order$Driver$CarModel
+    _$GetOrderDetails$Query$Order$Driver$CarModelFromJson(
+            Map<String, dynamic> json) =>
+        GetOrderDetails$Query$Order$Driver$CarModel()
+          ..name = json['name'] as String;
+
+Map<String, dynamic> _$GetOrderDetails$Query$Order$Driver$CarModelToJson(
+        GetOrderDetails$Query$Order$Driver$CarModel instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+GetOrderDetails$Query$Order$Driver _$GetOrderDetails$Query$Order$DriverFromJson(
+        Map<String, dynamic> json) =>
+    GetOrderDetails$Query$Order$Driver()
+      ..firstName = json['firstName'] as String?
+      ..lastName = json['lastName'] as String?
+      ..rating = json['rating'] as int?
+      ..carPlate = json['carPlate'] as String?
+      ..media = json['media'] == null
+          ? null
+          : GetOrderDetails$Query$Order$Driver$Media.fromJson(
+              json['media'] as Map<String, dynamic>)
+      ..car = json['car'] == null
+          ? null
+          : GetOrderDetails$Query$Order$Driver$CarModel.fromJson(
+              json['car'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetOrderDetails$Query$Order$DriverToJson(
+    GetOrderDetails$Query$Order$Driver instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  writeNotNull('rating', instance.rating);
+  writeNotNull('carPlate', instance.carPlate);
+  writeNotNull('media', instance.media?.toJson());
+  writeNotNull('car', instance.car?.toJson());
+  return val;
+}
+
+GetOrderDetails$Query$Order$Service$Media
+    _$GetOrderDetails$Query$Order$Service$MediaFromJson(
+            Map<String, dynamic> json) =>
+        GetOrderDetails$Query$Order$Service$Media()
+          ..address = json['address'] as String;
+
+Map<String, dynamic> _$GetOrderDetails$Query$Order$Service$MediaToJson(
+        GetOrderDetails$Query$Order$Service$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+GetOrderDetails$Query$Order$Service
+    _$GetOrderDetails$Query$Order$ServiceFromJson(Map<String, dynamic> json) =>
+        GetOrderDetails$Query$Order$Service()
+          ..name = json['name'] as String
+          ..media = GetOrderDetails$Query$Order$Service$Media.fromJson(
+              json['media'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetOrderDetails$Query$Order$ServiceToJson(
+        GetOrderDetails$Query$Order$Service instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'media': instance.media.toJson(),
+    };
+
+GetOrderDetails$Query$Order$PaymentGateway$Media
+    _$GetOrderDetails$Query$Order$PaymentGateway$MediaFromJson(
+            Map<String, dynamic> json) =>
+        GetOrderDetails$Query$Order$PaymentGateway$Media()
+          ..address = json['address'] as String;
+
+Map<String, dynamic> _$GetOrderDetails$Query$Order$PaymentGateway$MediaToJson(
+        GetOrderDetails$Query$Order$PaymentGateway$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+GetOrderDetails$Query$Order$PaymentGateway
+    _$GetOrderDetails$Query$Order$PaymentGatewayFromJson(
+            Map<String, dynamic> json) =>
+        GetOrderDetails$Query$Order$PaymentGateway()
+          ..title = json['title'] as String
+          ..media = json['media'] == null
+              ? null
+              : GetOrderDetails$Query$Order$PaymentGateway$Media.fromJson(
+                  json['media'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetOrderDetails$Query$Order$PaymentGatewayToJson(
+    GetOrderDetails$Query$Order$PaymentGateway instance) {
+  final val = <String, dynamic>{
+    'title': instance.title,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('media', instance.media?.toJson());
+  return val;
+}
+
+GetOrderDetails$Query$Order _$GetOrderDetails$Query$OrderFromJson(
+        Map<String, dynamic> json) =>
+    GetOrderDetails$Query$Order()
+      ..points = (json['points'] as List<dynamic>)
+          .map((e) => GetOrderDetails$Query$Order$Point.fromJson(
+              e as Map<String, dynamic>))
+          .toList()
+      ..addresses =
+          (json['addresses'] as List<dynamic>).map((e) => e as String).toList()
+      ..costAfterCoupon = (json['costAfterCoupon'] as num).toDouble()
+      ..currency = json['currency'] as String
+      ..startTimestamp = fromGraphQLTimestampNullableToDartDateTimeNullable(
+          json['startTimestamp'] as int?)
+      ..finishTimestamp = fromGraphQLTimestampNullableToDartDateTimeNullable(
+          json['finishTimestamp'] as int?)
+      ..expectedTimestamp =
+          fromGraphQLTimestampToDartDateTime(json['expectedTimestamp'] as int)
+      ..driver = json['driver'] == null
+          ? null
+          : GetOrderDetails$Query$Order$Driver.fromJson(
+              json['driver'] as Map<String, dynamic>)
+      ..service = GetOrderDetails$Query$Order$Service.fromJson(
+          json['service'] as Map<String, dynamic>)
+      ..paymentGateway = json['paymentGateway'] == null
+          ? null
+          : GetOrderDetails$Query$Order$PaymentGateway.fromJson(
+              json['paymentGateway'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetOrderDetails$Query$OrderToJson(
+    GetOrderDetails$Query$Order instance) {
+  final val = <String, dynamic>{
+    'points': instance.points.map((e) => e.toJson()).toList(),
+    'addresses': instance.addresses,
+    'costAfterCoupon': instance.costAfterCoupon,
+    'currency': instance.currency,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'startTimestamp',
+      fromDartDateTimeNullableToGraphQLTimestampNullable(
+          instance.startTimestamp));
+  writeNotNull(
+      'finishTimestamp',
+      fromDartDateTimeNullableToGraphQLTimestampNullable(
+          instance.finishTimestamp));
+  val['expectedTimestamp'] =
+      fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp);
+  writeNotNull('driver', instance.driver?.toJson());
+  val['service'] = instance.service.toJson();
+  writeNotNull('paymentGateway', instance.paymentGateway?.toJson());
+  return val;
+}
+
+GetOrderDetails$Query _$GetOrderDetails$QueryFromJson(
+        Map<String, dynamic> json) =>
+    GetOrderDetails$Query()
+      ..order = json['order'] == null
+          ? null
+          : GetOrderDetails$Query$Order.fromJson(
+              json['order'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$GetOrderDetails$QueryToJson(
+    GetOrderDetails$Query instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('order', instance.order?.toJson());
+  return val;
+}
+
+CancelBooking$Mutation$Order _$CancelBooking$Mutation$OrderFromJson(
+        Map<String, dynamic> json) =>
+    CancelBooking$Mutation$Order()..id = json['id'] as String;
+
+Map<String, dynamic> _$CancelBooking$Mutation$OrderToJson(
+        CancelBooking$Mutation$Order instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+CancelBooking$Mutation _$CancelBooking$MutationFromJson(
+        Map<String, dynamic> json) =>
+    CancelBooking$Mutation()
+      ..cancelBooking = CancelBooking$Mutation$Order.fromJson(
+          json['cancelBooking'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$CancelBooking$MutationToJson(
+        CancelBooking$Mutation instance) =>
+    <String, dynamic>{
+      'cancelBooking': instance.cancelBooking.toJson(),
+    };
+
+SubmitComplaint$Mutation$Complaint _$SubmitComplaint$Mutation$ComplaintFromJson(
+        Map<String, dynamic> json) =>
+    SubmitComplaint$Mutation$Complaint()..id = json['id'] as String;
+
+Map<String, dynamic> _$SubmitComplaint$Mutation$ComplaintToJson(
+        SubmitComplaint$Mutation$Complaint instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+SubmitComplaint$Mutation _$SubmitComplaint$MutationFromJson(
+        Map<String, dynamic> json) =>
+    SubmitComplaint$Mutation()
+      ..createOneComplaint = SubmitComplaint$Mutation$Complaint.fromJson(
+          json['createOneComplaint'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$SubmitComplaint$MutationToJson(
+        SubmitComplaint$Mutation instance) =>
+    <String, dynamic>{
+      'createOneComplaint': instance.createOneComplaint.toJson(),
     };
 
 Wallet$Query$PassengerWallet _$Wallet$Query$PassengerWalletFromJson(
@@ -756,25 +1494,6 @@ Map<String, dynamic> _$GetCurrentOrder$Query$Passenger$OrderToJson(
   val['durationBest'] = instance.durationBest;
   return val;
 }
-
-const _$OrderStatusEnumMap = {
-  OrderStatus.requested: 'Requested',
-  OrderStatus.notFound: 'NotFound',
-  OrderStatus.noCloseFound: 'NoCloseFound',
-  OrderStatus.found: 'Found',
-  OrderStatus.driverAccepted: 'DriverAccepted',
-  OrderStatus.arrived: 'Arrived',
-  OrderStatus.waitingForPrePay: 'WaitingForPrePay',
-  OrderStatus.driverCanceled: 'DriverCanceled',
-  OrderStatus.passengerCanceled: 'PassengerCanceled',
-  OrderStatus.started: 'Started',
-  OrderStatus.waitingForPostPay: 'WaitingForPostPay',
-  OrderStatus.waitingForReview: 'WaitingForReview',
-  OrderStatus.finished: 'Finished',
-  OrderStatus.booked: 'Booked',
-  OrderStatus.expired: 'Expired',
-  OrderStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
 
 GetCurrentOrder$Query$Passenger$BookedOrders$PassengerOrdersCountAggregate
     _$GetCurrentOrder$Query$Passenger$BookedOrders$PassengerOrdersCountAggregateFromJson(
@@ -2006,648 +2725,18 @@ Map<String, dynamic> _$Login$MutationToJson(Login$Mutation instance) =>
       'login': instance.login.toJson(),
     };
 
-GetHistory$Query$OrderConnection _$GetHistory$Query$OrderConnectionFromJson(
+SendMessageArguments _$SendMessageArgumentsFromJson(
         Map<String, dynamic> json) =>
-    GetHistory$Query$OrderConnection()
-      ..edges = (json['edges'] as List<dynamic>)
-          .map((e) => HistoryOrderItemMixin$OrderEdge.fromJson(
-              e as Map<String, dynamic>))
-          .toList()
-      ..pageInfo = HistoryOrderItemMixin$PageInfo.fromJson(
-          json['pageInfo'] as Map<String, dynamic>);
+    SendMessageArguments(
+      orderId: json['orderId'] as String,
+      content: json['content'] as String,
+    );
 
-Map<String, dynamic> _$GetHistory$Query$OrderConnectionToJson(
-        GetHistory$Query$OrderConnection instance) =>
+Map<String, dynamic> _$SendMessageArgumentsToJson(
+        SendMessageArguments instance) =>
     <String, dynamic>{
-      'edges': instance.edges.map((e) => e.toJson()).toList(),
-      'pageInfo': instance.pageInfo.toJson(),
-    };
-
-GetHistory$Query _$GetHistory$QueryFromJson(Map<String, dynamic> json) =>
-    GetHistory$Query()
-      ..orders = GetHistory$Query$OrderConnection.fromJson(
-          json['orders'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetHistory$QueryToJson(GetHistory$Query instance) =>
-    <String, dynamic>{
-      'orders': instance.orders.toJson(),
-    };
-
-HistoryOrderItemMixin$OrderEdge$Order$Service$Media
-    _$HistoryOrderItemMixin$OrderEdge$Order$Service$MediaFromJson(
-            Map<String, dynamic> json) =>
-        HistoryOrderItemMixin$OrderEdge$Order$Service$Media()
-          ..address = json['address'] as String;
-
-Map<String, dynamic>
-    _$HistoryOrderItemMixin$OrderEdge$Order$Service$MediaToJson(
-            HistoryOrderItemMixin$OrderEdge$Order$Service$Media instance) =>
-        <String, dynamic>{
-          'address': instance.address,
-        };
-
-HistoryOrderItemMixin$OrderEdge$Order$Service
-    _$HistoryOrderItemMixin$OrderEdge$Order$ServiceFromJson(
-            Map<String, dynamic> json) =>
-        HistoryOrderItemMixin$OrderEdge$Order$Service()
-          ..media =
-              HistoryOrderItemMixin$OrderEdge$Order$Service$Media.fromJson(
-                  json['media'] as Map<String, dynamic>)
-          ..name = json['name'] as String;
-
-Map<String, dynamic> _$HistoryOrderItemMixin$OrderEdge$Order$ServiceToJson(
-        HistoryOrderItemMixin$OrderEdge$Order$Service instance) =>
-    <String, dynamic>{
-      'media': instance.media.toJson(),
-      'name': instance.name,
-    };
-
-HistoryOrderItemMixin$OrderEdge$Order
-    _$HistoryOrderItemMixin$OrderEdge$OrderFromJson(
-            Map<String, dynamic> json) =>
-        HistoryOrderItemMixin$OrderEdge$Order()
-          ..id = json['id'] as String
-          ..status = $enumDecode(_$OrderStatusEnumMap, json['status'],
-              unknownValue: OrderStatus.artemisUnknown)
-          ..createdOn =
-              fromGraphQLTimestampToDartDateTime(json['createdOn'] as int)
-          ..addresses = (json['addresses'] as List<dynamic>)
-              .map((e) => e as String)
-              .toList()
-          ..currency = json['currency'] as String
-          ..costAfterCoupon = (json['costAfterCoupon'] as num).toDouble()
-          ..service = HistoryOrderItemMixin$OrderEdge$Order$Service.fromJson(
-              json['service'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$HistoryOrderItemMixin$OrderEdge$OrderToJson(
-        HistoryOrderItemMixin$OrderEdge$Order instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'status': _$OrderStatusEnumMap[instance.status]!,
-      'createdOn': fromDartDateTimeToGraphQLTimestamp(instance.createdOn),
-      'addresses': instance.addresses,
-      'currency': instance.currency,
-      'costAfterCoupon': instance.costAfterCoupon,
-      'service': instance.service.toJson(),
-    };
-
-HistoryOrderItemMixin$OrderEdge _$HistoryOrderItemMixin$OrderEdgeFromJson(
-        Map<String, dynamic> json) =>
-    HistoryOrderItemMixin$OrderEdge()
-      ..node = HistoryOrderItemMixin$OrderEdge$Order.fromJson(
-          json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$HistoryOrderItemMixin$OrderEdgeToJson(
-        HistoryOrderItemMixin$OrderEdge instance) =>
-    <String, dynamic>{
-      'node': instance.node.toJson(),
-    };
-
-HistoryOrderItemMixin$PageInfo _$HistoryOrderItemMixin$PageInfoFromJson(
-        Map<String, dynamic> json) =>
-    HistoryOrderItemMixin$PageInfo()
-      ..hasNextPage = json['hasNextPage'] as bool?
-      ..endCursor = fromGraphQLConnectionCursorNullableToDartStringNullable(
-          json['endCursor'] as String?)
-      ..startCursor = fromGraphQLConnectionCursorNullableToDartStringNullable(
-          json['startCursor'] as String?)
-      ..hasPreviousPage = json['hasPreviousPage'] as bool?;
-
-Map<String, dynamic> _$HistoryOrderItemMixin$PageInfoToJson(
-    HistoryOrderItemMixin$PageInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('hasNextPage', instance.hasNextPage);
-  writeNotNull(
-      'endCursor',
-      fromDartStringNullableToGraphQLConnectionCursorNullable(
-          instance.endCursor));
-  writeNotNull(
-      'startCursor',
-      fromDartStringNullableToGraphQLConnectionCursorNullable(
-          instance.startCursor));
-  writeNotNull('hasPreviousPage', instance.hasPreviousPage);
-  return val;
-}
-
-GetOrderDetails$Query$Order$Point _$GetOrderDetails$Query$Order$PointFromJson(
-        Map<String, dynamic> json) =>
-    GetOrderDetails$Query$Order$Point()
-      ..lat = (json['lat'] as num).toDouble()
-      ..lng = (json['lng'] as num).toDouble();
-
-Map<String, dynamic> _$GetOrderDetails$Query$Order$PointToJson(
-        GetOrderDetails$Query$Order$Point instance) =>
-    <String, dynamic>{
-      'lat': instance.lat,
-      'lng': instance.lng,
-    };
-
-GetOrderDetails$Query$Order$Driver$Media
-    _$GetOrderDetails$Query$Order$Driver$MediaFromJson(
-            Map<String, dynamic> json) =>
-        GetOrderDetails$Query$Order$Driver$Media()
-          ..address = json['address'] as String;
-
-Map<String, dynamic> _$GetOrderDetails$Query$Order$Driver$MediaToJson(
-        GetOrderDetails$Query$Order$Driver$Media instance) =>
-    <String, dynamic>{
-      'address': instance.address,
-    };
-
-GetOrderDetails$Query$Order$Driver$CarModel
-    _$GetOrderDetails$Query$Order$Driver$CarModelFromJson(
-            Map<String, dynamic> json) =>
-        GetOrderDetails$Query$Order$Driver$CarModel()
-          ..name = json['name'] as String;
-
-Map<String, dynamic> _$GetOrderDetails$Query$Order$Driver$CarModelToJson(
-        GetOrderDetails$Query$Order$Driver$CarModel instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
-
-GetOrderDetails$Query$Order$Driver _$GetOrderDetails$Query$Order$DriverFromJson(
-        Map<String, dynamic> json) =>
-    GetOrderDetails$Query$Order$Driver()
-      ..firstName = json['firstName'] as String?
-      ..lastName = json['lastName'] as String?
-      ..rating = json['rating'] as int?
-      ..carPlate = json['carPlate'] as String?
-      ..media = json['media'] == null
-          ? null
-          : GetOrderDetails$Query$Order$Driver$Media.fromJson(
-              json['media'] as Map<String, dynamic>)
-      ..car = json['car'] == null
-          ? null
-          : GetOrderDetails$Query$Order$Driver$CarModel.fromJson(
-              json['car'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetOrderDetails$Query$Order$DriverToJson(
-    GetOrderDetails$Query$Order$Driver instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('firstName', instance.firstName);
-  writeNotNull('lastName', instance.lastName);
-  writeNotNull('rating', instance.rating);
-  writeNotNull('carPlate', instance.carPlate);
-  writeNotNull('media', instance.media?.toJson());
-  writeNotNull('car', instance.car?.toJson());
-  return val;
-}
-
-GetOrderDetails$Query$Order$Service$Media
-    _$GetOrderDetails$Query$Order$Service$MediaFromJson(
-            Map<String, dynamic> json) =>
-        GetOrderDetails$Query$Order$Service$Media()
-          ..address = json['address'] as String;
-
-Map<String, dynamic> _$GetOrderDetails$Query$Order$Service$MediaToJson(
-        GetOrderDetails$Query$Order$Service$Media instance) =>
-    <String, dynamic>{
-      'address': instance.address,
-    };
-
-GetOrderDetails$Query$Order$Service
-    _$GetOrderDetails$Query$Order$ServiceFromJson(Map<String, dynamic> json) =>
-        GetOrderDetails$Query$Order$Service()
-          ..name = json['name'] as String
-          ..media = GetOrderDetails$Query$Order$Service$Media.fromJson(
-              json['media'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetOrderDetails$Query$Order$ServiceToJson(
-        GetOrderDetails$Query$Order$Service instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'media': instance.media.toJson(),
-    };
-
-GetOrderDetails$Query$Order$PaymentGateway$Media
-    _$GetOrderDetails$Query$Order$PaymentGateway$MediaFromJson(
-            Map<String, dynamic> json) =>
-        GetOrderDetails$Query$Order$PaymentGateway$Media()
-          ..address = json['address'] as String;
-
-Map<String, dynamic> _$GetOrderDetails$Query$Order$PaymentGateway$MediaToJson(
-        GetOrderDetails$Query$Order$PaymentGateway$Media instance) =>
-    <String, dynamic>{
-      'address': instance.address,
-    };
-
-GetOrderDetails$Query$Order$PaymentGateway
-    _$GetOrderDetails$Query$Order$PaymentGatewayFromJson(
-            Map<String, dynamic> json) =>
-        GetOrderDetails$Query$Order$PaymentGateway()
-          ..title = json['title'] as String
-          ..media = json['media'] == null
-              ? null
-              : GetOrderDetails$Query$Order$PaymentGateway$Media.fromJson(
-                  json['media'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetOrderDetails$Query$Order$PaymentGatewayToJson(
-    GetOrderDetails$Query$Order$PaymentGateway instance) {
-  final val = <String, dynamic>{
-    'title': instance.title,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('media', instance.media?.toJson());
-  return val;
-}
-
-GetOrderDetails$Query$Order _$GetOrderDetails$Query$OrderFromJson(
-        Map<String, dynamic> json) =>
-    GetOrderDetails$Query$Order()
-      ..points = (json['points'] as List<dynamic>)
-          .map((e) => GetOrderDetails$Query$Order$Point.fromJson(
-              e as Map<String, dynamic>))
-          .toList()
-      ..addresses =
-          (json['addresses'] as List<dynamic>).map((e) => e as String).toList()
-      ..costAfterCoupon = (json['costAfterCoupon'] as num).toDouble()
-      ..currency = json['currency'] as String
-      ..startTimestamp = fromGraphQLTimestampNullableToDartDateTimeNullable(
-          json['startTimestamp'] as int?)
-      ..finishTimestamp = fromGraphQLTimestampNullableToDartDateTimeNullable(
-          json['finishTimestamp'] as int?)
-      ..expectedTimestamp =
-          fromGraphQLTimestampToDartDateTime(json['expectedTimestamp'] as int)
-      ..driver = json['driver'] == null
-          ? null
-          : GetOrderDetails$Query$Order$Driver.fromJson(
-              json['driver'] as Map<String, dynamic>)
-      ..service = GetOrderDetails$Query$Order$Service.fromJson(
-          json['service'] as Map<String, dynamic>)
-      ..paymentGateway = json['paymentGateway'] == null
-          ? null
-          : GetOrderDetails$Query$Order$PaymentGateway.fromJson(
-              json['paymentGateway'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetOrderDetails$Query$OrderToJson(
-    GetOrderDetails$Query$Order instance) {
-  final val = <String, dynamic>{
-    'points': instance.points.map((e) => e.toJson()).toList(),
-    'addresses': instance.addresses,
-    'costAfterCoupon': instance.costAfterCoupon,
-    'currency': instance.currency,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'startTimestamp',
-      fromDartDateTimeNullableToGraphQLTimestampNullable(
-          instance.startTimestamp));
-  writeNotNull(
-      'finishTimestamp',
-      fromDartDateTimeNullableToGraphQLTimestampNullable(
-          instance.finishTimestamp));
-  val['expectedTimestamp'] =
-      fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp);
-  writeNotNull('driver', instance.driver?.toJson());
-  val['service'] = instance.service.toJson();
-  writeNotNull('paymentGateway', instance.paymentGateway?.toJson());
-  return val;
-}
-
-GetOrderDetails$Query _$GetOrderDetails$QueryFromJson(
-        Map<String, dynamic> json) =>
-    GetOrderDetails$Query()
-      ..order = json['order'] == null
-          ? null
-          : GetOrderDetails$Query$Order.fromJson(
-              json['order'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetOrderDetails$QueryToJson(
-    GetOrderDetails$Query instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('order', instance.order?.toJson());
-  return val;
-}
-
-CancelBooking$Mutation$Order _$CancelBooking$Mutation$OrderFromJson(
-        Map<String, dynamic> json) =>
-    CancelBooking$Mutation$Order()..id = json['id'] as String;
-
-Map<String, dynamic> _$CancelBooking$Mutation$OrderToJson(
-        CancelBooking$Mutation$Order instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-CancelBooking$Mutation _$CancelBooking$MutationFromJson(
-        Map<String, dynamic> json) =>
-    CancelBooking$Mutation()
-      ..cancelBooking = CancelBooking$Mutation$Order.fromJson(
-          json['cancelBooking'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$CancelBooking$MutationToJson(
-        CancelBooking$Mutation instance) =>
-    <String, dynamic>{
-      'cancelBooking': instance.cancelBooking.toJson(),
-    };
-
-SubmitComplaint$Mutation$Complaint _$SubmitComplaint$Mutation$ComplaintFromJson(
-        Map<String, dynamic> json) =>
-    SubmitComplaint$Mutation$Complaint()..id = json['id'] as String;
-
-Map<String, dynamic> _$SubmitComplaint$Mutation$ComplaintToJson(
-        SubmitComplaint$Mutation$Complaint instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-SubmitComplaint$Mutation _$SubmitComplaint$MutationFromJson(
-        Map<String, dynamic> json) =>
-    SubmitComplaint$Mutation()
-      ..createOneComplaint = SubmitComplaint$Mutation$Complaint.fromJson(
-          json['createOneComplaint'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$SubmitComplaint$MutationToJson(
-        SubmitComplaint$Mutation instance) =>
-    <String, dynamic>{
-      'createOneComplaint': instance.createOneComplaint.toJson(),
-    };
-
-Reservations$Query$OrderConnection$OrderEdge$Order
-    _$Reservations$Query$OrderConnection$OrderEdge$OrderFromJson(
-            Map<String, dynamic> json) =>
-        Reservations$Query$OrderConnection$OrderEdge$Order()
-          ..id = json['id'] as String
-          ..expectedTimestamp = fromGraphQLTimestampToDartDateTime(
-              json['expectedTimestamp'] as int)
-          ..addresses = (json['addresses'] as List<dynamic>)
-              .map((e) => e as String)
-              .toList();
-
-Map<String, dynamic> _$Reservations$Query$OrderConnection$OrderEdge$OrderToJson(
-        Reservations$Query$OrderConnection$OrderEdge$Order instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'expectedTimestamp':
-          fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp),
-      'addresses': instance.addresses,
-    };
-
-Reservations$Query$OrderConnection$OrderEdge
-    _$Reservations$Query$OrderConnection$OrderEdgeFromJson(
-            Map<String, dynamic> json) =>
-        Reservations$Query$OrderConnection$OrderEdge()
-          ..node = Reservations$Query$OrderConnection$OrderEdge$Order.fromJson(
-              json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$Reservations$Query$OrderConnection$OrderEdgeToJson(
-        Reservations$Query$OrderConnection$OrderEdge instance) =>
-    <String, dynamic>{
-      'node': instance.node.toJson(),
-    };
-
-Reservations$Query$OrderConnection _$Reservations$Query$OrderConnectionFromJson(
-        Map<String, dynamic> json) =>
-    Reservations$Query$OrderConnection()
-      ..edges = (json['edges'] as List<dynamic>)
-          .map((e) => Reservations$Query$OrderConnection$OrderEdge.fromJson(
-              e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$Reservations$Query$OrderConnectionToJson(
-        Reservations$Query$OrderConnection instance) =>
-    <String, dynamic>{
-      'edges': instance.edges.map((e) => e.toJson()).toList(),
-    };
-
-Reservations$Query _$Reservations$QueryFromJson(Map<String, dynamic> json) =>
-    Reservations$Query()
-      ..orders = Reservations$Query$OrderConnection.fromJson(
-          json['orders'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$Reservations$QueryToJson(Reservations$Query instance) =>
-    <String, dynamic>{
-      'orders': instance.orders.toJson(),
-    };
-
-GetMessages$Query$Order$Passenger _$GetMessages$Query$Order$PassengerFromJson(
-        Map<String, dynamic> json) =>
-    GetMessages$Query$Order$Passenger()
-      ..id = json['id'] as String
-      ..firstName = json['firstName'] as String?
-      ..lastName = json['lastName'] as String?
-      ..mobileNumber = json['mobileNumber'] as String
-      ..media = json['media'] == null
-          ? null
-          : ChatPassengerMixin$Media.fromJson(
-              json['media'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetMessages$Query$Order$PassengerToJson(
-    GetMessages$Query$Order$Passenger instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('firstName', instance.firstName);
-  writeNotNull('lastName', instance.lastName);
-  val['mobileNumber'] = instance.mobileNumber;
-  writeNotNull('media', instance.media?.toJson());
-  return val;
-}
-
-GetMessages$Query$Order$Driver _$GetMessages$Query$Order$DriverFromJson(
-        Map<String, dynamic> json) =>
-    GetMessages$Query$Order$Driver()
-      ..id = json['id'] as String
-      ..firstName = json['firstName'] as String?
-      ..lastName = json['lastName'] as String?
-      ..mobileNumber = json['mobileNumber'] as String
-      ..media = json['media'] == null
-          ? null
-          : ChatDriverMixin$Media.fromJson(
-              json['media'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetMessages$Query$Order$DriverToJson(
-    GetMessages$Query$Order$Driver instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('firstName', instance.firstName);
-  writeNotNull('lastName', instance.lastName);
-  val['mobileNumber'] = instance.mobileNumber;
-  writeNotNull('media', instance.media?.toJson());
-  return val;
-}
-
-GetMessages$Query$Order$OrderMessage
-    _$GetMessages$Query$Order$OrderMessageFromJson(Map<String, dynamic> json) =>
-        GetMessages$Query$Order$OrderMessage()
-          ..id = json['id'] as String
-          ..content = json['content'] as String
-          ..sentByDriver = json['sentByDriver'] as bool;
-
-Map<String, dynamic> _$GetMessages$Query$Order$OrderMessageToJson(
-        GetMessages$Query$Order$OrderMessage instance) =>
-    <String, dynamic>{
-      'id': instance.id,
+      'orderId': instance.orderId,
       'content': instance.content,
-      'sentByDriver': instance.sentByDriver,
-    };
-
-GetMessages$Query$Order _$GetMessages$Query$OrderFromJson(
-        Map<String, dynamic> json) =>
-    GetMessages$Query$Order()
-      ..id = json['id'] as String
-      ..passenger = GetMessages$Query$Order$Passenger.fromJson(
-          json['passenger'] as Map<String, dynamic>)
-      ..driver = json['driver'] == null
-          ? null
-          : GetMessages$Query$Order$Driver.fromJson(
-              json['driver'] as Map<String, dynamic>)
-      ..conversations = (json['conversations'] as List<dynamic>)
-          .map((e) => GetMessages$Query$Order$OrderMessage.fromJson(
-              e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$GetMessages$Query$OrderToJson(
-    GetMessages$Query$Order instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'passenger': instance.passenger.toJson(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('driver', instance.driver?.toJson());
-  val['conversations'] = instance.conversations.map((e) => e.toJson()).toList();
-  return val;
-}
-
-GetMessages$Query _$GetMessages$QueryFromJson(Map<String, dynamic> json) =>
-    GetMessages$Query()
-      ..currentOrder = GetMessages$Query$Order.fromJson(
-          json['currentOrder'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$GetMessages$QueryToJson(GetMessages$Query instance) =>
-    <String, dynamic>{
-      'currentOrder': instance.currentOrder.toJson(),
-    };
-
-ChatPassengerMixin$Media _$ChatPassengerMixin$MediaFromJson(
-        Map<String, dynamic> json) =>
-    ChatPassengerMixin$Media()..address = json['address'] as String;
-
-Map<String, dynamic> _$ChatPassengerMixin$MediaToJson(
-        ChatPassengerMixin$Media instance) =>
-    <String, dynamic>{
-      'address': instance.address,
-    };
-
-ChatDriverMixin$Media _$ChatDriverMixin$MediaFromJson(
-        Map<String, dynamic> json) =>
-    ChatDriverMixin$Media()..address = json['address'] as String;
-
-Map<String, dynamic> _$ChatDriverMixin$MediaToJson(
-        ChatDriverMixin$Media instance) =>
-    <String, dynamic>{
-      'address': instance.address,
-    };
-
-SendMessage$Mutation$OrderMessage _$SendMessage$Mutation$OrderMessageFromJson(
-        Map<String, dynamic> json) =>
-    SendMessage$Mutation$OrderMessage()
-      ..id = json['id'] as String
-      ..content = json['content'] as String
-      ..sentByDriver = json['sentByDriver'] as bool;
-
-Map<String, dynamic> _$SendMessage$Mutation$OrderMessageToJson(
-        SendMessage$Mutation$OrderMessage instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'content': instance.content,
-      'sentByDriver': instance.sentByDriver,
-    };
-
-SendMessage$Mutation _$SendMessage$MutationFromJson(
-        Map<String, dynamic> json) =>
-    SendMessage$Mutation()
-      ..createOneOrderMessage = SendMessage$Mutation$OrderMessage.fromJson(
-          json['createOneOrderMessage'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$SendMessage$MutationToJson(
-        SendMessage$Mutation instance) =>
-    <String, dynamic>{
-      'createOneOrderMessage': instance.createOneOrderMessage.toJson(),
-    };
-
-NewMessageReceived$Subscription$OrderMessage
-    _$NewMessageReceived$Subscription$OrderMessageFromJson(
-            Map<String, dynamic> json) =>
-        NewMessageReceived$Subscription$OrderMessage()
-          ..id = json['id'] as String
-          ..content = json['content'] as String
-          ..sentByDriver = json['sentByDriver'] as bool;
-
-Map<String, dynamic> _$NewMessageReceived$Subscription$OrderMessageToJson(
-        NewMessageReceived$Subscription$OrderMessage instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'content': instance.content,
-      'sentByDriver': instance.sentByDriver,
-    };
-
-NewMessageReceived$Subscription _$NewMessageReceived$SubscriptionFromJson(
-        Map<String, dynamic> json) =>
-    NewMessageReceived$Subscription()
-      ..newMessageReceived =
-          NewMessageReceived$Subscription$OrderMessage.fromJson(
-              json['newMessageReceived'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$NewMessageReceived$SubscriptionToJson(
-        NewMessageReceived$Subscription instance) =>
-    <String, dynamic>{
-      'newMessageReceived': instance.newMessageReceived.toJson(),
     };
 
 UpdateProfileArguments _$UpdateProfileArgumentsFromJson(
@@ -2716,6 +2805,46 @@ Map<String, dynamic> _$DeleteAddressArgumentsToJson(
         DeleteAddressArguments instance) =>
     <String, dynamic>{
       'id': instance.id,
+    };
+
+GetOrderDetailsArguments _$GetOrderDetailsArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    GetOrderDetailsArguments(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$GetOrderDetailsArgumentsToJson(
+        GetOrderDetailsArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+CancelBookingArguments _$CancelBookingArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    CancelBookingArguments(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$CancelBookingArgumentsToJson(
+        CancelBookingArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+SubmitComplaintArguments _$SubmitComplaintArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    SubmitComplaintArguments(
+      id: json['id'] as String,
+      subject: json['subject'] as String,
+      content: json['content'] as String,
+    );
+
+Map<String, dynamic> _$SubmitComplaintArgumentsToJson(
+        SubmitComplaintArguments instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'subject': instance.subject,
+      'content': instance.content,
     };
 
 PayRideArguments _$PayRideArgumentsFromJson(Map<String, dynamic> json) =>
@@ -2894,58 +3023,4 @@ LoginArguments _$LoginArgumentsFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$LoginArgumentsToJson(LoginArguments instance) =>
     <String, dynamic>{
       'firebaseToken': instance.firebaseToken,
-    };
-
-GetOrderDetailsArguments _$GetOrderDetailsArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    GetOrderDetailsArguments(
-      id: json['id'] as String,
-    );
-
-Map<String, dynamic> _$GetOrderDetailsArgumentsToJson(
-        GetOrderDetailsArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-CancelBookingArguments _$CancelBookingArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    CancelBookingArguments(
-      id: json['id'] as String,
-    );
-
-Map<String, dynamic> _$CancelBookingArgumentsToJson(
-        CancelBookingArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
-
-SubmitComplaintArguments _$SubmitComplaintArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    SubmitComplaintArguments(
-      id: json['id'] as String,
-      subject: json['subject'] as String,
-      content: json['content'] as String,
-    );
-
-Map<String, dynamic> _$SubmitComplaintArgumentsToJson(
-        SubmitComplaintArguments instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'subject': instance.subject,
-      'content': instance.content,
-    };
-
-SendMessageArguments _$SendMessageArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    SendMessageArguments(
-      orderId: json['orderId'] as String,
-      content: json['content'] as String,
-    );
-
-Map<String, dynamic> _$SendMessageArgumentsToJson(
-        SendMessageArguments instance) =>
-    <String, dynamic>{
-      'orderId': instance.orderId,
-      'content': instance.content,
     };
