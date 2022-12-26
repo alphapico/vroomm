@@ -2,11 +2,11 @@ import 'package:client_shared/components/light_colored_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:client_shared/components/ridy_sheet_view.dart';
-import 'package:ridy/generated/l10n.dart';
-import 'package:ridy/main/enter_coupon_code_sheet_view.dart';
-import 'package:ridy/main/reserve_ride_sheet_view.dart';
-import 'package:ridy/main/ride_preferences_sheet_view.dart';
+import 'package:client_shared/components/vroom_sheet_view.dart';
+import '../generated/l10n.dart';
+import 'enter_coupon_code_sheet_view.dart';
+import 'reserve_ride_sheet_view.dart';
+import 'ride_preferences_sheet_view.dart';
 import 'package:client_shared/theme/theme.dart';
 import '../graphql/generated/graphql_api.graphql.dart';
 import '../main/service_item_view.dart';
@@ -29,7 +29,7 @@ class _SelectServiceViewState extends State<SelectServiceView> {
   @override
   Widget build(BuildContext context) {
     final mainBloc = (context.read<MainBloc>().state) as OrderPreview;
-    return RidySheetView(
+    return VroomSheetView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,

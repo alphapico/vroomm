@@ -6,16 +6,16 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:client_shared/components/user_avatar_view.dart';
 import 'package:client_shared/components/light_colored_button.dart';
-import 'package:client_shared/components/ridy_sheet_view.dart';
+import 'package:client_shared/components/vroom_sheet_view.dart';
 import 'package:client_shared/components/rounded_button.dart';
 import 'package:client_shared/components/sheet_title_view.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:ridy/main/enter_coupon_code_sheet_view.dart';
-import 'package:ridy/main/enter_gift_code_sheet_view.dart';
-import 'package:ridy/main/pay_for_ride_sheet_view.dart';
-import 'package:ridy/main/ride_options_sheet_view.dart';
-import 'package:ridy/main/ride_safety_sheet_view.dart';
-import 'package:ridy/main/wait_time_sheet_view.dart';
+import '../main/enter_coupon_code_sheet_view.dart';
+import '../main/enter_gift_code_sheet_view.dart';
+import '../main/pay_for_ride_sheet_view.dart';
+import '../main/ride_options_sheet_view.dart';
+import '../main/ride_safety_sheet_view.dart';
+import '../main/wait_time_sheet_view.dart';
 import 'package:client_shared/theme/theme.dart';
 import '../config.dart';
 import '../generated/l10n.dart';
@@ -46,7 +46,7 @@ class OrderStatusSheetView extends StatelessWidget {
                   DriverLocationUpdatedEvent(location.driverLocationUpdated));
             });
           }
-          return RidySheetView(child: BlocBuilder<MainBloc, MainBlocState>(
+          return VroomSheetView(child: BlocBuilder<MainBloc, MainBlocState>(
             builder: (context, state) {
               state as OrderInProgress;
               return Column(
@@ -271,7 +271,7 @@ class OrderStatusSheetView extends StatelessWidget {
                                                                         .id,
                                                                     update: UpdateOrderInput(
                                                                         status: OrderStatus
-                                                                            .riderCanceled,
+                                                                            .passengerCanceled,
                                                                         tipAmount:
                                                                             0,
                                                                         waitMinutes:
@@ -299,7 +299,7 @@ class OrderStatusSheetView extends StatelessWidget {
                                                         id: state.order.id,
                                                         update: UpdateOrderInput(
                                                             status: OrderStatus
-                                                                .riderCanceled,
+                                                                .passengerCanceled,
                                                             waitMinutes: 0,
                                                             tipAmount: 0))
                                                     .toJson())
