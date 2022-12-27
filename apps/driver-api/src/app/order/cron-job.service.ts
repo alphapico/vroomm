@@ -62,7 +62,7 @@ export class CronJobService {
     const waitingMinTime = ts - 10 * 60000;
     const waitingMaxTime = ts + 30 * 60000;
     const waitingOrderIds = (
-      await this.orderRedisService.getRequestIdsInTimeRage(
+      await this.orderRedisService.getOrderIdsInTimeRage(
         waitingMinTime,
         waitingMaxTime
       )
