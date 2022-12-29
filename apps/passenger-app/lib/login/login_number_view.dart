@@ -196,8 +196,7 @@ class _LoginNumberViewState extends State<LoginNumberView> {
                                   //Navigator.pop(context);
                                   final result = await FirebaseAuth.instance
                                       .signInWithPhoneNumber(
-                                          countryCode + phoneNumber,
-                                          RecaptchaVerifier(onSuccess: () {}));
+                                          countryCode + phoneNumber);
                                   if (!mounted) return;
                                   Navigator.pop(context);
                                   showModalBottomSheet(

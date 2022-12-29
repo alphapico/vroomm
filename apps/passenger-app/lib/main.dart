@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lifecycle/lifecycle.dart';
+import 'package:passenger_app/main/bloc/main_bloc.dart';
 import '../main/bloc/jwt_cubit.dart';
 
 import 'address/address_list_view.dart';
@@ -26,6 +27,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'profile/profile_view.dart';
 import 'reservations/reservation_list_view.dart';
+import 'wallet/wallet_view.dart';
 
 // ignore: avoid_void_async
 void main() async {
@@ -53,7 +55,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => JWTCubit()),
+        BlocProvider(create: (context) => MainBloc()),
         BlocProvider(create: (context) => CurrentLocationCubit()),
         BlocProvider(create: (context) => PassengerProfileCubit()),
         BlocProvider(create: (context) => JWTCubit())
@@ -73,6 +75,7 @@ class MyApp extends StatelessWidget {
             'addresses': (context) => const AddressListView(),
             'announcements': (context) => const AnnouncementsListView(),
             'history': (context) => const TripHistoryListView(),
+            'wallet': (context) => const WalletView(),
             'chat': (context) => const ChatView(),
             'reserves': (context) => const ReservationListView(),
             'profile': (context) => BlocProvider.value(
