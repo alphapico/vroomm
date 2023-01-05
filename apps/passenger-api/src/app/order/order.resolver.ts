@@ -138,7 +138,8 @@ export class OrderResolver {
     @Args('center', { type: () => Point, nullable: true }) center?: Point
   ): Promise<Point[]> {
     if (center == null) return [];
-    return this.driverRedisService.getCloseWithoutIds(center, 1000);
+    const result = this.driverRedisService.getCloseWithoutIds(center, 10000);
+    return result;
   }
 
   @Mutation(() => OrderDTO)

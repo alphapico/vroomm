@@ -1,4 +1,5 @@
 import 'package:client_shared/config.dart';
+import 'package:country_code_picker/country_code.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -39,7 +40,8 @@ void main() async {
   await Hive.openBox("user");
   if (!kIsWeb) {
     await CountryCodes.init();
-    final locale = CountryCodes.detailsForLocale();
+    final locale = CountryCode.fromDialCode('+60');
+    // final locale = CountryCodes.detailsForLocale();
     if (locale.dialCode != null) {
       defaultCountryCode = locale.dialCode!;
     }

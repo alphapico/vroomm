@@ -129,6 +129,7 @@ class OpenStreetMapState extends State<OpenStreetMapProvider>
                                 options: QueryOptions(
                                     document:
                                         GET_DRIVERS_LOCATION_QUERY_DOCUMENT,
+                                    fetchPolicy: FetchPolicy.noCache,
                                     variables: GetDriversLocationArguments(
                                             point:
                                                 currentLocation.toPointInput())
@@ -138,12 +139,13 @@ class OpenStreetMapState extends State<OpenStreetMapProvider>
                                   if (result.isLoading || result.hasException) {
                                     return const SizedBox();
                                   }
-                                  final List<LatLng> locations =
+                                  final getDriverQuery =
                                       GetDriversLocation$Query.fromJson(
-                                              result.data!)
-                                          .getDriversLocation
-                                          .map((e) => e.toLatLng())
-                                          .toList();
+                                          result.data!);
+                                  final List<LatLng> locations = getDriverQuery
+                                      .getDriversLocation
+                                      .map((e) => e.toLatLng())
+                                      .toList();
                                   WidgetsBinding.instance
                                       .addPostFrameCallback((_) {
                                     mainBloc

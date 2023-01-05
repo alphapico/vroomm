@@ -98,7 +98,7 @@ subscription UpdatedOrder {
       name
       cancellationTotalFee
     }
-    etaPickup
+    # etaPickup
     paidAmount
     costAfterCoupon
     durationBest

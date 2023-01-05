@@ -8,7 +8,6 @@ export class StripeService {
   async getPaymentLink(
     userType: string,
     userId: string,
-    merchantId: string,
     privateKey: string,
     currency: string,
     amount: string
@@ -34,6 +33,7 @@ export class StripeService {
       success_url: `${process.env.GATEWAY_SERVER_URL}/stripe/success?transactionId=${transactionId}`,
       cancel_url: `${process.env.GATEWAY_SERVER_URL}/stripe/cancel?transactionId=${transactionId}`,
     });
+
     return {
       invoiceId: transactionId,
       url: session.url!,

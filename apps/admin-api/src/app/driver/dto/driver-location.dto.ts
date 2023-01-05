@@ -11,7 +11,7 @@ export class OnlineDriver {
   @Field(() => ID)
   driverId: number;
 
-  @Field()
+  @Field(() => Float)
   lastUpdatedAt: number;
 }
 
@@ -41,9 +41,9 @@ export class OnlineDriverWithData {
   @Field(() => Gender, { nullable: true })
   gender?: Gender;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Float, { nullable: true })
   rating?: number;
 
-  @Field(() => Int)
+  @Field(() => Float)
   reviewCount: number;
 }

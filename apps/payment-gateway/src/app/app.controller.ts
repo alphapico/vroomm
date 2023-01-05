@@ -54,13 +54,12 @@ export class AppController {
         break;
 
       case PaymentGatewayType.Stripe:
-        if (!gateway.merchantId || !gateway.privateKey) {
+        if (!gateway.privateKey) {
           throw new Error('Missing merchantId or privateKey!');
         }
         paymentLink = await this.stripService.getPaymentLink(
           req.query.userType,
           req.query.userId,
-          gateway.merchantId,
           gateway.privateKey,
           req.query.currency,
           req.query.amount
@@ -85,6 +84,7 @@ export class AppController {
       transactionNumber: paymentLink.invoiceId,
       paymentInterface: req.query,
     });
+
     res.redirect(301, paymentLink.url);
   }
 }

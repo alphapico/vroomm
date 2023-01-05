@@ -23,8 +23,9 @@ export class ServiceService {
       `Calculating Trip fee with base fare ${i} distance of ${distance} meters and duration of ${duration}`
     );
     i +=
-      (service.perHundredMeters * distance) / 100 +
-      (service.perMinuteDrive * duration) / 60;
+      (((service.perHundredMeters * distance) / 100) * 10 +
+        ((service.perMinuteDrive * duration) / 60) * 10) /
+      10;
     console.log(`Initial calculation without multiplier: ${i}`);
     let ratioCost = 0;
     let newRatioCost = 0;
@@ -64,7 +65,10 @@ export class ServiceService {
       i *= service.touristMultiplier;
     }
     if (service.roundingFactor != null) {
-      i = Math.round(i / service.roundingFactor) * service.roundingFactor;
+      i =
+        (Math.round((i * 10) / (service.roundingFactor * 10)) *
+          (service.roundingFactor * 10)) /
+        10;
       console.log(`After Rounding factor applied: ${i}`);
     }
     return i;

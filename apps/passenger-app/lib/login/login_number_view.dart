@@ -29,9 +29,10 @@ class LoginNumberView extends StatefulWidget {
 class _LoginNumberViewState extends State<LoginNumberView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String phoneNumber = "";
-  String countryCode = !kIsWeb
-      ? (CountryCodes.detailsForLocale().dialCode ?? defaultCountryCode)
-      : defaultCountryCode;
+  // String countryCode = !kIsWeb
+  //     ? (CountryCodes.detailsForLocale().dialCode ?? defaultCountryCode)
+  //     : defaultCountryCode;
+  String countryCode = defaultCountryCode;
   bool agreedToTerms = false;
 
   @override

@@ -77,6 +77,8 @@ export class OrderRedisService {
 
   async driverNotified(orderId: number, driverIds: DriverEntity[]) {
     const ids = driverIds.map((driverId) => driverId.id);
+    // shortcut way
+    // await this.redisService.sadd(`${RedisKeys.RequestDrivers}:${orderId}`, ...ids);
     for (const id of ids) {
       await this.redisService.sadd(
         `${RedisKeys.RequestDrivers}:${orderId}`,
@@ -97,6 +99,10 @@ export class OrderRedisService {
       await this.redisService.zrem(RedisKeys.Request, orderId);
       await this.redisService.zrem(RedisKeys.RequestTime, orderId);
       const driversNotified = await this.getDriversNotified(orderId);
+      // await this.redisService.srem(
+      //   `${RedisKeys.RequestDrivers}:${orderId}`,
+      //   ...driversNotified
+      // );
       for (const driver of driversNotified) {
         await this.redisService.srem(
           `${RedisKeys.RequestDrivers}:${orderId}`,

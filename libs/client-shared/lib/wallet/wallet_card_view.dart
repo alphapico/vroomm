@@ -45,7 +45,7 @@ class WalletCardView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Ridy Wallet",
+            "Vroom Wallet",
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium

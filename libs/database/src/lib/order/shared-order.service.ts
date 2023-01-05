@@ -16,7 +16,7 @@ import { OrderActivityEntity } from '../entities/order-activity.entity';
 import { ServiceOptionEntity } from '../entities/service-option.entity';
 import { ForbiddenError } from 'apollo-server-fastify';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { OrderStatus } from '../entities/enums/order-status.enum';
 import { OrderEntity } from '../entities/order.entity';
@@ -165,7 +165,9 @@ export class SharedOrderService {
     let optionFee = 0;
     let options: ServiceOptionEntity[] = [];
     if (input.optionIds != null) {
-      options = await this.serviceOptionRepository.findByIds(input.optionIds);
+      options = await this.serviceOptionRepository.findBy({
+        id: In(input.optionIds),
+      });
       if (
         options.filter((option) => option.type == ServiceOptionType.TwoWay)
           .length > 0

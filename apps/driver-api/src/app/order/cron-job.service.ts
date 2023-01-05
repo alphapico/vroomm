@@ -29,9 +29,10 @@ export class CronJobService {
   async cronTask() {
     const logger = new Logger(CronJobService.name);
     logger.debug('Running expiration validation cron task.');
+    // ts in miliseconds
     const ts = Math.round(new Date().getTime());
     // Driver Locations Expire Time If Not Updated, 60 Minutes By Default
-    const tsDriverMaxTime = ts - 60 * 60000;
+    const tsDriverMaxTime = ts - 60 * 60 * 1000;
     // Requests Expire Time, 10 Minutes By Default
     const expirationMinutes = parseInt(process.env.REQUEST_EXPIRATION ?? '10');
     const tsRequestMaxTime = ts - expirationMinutes * 60000;
@@ -43,7 +44,7 @@ export class CronJobService {
       )
     ).map((str) => parseInt(str));
     const expiredRequests: number[] = (
-      await this.redisService.zrangebyscore('order-time', 0, tsRequestMaxTime)
+      await this.redisService.zrangebyscore('request-time', 0, tsRequestMaxTime)
     ).map((str) => parseInt(str));
 
     // Expiring drivers locations with outdated location
@@ -72,7 +73,7 @@ export class CronJobService {
         waitingOrder
       );
       const orderLocation = await this.redisService.geopos(
-        'order',
+        'request',
         waitingOrder.toString()
       );
       let closeDrivers = await this.driverRedisService.getClose(

@@ -129,6 +129,9 @@ class _PayForRideSheetViewState extends State<PayForRideSheetView> {
                                             final resultParsed =
                                                 PayRide$Mutation.fromJson(
                                                     mutationResult!.data!);
+                                            print(resultParsed.topUpWallet.url);
+                                            // launchUrl(Uri.parse(
+                                            //     "https://www.google.com/"));
                                             launchUrl(Uri.parse(
                                                 resultParsed.topUpWallet.url));
                                             if (!mounted) {
@@ -149,7 +152,7 @@ class _PayForRideSheetViewState extends State<PayForRideSheetView> {
   }
 
   double getTotal() {
-    return widget.order.costAfterCoupon + tipAmount + balance + customAmount;
+    return widget.order.costAfterCoupon + tipAmount - balance + customAmount;
   }
 }
 

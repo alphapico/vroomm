@@ -2268,11 +2268,6 @@ class UpdatedOrder$Subscription$Order extends JsonSerializable
 
   late UpdatedOrder$Subscription$Order$Service service;
 
-  @JsonKey(
-      fromJson: fromGraphQLTimestampNullableToDartDateTimeNullable,
-      toJson: fromDartDateTimeNullableToGraphQLTimestampNullable)
-  DateTime? etaPickup;
-
   late double paidAmount;
 
   late double costAfterCoupon;
@@ -2300,7 +2295,6 @@ class UpdatedOrder$Subscription$Order extends JsonSerializable
         driver,
         directions,
         service,
-        etaPickup,
         paidAmount,
         costAfterCoupon,
         durationBest,
@@ -7150,13 +7144,6 @@ final UPDATED_ORDER_SUBSCRIPTION_DOCUMENT = DocumentNode(definitions: [
                 selectionSet: null,
               ),
             ]),
-          ),
-          FieldNode(
-            name: NameNode(value: 'etaPickup'),
-            alias: null,
-            arguments: [],
-            directives: [],
-            selectionSet: null,
           ),
           FieldNode(
             name: NameNode(value: 'paidAmount'),

@@ -44,6 +44,8 @@ class LocationSelectionParentView extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     final mainBloc = context.read<MainBloc>();
     final jwt = Hive.box('user').get('jwt').toString();
+    print('jwt');
+    print(jwt);
     if (!jwt.isEmptyOrNull) {
       context.read<JWTCubit>().login(jwt);
     }
@@ -144,11 +146,11 @@ class LocationSelectionParentView extends StatelessWidget {
                           options: SubscriptionOptions(
                               document: UPDATED_ORDER_SUBSCRIPTION_DOCUMENT,
                               fetchPolicy: FetchPolicy.noCache),
-                          builder: (QueryResult result) {
-                            if (result.data != null) {
+                          builder: (QueryResult? result) {
+                            if (result?.data != null) {
                               final order =
                                   GetCurrentOrder$Query$Passenger$Order
-                                      .fromJson(result.data!['orderUpdated']);
+                                      .fromJson(result!.data!['orderUpdated']);
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 mainBloc.add(CurrentOrderUpdated(order));
                               });

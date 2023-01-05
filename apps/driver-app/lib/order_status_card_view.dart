@@ -87,13 +87,15 @@ class OrderStatusCardView extends StatelessWidget {
                                 Timeago(
                                     builder: (context, text) {
                                       return Text(
-                                        "Passenger ${(order.etaPickup?.isBefore(DateTime.now()) ?? false) ? "Expected you" : "Expects you in"} $text",
+                                        // "Passenger ${(order.etaPickup?.isBefore(DateTime.now()) ?? false) ? "Expected you" : "Expects you in"} $text",
+                                        "Passenger Expected you",
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelSmall,
                                       );
                                     },
-                                    date: order.etaPickup ?? DateTime.now()),
+                                    // date: order.etaPickup ?? DateTime.now()),
+                                    date: DateTime.now()),
                               if (order.status == OrderStatus.started ||
                                   order.status == OrderStatus.arrived)
                                 Row(

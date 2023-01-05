@@ -19,9 +19,11 @@ import { PassengerDocumentType } from '@vroom/database/enums/passenger-document-
 @ObjectType('Passenger')
 @Authorize({
   authorize: (context: UserContext) => ({ id: { eq: context.req.user.id } }),
+  //authorize: (context: UserContext) => ({ id: { eq: 1 } }),
 })
 @BeforeFindOne((input: FindOneArgsType, context: UserContext) => {
   return { id: context.req.user.id };
+  // return { id: 1 };
 })
 @Relation('media', () => MediaDTO, {
   nullable: true,

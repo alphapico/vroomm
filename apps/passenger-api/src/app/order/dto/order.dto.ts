@@ -28,6 +28,7 @@ import { DriverDTO } from './driver.dto';
 @Authorize({
   authorize: (context: UserContext) => ({
     passengerId: { eq: context.req.user.id },
+    // passengerId: { eq: 1 },
   }),
 })
 @Relation('driver', () => DriverDTO, {

@@ -21,7 +21,7 @@ String loginTermsAndConditionsUrl = "";
 
 String defaultCurrency = "MYR";
 String defaultCountryCode = "+60";
-const List<double> tipPresets = [10, 20, 50];
+const List<double> tipPresets = [1, 5];
 
 LatLng fallbackLocation = LatLng(3.1615, 101.7113);
 

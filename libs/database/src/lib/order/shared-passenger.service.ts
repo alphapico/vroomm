@@ -94,9 +94,9 @@ export class SharedPassengerService {
       });
     } else {
       await this.passengerWalletRepo.update(wallet.id, {
-        balance: transaction.amount + wallet.balance,
+        balance: (wallet.balance * 10 + transaction.amount * 10) / 10,
       });
-      wallet.balance += transaction.amount;
+      wallet.balance = (wallet.balance * 10 + transaction.amount * 10) / 10;
     }
     this.passengerTransactionRepo.save(transaction);
     return wallet;

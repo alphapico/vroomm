@@ -571,7 +571,7 @@ enum CalculateFareError {
 
 type CurrentOrder {
   order: Order!
-  driverLocation: [Point!]
+  driverLocation: Point
 }
 
 type PassengerWallet {

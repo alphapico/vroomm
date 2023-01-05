@@ -353,8 +353,8 @@ type OnlineDriverWithData {
   mobileNumber: String!
   status: DriverStatus!
   gender: Gender
-  rating: Int
-  reviewCount: Int!
+  rating: Float
+  reviewCount: Float!
 }
 
 enum DriverStatus {
@@ -498,8 +498,8 @@ type Driver {
   carPlate: String
   status: DriverStatus!
   gender: Gender
-  rating: Int
-  reviewCount: Int!
+  rating: Float
+  reviewCount: Float!
   registrationTimestamp: DateTime!
   lastSeenTimestamp: DateTime
   accountNumber: String
@@ -3656,8 +3656,8 @@ input CreateDriver {
   carPlate: String
   status: DriverStatus
   gender: Gender
-  rating: Int
-  reviewCount: Int
+  rating: Float
+  reviewCount: Float
   registrationTimestamp: DateTime
   lastSeenTimestamp: DateTime
   accountNumber: String

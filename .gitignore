@@ -39,3 +39,6 @@ testem.log
 Thumbs.db
 
 **/*.env
+/config/*
+/uploads/*
+google-services.json

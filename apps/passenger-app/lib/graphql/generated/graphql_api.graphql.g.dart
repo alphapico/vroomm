@@ -215,13 +215,22 @@ Reservations$Query$OrderConnection$OrderEdge$Order
               .toList();
 
 Map<String, dynamic> _$Reservations$Query$OrderConnection$OrderEdge$OrderToJson(
-        Reservations$Query$OrderConnection$OrderEdge$Order instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'expectedTimestamp':
-          fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp),
-      'addresses': instance.addresses,
-    };
+    Reservations$Query$OrderConnection$OrderEdge$Order instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('expectedTimestamp',
+      fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp));
+  val['addresses'] = instance.addresses;
+  return val;
+}
 
 Reservations$Query$OrderConnection$OrderEdge
     _$Reservations$Query$OrderConnection$OrderEdgeFromJson(
@@ -277,8 +286,6 @@ Map<String, dynamic>
   final val = <String, dynamic>{
     'id': instance.id,
     'title': instance.title,
-    'startAt': fromDartDateTimeToGraphQLTimestamp(instance.startAt),
-    'description': instance.description,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -287,6 +294,8 @@ Map<String, dynamic>
     }
   }
 
+  writeNotNull('startAt', fromDartDateTimeToGraphQLTimestamp(instance.startAt));
+  val['description'] = instance.description;
   writeNotNull('url', instance.url);
   return val;
 }
@@ -706,16 +715,26 @@ HistoryOrderItemMixin$OrderEdge$Order
               json['service'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$HistoryOrderItemMixin$OrderEdge$OrderToJson(
-        HistoryOrderItemMixin$OrderEdge$Order instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'status': _$OrderStatusEnumMap[instance.status]!,
-      'createdOn': fromDartDateTimeToGraphQLTimestamp(instance.createdOn),
-      'addresses': instance.addresses,
-      'currency': instance.currency,
-      'costAfterCoupon': instance.costAfterCoupon,
-      'service': instance.service.toJson(),
-    };
+    HistoryOrderItemMixin$OrderEdge$Order instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'status': _$OrderStatusEnumMap[instance.status]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'createdOn', fromDartDateTimeToGraphQLTimestamp(instance.createdOn));
+  val['addresses'] = instance.addresses;
+  val['currency'] = instance.currency;
+  val['costAfterCoupon'] = instance.costAfterCoupon;
+  val['service'] = instance.service.toJson();
+  return val;
+}
 
 const _$OrderStatusEnumMap = {
   OrderStatus.requested: 'Requested',
@@ -968,8 +987,8 @@ Map<String, dynamic> _$GetOrderDetails$Query$OrderToJson(
       'finishTimestamp',
       fromDartDateTimeNullableToGraphQLTimestampNullable(
           instance.finishTimestamp));
-  val['expectedTimestamp'] =
-      fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp);
+  writeNotNull('expectedTimestamp',
+      fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp));
   writeNotNull('driver', instance.driver?.toJson());
   val['service'] = instance.service.toJson();
   writeNotNull('paymentGateway', instance.paymentGateway?.toJson());
@@ -1079,11 +1098,7 @@ Map<String, dynamic>
     _$Wallet$Query$PassengerTransacionConnection$PassengerTransacionEdge$PassengerTransacionToJson(
         Wallet$Query$PassengerTransacionConnection$PassengerTransacionEdge$PassengerTransacion
             instance) {
-  final val = <String, dynamic>{
-    'createdAt': fromDartDateTimeToGraphQLTimestamp(instance.createdAt),
-    'amount': instance.amount,
-    'currency': instance.currency,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1091,6 +1106,10 @@ Map<String, dynamic>
     }
   }
 
+  writeNotNull(
+      'createdAt', fromDartDateTimeToGraphQLTimestamp(instance.createdAt));
+  val['amount'] = instance.amount;
+  val['currency'] = instance.currency;
   writeNotNull('refrenceNumber', instance.refrenceNumber);
   writeNotNull('deductType',
       _$PassengerDeductTransactionTypeEnumMap[instance.deductType]);
@@ -2204,8 +2223,6 @@ UpdatedOrder$Subscription$Order _$UpdatedOrder$Subscription$OrderFromJson(
           .toList()
       ..service = UpdatedOrder$Subscription$Order$Service.fromJson(
           json['service'] as Map<String, dynamic>)
-      ..etaPickup = fromGraphQLTimestampNullableToDartDateTimeNullable(
-          json['etaPickup'] as int?)
       ..paidAmount = (json['paidAmount'] as num).toDouble()
       ..costAfterCoupon = (json['costAfterCoupon'] as num).toDouble()
       ..durationBest = json['durationBest'] as int
@@ -2235,8 +2252,6 @@ Map<String, dynamic> _$UpdatedOrder$Subscription$OrderToJson(
   writeNotNull(
       'directions', instance.directions?.map((e) => e.toJson()).toList());
   val['service'] = instance.service.toJson();
-  writeNotNull('etaPickup',
-      fromDartDateTimeNullableToGraphQLTimestampNullable(instance.etaPickup));
   val['paidAmount'] = instance.paidAmount;
   val['costAfterCoupon'] = instance.costAfterCoupon;
   val['durationBest'] = instance.durationBest;

@@ -170,7 +170,7 @@ packages:
     source: hosted
     version: "4.4.0"
   collection:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -631,7 +631,7 @@ packages:
     source: hosted
     version: "0.0.20-nullsafety.5"
   gql:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gql
       url: "https://pub.dartlang.org"

@@ -840,8 +840,6 @@ BasicProfileMixin$Order _$BasicProfileMixin$OrderFromJson(
       ..costBest = (json['costBest'] as num).toDouble()
       ..costAfterCoupon = (json['costAfterCoupon'] as num).toDouble()
       ..paidAmount = (json['paidAmount'] as num).toDouble()
-      ..etaPickup = fromGraphQLTimestampNullableToDartDateTimeNullable(
-          json['etaPickup'] as int?)
       ..tipAmount = (json['tipAmount'] as num).toDouble()
       ..directions = (json['directions'] as List<dynamic>)
           .map((e) =>
@@ -863,36 +861,25 @@ BasicProfileMixin$Order _$BasicProfileMixin$OrderFromJson(
           json['passenger'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$BasicProfileMixin$OrderToJson(
-    BasicProfileMixin$Order instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'createdOn': fromDartDateTimeToGraphQLTimestamp(instance.createdOn),
-    'expectedTimestamp':
-        fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp),
-    'status': _$OrderStatusEnumMap[instance.status]!,
-    'currency': instance.currency,
-    'costBest': instance.costBest,
-    'costAfterCoupon': instance.costAfterCoupon,
-    'paidAmount': instance.paidAmount,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('etaPickup',
-      fromDartDateTimeNullableToGraphQLTimestampNullable(instance.etaPickup));
-  val['tipAmount'] = instance.tipAmount;
-  val['directions'] = instance.directions.map((e) => e.toJson()).toList();
-  val['points'] = instance.points.map((e) => e.toJson()).toList();
-  val['service'] = instance.service.toJson();
-  val['options'] = instance.options.map((e) => e.toJson()).toList();
-  val['addresses'] = instance.addresses;
-  val['passenger'] = instance.passenger.toJson();
-  return val;
-}
+        BasicProfileMixin$Order instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'createdOn': fromDartDateTimeToGraphQLTimestamp(instance.createdOn),
+      'expectedTimestamp':
+          fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp),
+      'status': _$OrderStatusEnumMap[instance.status]!,
+      'currency': instance.currency,
+      'costBest': instance.costBest,
+      'costAfterCoupon': instance.costAfterCoupon,
+      'paidAmount': instance.paidAmount,
+      'tipAmount': instance.tipAmount,
+      'directions': instance.directions.map((e) => e.toJson()).toList(),
+      'points': instance.points.map((e) => e.toJson()).toList(),
+      'service': instance.service.toJson(),
+      'options': instance.options.map((e) => e.toJson()).toList(),
+      'addresses': instance.addresses,
+      'passenger': instance.passenger.toJson(),
+    };
 
 BasicProfileMixin$DriverWallet _$BasicProfileMixin$DriverWalletFromJson(
         Map<String, dynamic> json) =>
@@ -1190,6 +1177,261 @@ Map<String, dynamic> _$GetStats$QueryToJson(GetStats$Query instance) =>
       'orders': instance.orders.toJson(),
       'orderAggregate': instance.orderAggregate.map((e) => e.toJson()).toList(),
     };
+
+Wallet$Query$DriverWallet _$Wallet$Query$DriverWalletFromJson(
+        Map<String, dynamic> json) =>
+    Wallet$Query$DriverWallet()
+      ..id = json['id'] as String
+      ..balance = (json['balance'] as num).toDouble()
+      ..currency = json['currency'] as String;
+
+Map<String, dynamic> _$Wallet$Query$DriverWalletToJson(
+        Wallet$Query$DriverWallet instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'balance': instance.balance,
+      'currency': instance.currency,
+    };
+
+Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion
+    _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacionFromJson(
+            Map<String, dynamic> json) =>
+        Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion()
+          ..createdAt =
+              fromGraphQLTimestampToDartDateTime(json['createdAt'] as int)
+          ..amount = (json['amount'] as num).toDouble()
+          ..currency = json['currency'] as String
+          ..refrenceNumber = json['refrenceNumber'] as String?
+          ..deductType = $enumDecodeNullable(
+              _$DriverDeductTransactionTypeEnumMap, json['deductType'],
+              unknownValue: DriverDeductTransactionType.artemisUnknown)
+          ..action = $enumDecode(_$TransactionActionEnumMap, json['action'],
+              unknownValue: TransactionAction.artemisUnknown)
+          ..rechargeType = $enumDecodeNullable(
+              _$DriverRechargeTransactionTypeEnumMap, json['rechargeType'],
+              unknownValue: DriverRechargeTransactionType.artemisUnknown);
+
+Map<String, dynamic>
+    _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacionToJson(
+        Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion
+            instance) {
+  final val = <String, dynamic>{
+    'createdAt': fromDartDateTimeToGraphQLTimestamp(instance.createdAt),
+    'amount': instance.amount,
+    'currency': instance.currency,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('refrenceNumber', instance.refrenceNumber);
+  writeNotNull(
+      'deductType', _$DriverDeductTransactionTypeEnumMap[instance.deductType]);
+  val['action'] = _$TransactionActionEnumMap[instance.action]!;
+  writeNotNull('rechargeType',
+      _$DriverRechargeTransactionTypeEnumMap[instance.rechargeType]);
+  return val;
+}
+
+const _$DriverDeductTransactionTypeEnumMap = {
+  DriverDeductTransactionType.withdraw: 'Withdraw',
+  DriverDeductTransactionType.commission: 'Commission',
+  DriverDeductTransactionType.correction: 'Correction',
+  DriverDeductTransactionType.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$TransactionActionEnumMap = {
+  TransactionAction.recharge: 'Recharge',
+  TransactionAction.deduct: 'Deduct',
+  TransactionAction.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+const _$DriverRechargeTransactionTypeEnumMap = {
+  DriverRechargeTransactionType.orderFee: 'OrderFee',
+  DriverRechargeTransactionType.bankTransfer: 'BankTransfer',
+  DriverRechargeTransactionType.inAppPayment: 'InAppPayment',
+  DriverRechargeTransactionType.gift: 'Gift',
+  DriverRechargeTransactionType.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+Wallet$Query$DriverTransacionConnection$DriverTransacionEdge
+    _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdgeFromJson(
+            Map<String, dynamic> json) =>
+        Wallet$Query$DriverTransacionConnection$DriverTransacionEdge()
+          ..node =
+              Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion
+                  .fromJson(json['node'] as Map<String, dynamic>);
+
+Map<String, dynamic>
+    _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdgeToJson(
+            Wallet$Query$DriverTransacionConnection$DriverTransacionEdge
+                instance) =>
+        <String, dynamic>{
+          'node': instance.node.toJson(),
+        };
+
+Wallet$Query$DriverTransacionConnection
+    _$Wallet$Query$DriverTransacionConnectionFromJson(
+            Map<String, dynamic> json) =>
+        Wallet$Query$DriverTransacionConnection()
+          ..edges = (json['edges'] as List<dynamic>)
+              .map((e) =>
+                  Wallet$Query$DriverTransacionConnection$DriverTransacionEdge
+                      .fromJson(e as Map<String, dynamic>))
+              .toList();
+
+Map<String, dynamic> _$Wallet$Query$DriverTransacionConnectionToJson(
+        Wallet$Query$DriverTransacionConnection instance) =>
+    <String, dynamic>{
+      'edges': instance.edges.map((e) => e.toJson()).toList(),
+    };
+
+Wallet$Query _$Wallet$QueryFromJson(Map<String, dynamic> json) => Wallet$Query()
+  ..driverWallets = (json['driverWallets'] as List<dynamic>)
+      .map((e) => Wallet$Query$DriverWallet.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..driverTransacions = Wallet$Query$DriverTransacionConnection.fromJson(
+      json['driverTransacions'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$Wallet$QueryToJson(Wallet$Query instance) =>
+    <String, dynamic>{
+      'driverWallets': instance.driverWallets.map((e) => e.toJson()).toList(),
+      'driverTransacions': instance.driverTransacions.toJson(),
+    };
+
+PaymentGateways$Query$PaymentGateway$Media
+    _$PaymentGateways$Query$PaymentGateway$MediaFromJson(
+            Map<String, dynamic> json) =>
+        PaymentGateways$Query$PaymentGateway$Media()
+          ..address = json['address'] as String;
+
+Map<String, dynamic> _$PaymentGateways$Query$PaymentGateway$MediaToJson(
+        PaymentGateways$Query$PaymentGateway$Media instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+    };
+
+PaymentGateways$Query$PaymentGateway
+    _$PaymentGateways$Query$PaymentGatewayFromJson(Map<String, dynamic> json) =>
+        PaymentGateways$Query$PaymentGateway()
+          ..id = json['id'] as String
+          ..title = json['title'] as String
+          ..type = $enumDecode(_$PaymentGatewayTypeEnumMap, json['type'],
+              unknownValue: PaymentGatewayType.artemisUnknown)
+          ..publicKey = json['publicKey'] as String?
+          ..media = json['media'] == null
+              ? null
+              : PaymentGateways$Query$PaymentGateway$Media.fromJson(
+                  json['media'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$PaymentGateways$Query$PaymentGatewayToJson(
+    PaymentGateways$Query$PaymentGateway instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'title': instance.title,
+    'type': _$PaymentGatewayTypeEnumMap[instance.type]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('publicKey', instance.publicKey);
+  writeNotNull('media', instance.media?.toJson());
+  return val;
+}
+
+const _$PaymentGatewayTypeEnumMap = {
+  PaymentGatewayType.stripe: 'Stripe',
+  PaymentGatewayType.brainTree: 'BrainTree',
+  PaymentGatewayType.payPal: 'PayPal',
+  PaymentGatewayType.customLink: 'CustomLink',
+  PaymentGatewayType.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+PaymentGateways$Query _$PaymentGateways$QueryFromJson(
+        Map<String, dynamic> json) =>
+    PaymentGateways$Query()
+      ..paymentGateways = (json['paymentGateways'] as List<dynamic>)
+          .map((e) => PaymentGateways$Query$PaymentGateway.fromJson(
+              e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$PaymentGateways$QueryToJson(
+        PaymentGateways$Query instance) =>
+    <String, dynamic>{
+      'paymentGateways':
+          instance.paymentGateways.map((e) => e.toJson()).toList(),
+    };
+
+TopUpWallet$Mutation$TopUpWalletResponse
+    _$TopUpWallet$Mutation$TopUpWalletResponseFromJson(
+            Map<String, dynamic> json) =>
+        TopUpWallet$Mutation$TopUpWalletResponse()
+          ..status = $enumDecode(_$TopUpWalletStatusEnumMap, json['status'],
+              unknownValue: TopUpWalletStatus.artemisUnknown)
+          ..url = json['url'] as String;
+
+Map<String, dynamic> _$TopUpWallet$Mutation$TopUpWalletResponseToJson(
+        TopUpWallet$Mutation$TopUpWalletResponse instance) =>
+    <String, dynamic>{
+      'status': _$TopUpWalletStatusEnumMap[instance.status]!,
+      'url': instance.url,
+    };
+
+const _$TopUpWalletStatusEnumMap = {
+  TopUpWalletStatus.ok: 'OK',
+  TopUpWalletStatus.redirect: 'Redirect',
+  TopUpWalletStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
+};
+
+TopUpWallet$Mutation _$TopUpWallet$MutationFromJson(
+        Map<String, dynamic> json) =>
+    TopUpWallet$Mutation()
+      ..topUpWallet = TopUpWallet$Mutation$TopUpWalletResponse.fromJson(
+          json['topUpWallet'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$TopUpWallet$MutationToJson(
+        TopUpWallet$Mutation instance) =>
+    <String, dynamic>{
+      'topUpWallet': instance.topUpWallet.toJson(),
+    };
+
+TopUpWalletInput _$TopUpWalletInputFromJson(Map<String, dynamic> json) =>
+    TopUpWalletInput(
+      gatewayId: json['gatewayId'] as String,
+      amount: (json['amount'] as num).toDouble(),
+      currency: json['currency'] as String,
+      token: json['token'] as String?,
+      pin: (json['pin'] as num?)?.toDouble(),
+      otp: (json['otp'] as num?)?.toDouble(),
+      transactionId: json['transactionId'] as String?,
+    );
+
+Map<String, dynamic> _$TopUpWalletInputToJson(TopUpWalletInput instance) {
+  final val = <String, dynamic>{
+    'gatewayId': instance.gatewayId,
+    'amount': instance.amount,
+    'currency': instance.currency,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('token', instance.token);
+  writeNotNull('pin', instance.pin);
+  writeNotNull('otp', instance.otp);
+  writeNotNull('transactionId', instance.transactionId);
+  return val;
+}
 
 Me$Query$Driver _$Me$Query$DriverFromJson(Map<String, dynamic> json) =>
     Me$Query$Driver()
@@ -1541,8 +1783,6 @@ UpdateOrderStatus$Mutation$Order _$UpdateOrderStatus$Mutation$OrderFromJson(
       ..costBest = (json['costBest'] as num).toDouble()
       ..costAfterCoupon = (json['costAfterCoupon'] as num).toDouble()
       ..paidAmount = (json['paidAmount'] as num).toDouble()
-      ..etaPickup = fromGraphQLTimestampNullableToDartDateTimeNullable(
-          json['etaPickup'] as int?)
       ..tipAmount = (json['tipAmount'] as num).toDouble()
       ..directions = (json['directions'] as List<dynamic>)
           .map((e) =>
@@ -1564,36 +1804,25 @@ UpdateOrderStatus$Mutation$Order _$UpdateOrderStatus$Mutation$OrderFromJson(
           json['passenger'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$UpdateOrderStatus$Mutation$OrderToJson(
-    UpdateOrderStatus$Mutation$Order instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'createdOn': fromDartDateTimeToGraphQLTimestamp(instance.createdOn),
-    'expectedTimestamp':
-        fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp),
-    'status': _$OrderStatusEnumMap[instance.status]!,
-    'currency': instance.currency,
-    'costBest': instance.costBest,
-    'costAfterCoupon': instance.costAfterCoupon,
-    'paidAmount': instance.paidAmount,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('etaPickup',
-      fromDartDateTimeNullableToGraphQLTimestampNullable(instance.etaPickup));
-  val['tipAmount'] = instance.tipAmount;
-  val['directions'] = instance.directions.map((e) => e.toJson()).toList();
-  val['points'] = instance.points.map((e) => e.toJson()).toList();
-  val['service'] = instance.service.toJson();
-  val['options'] = instance.options.map((e) => e.toJson()).toList();
-  val['addresses'] = instance.addresses;
-  val['passenger'] = instance.passenger.toJson();
-  return val;
-}
+        UpdateOrderStatus$Mutation$Order instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'createdOn': fromDartDateTimeToGraphQLTimestamp(instance.createdOn),
+      'expectedTimestamp':
+          fromDartDateTimeToGraphQLTimestamp(instance.expectedTimestamp),
+      'status': _$OrderStatusEnumMap[instance.status]!,
+      'currency': instance.currency,
+      'costBest': instance.costBest,
+      'costAfterCoupon': instance.costAfterCoupon,
+      'paidAmount': instance.paidAmount,
+      'tipAmount': instance.tipAmount,
+      'directions': instance.directions.map((e) => e.toJson()).toList(),
+      'points': instance.points.map((e) => e.toJson()).toList(),
+      'service': instance.service.toJson(),
+      'options': instance.options.map((e) => e.toJson()).toList(),
+      'addresses': instance.addresses,
+      'passenger': instance.passenger.toJson(),
+    };
 
 UpdateOrderStatus$Mutation _$UpdateOrderStatus$MutationFromJson(
         Map<String, dynamic> json) =>
@@ -1711,261 +1940,6 @@ Map<String, dynamic> _$UpdateDriverSearchDistance$MutationToJson(
       'updateOneDriver': instance.updateOneDriver.toJson(),
     };
 
-Wallet$Query$DriverWallet _$Wallet$Query$DriverWalletFromJson(
-        Map<String, dynamic> json) =>
-    Wallet$Query$DriverWallet()
-      ..id = json['id'] as String
-      ..balance = (json['balance'] as num).toDouble()
-      ..currency = json['currency'] as String;
-
-Map<String, dynamic> _$Wallet$Query$DriverWalletToJson(
-        Wallet$Query$DriverWallet instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'balance': instance.balance,
-      'currency': instance.currency,
-    };
-
-Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion
-    _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacionFromJson(
-            Map<String, dynamic> json) =>
-        Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion()
-          ..createdAt =
-              fromGraphQLTimestampToDartDateTime(json['createdAt'] as int)
-          ..amount = (json['amount'] as num).toDouble()
-          ..currency = json['currency'] as String
-          ..refrenceNumber = json['refrenceNumber'] as String?
-          ..deductType = $enumDecodeNullable(
-              _$DriverDeductTransactionTypeEnumMap, json['deductType'],
-              unknownValue: DriverDeductTransactionType.artemisUnknown)
-          ..action = $enumDecode(_$TransactionActionEnumMap, json['action'],
-              unknownValue: TransactionAction.artemisUnknown)
-          ..rechargeType = $enumDecodeNullable(
-              _$DriverRechargeTransactionTypeEnumMap, json['rechargeType'],
-              unknownValue: DriverRechargeTransactionType.artemisUnknown);
-
-Map<String, dynamic>
-    _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacionToJson(
-        Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion
-            instance) {
-  final val = <String, dynamic>{
-    'createdAt': fromDartDateTimeToGraphQLTimestamp(instance.createdAt),
-    'amount': instance.amount,
-    'currency': instance.currency,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('refrenceNumber', instance.refrenceNumber);
-  writeNotNull(
-      'deductType', _$DriverDeductTransactionTypeEnumMap[instance.deductType]);
-  val['action'] = _$TransactionActionEnumMap[instance.action]!;
-  writeNotNull('rechargeType',
-      _$DriverRechargeTransactionTypeEnumMap[instance.rechargeType]);
-  return val;
-}
-
-const _$DriverDeductTransactionTypeEnumMap = {
-  DriverDeductTransactionType.withdraw: 'Withdraw',
-  DriverDeductTransactionType.commission: 'Commission',
-  DriverDeductTransactionType.correction: 'Correction',
-  DriverDeductTransactionType.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-const _$TransactionActionEnumMap = {
-  TransactionAction.recharge: 'Recharge',
-  TransactionAction.deduct: 'Deduct',
-  TransactionAction.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-const _$DriverRechargeTransactionTypeEnumMap = {
-  DriverRechargeTransactionType.orderFee: 'OrderFee',
-  DriverRechargeTransactionType.bankTransfer: 'BankTransfer',
-  DriverRechargeTransactionType.inAppPayment: 'InAppPayment',
-  DriverRechargeTransactionType.gift: 'Gift',
-  DriverRechargeTransactionType.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-Wallet$Query$DriverTransacionConnection$DriverTransacionEdge
-    _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdgeFromJson(
-            Map<String, dynamic> json) =>
-        Wallet$Query$DriverTransacionConnection$DriverTransacionEdge()
-          ..node =
-              Wallet$Query$DriverTransacionConnection$DriverTransacionEdge$DriverTransacion
-                  .fromJson(json['node'] as Map<String, dynamic>);
-
-Map<String, dynamic>
-    _$Wallet$Query$DriverTransacionConnection$DriverTransacionEdgeToJson(
-            Wallet$Query$DriverTransacionConnection$DriverTransacionEdge
-                instance) =>
-        <String, dynamic>{
-          'node': instance.node.toJson(),
-        };
-
-Wallet$Query$DriverTransacionConnection
-    _$Wallet$Query$DriverTransacionConnectionFromJson(
-            Map<String, dynamic> json) =>
-        Wallet$Query$DriverTransacionConnection()
-          ..edges = (json['edges'] as List<dynamic>)
-              .map((e) =>
-                  Wallet$Query$DriverTransacionConnection$DriverTransacionEdge
-                      .fromJson(e as Map<String, dynamic>))
-              .toList();
-
-Map<String, dynamic> _$Wallet$Query$DriverTransacionConnectionToJson(
-        Wallet$Query$DriverTransacionConnection instance) =>
-    <String, dynamic>{
-      'edges': instance.edges.map((e) => e.toJson()).toList(),
-    };
-
-Wallet$Query _$Wallet$QueryFromJson(Map<String, dynamic> json) => Wallet$Query()
-  ..driverWallets = (json['driverWallets'] as List<dynamic>)
-      .map((e) => Wallet$Query$DriverWallet.fromJson(e as Map<String, dynamic>))
-      .toList()
-  ..driverTransacions = Wallet$Query$DriverTransacionConnection.fromJson(
-      json['driverTransacions'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$Wallet$QueryToJson(Wallet$Query instance) =>
-    <String, dynamic>{
-      'driverWallets': instance.driverWallets.map((e) => e.toJson()).toList(),
-      'driverTransacions': instance.driverTransacions.toJson(),
-    };
-
-PaymentGateways$Query$PaymentGateway$Media
-    _$PaymentGateways$Query$PaymentGateway$MediaFromJson(
-            Map<String, dynamic> json) =>
-        PaymentGateways$Query$PaymentGateway$Media()
-          ..address = json['address'] as String;
-
-Map<String, dynamic> _$PaymentGateways$Query$PaymentGateway$MediaToJson(
-        PaymentGateways$Query$PaymentGateway$Media instance) =>
-    <String, dynamic>{
-      'address': instance.address,
-    };
-
-PaymentGateways$Query$PaymentGateway
-    _$PaymentGateways$Query$PaymentGatewayFromJson(Map<String, dynamic> json) =>
-        PaymentGateways$Query$PaymentGateway()
-          ..id = json['id'] as String
-          ..title = json['title'] as String
-          ..type = $enumDecode(_$PaymentGatewayTypeEnumMap, json['type'],
-              unknownValue: PaymentGatewayType.artemisUnknown)
-          ..publicKey = json['publicKey'] as String?
-          ..media = json['media'] == null
-              ? null
-              : PaymentGateways$Query$PaymentGateway$Media.fromJson(
-                  json['media'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$PaymentGateways$Query$PaymentGatewayToJson(
-    PaymentGateways$Query$PaymentGateway instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-    'title': instance.title,
-    'type': _$PaymentGatewayTypeEnumMap[instance.type]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('publicKey', instance.publicKey);
-  writeNotNull('media', instance.media?.toJson());
-  return val;
-}
-
-const _$PaymentGatewayTypeEnumMap = {
-  PaymentGatewayType.stripe: 'Stripe',
-  PaymentGatewayType.brainTree: 'BrainTree',
-  PaymentGatewayType.payPal: 'PayPal',
-  PaymentGatewayType.customLink: 'CustomLink',
-  PaymentGatewayType.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-PaymentGateways$Query _$PaymentGateways$QueryFromJson(
-        Map<String, dynamic> json) =>
-    PaymentGateways$Query()
-      ..paymentGateways = (json['paymentGateways'] as List<dynamic>)
-          .map((e) => PaymentGateways$Query$PaymentGateway.fromJson(
-              e as Map<String, dynamic>))
-          .toList();
-
-Map<String, dynamic> _$PaymentGateways$QueryToJson(
-        PaymentGateways$Query instance) =>
-    <String, dynamic>{
-      'paymentGateways':
-          instance.paymentGateways.map((e) => e.toJson()).toList(),
-    };
-
-TopUpWallet$Mutation$TopUpWalletResponse
-    _$TopUpWallet$Mutation$TopUpWalletResponseFromJson(
-            Map<String, dynamic> json) =>
-        TopUpWallet$Mutation$TopUpWalletResponse()
-          ..status = $enumDecode(_$TopUpWalletStatusEnumMap, json['status'],
-              unknownValue: TopUpWalletStatus.artemisUnknown)
-          ..url = json['url'] as String;
-
-Map<String, dynamic> _$TopUpWallet$Mutation$TopUpWalletResponseToJson(
-        TopUpWallet$Mutation$TopUpWalletResponse instance) =>
-    <String, dynamic>{
-      'status': _$TopUpWalletStatusEnumMap[instance.status]!,
-      'url': instance.url,
-    };
-
-const _$TopUpWalletStatusEnumMap = {
-  TopUpWalletStatus.ok: 'OK',
-  TopUpWalletStatus.redirect: 'Redirect',
-  TopUpWalletStatus.artemisUnknown: 'ARTEMIS_UNKNOWN',
-};
-
-TopUpWallet$Mutation _$TopUpWallet$MutationFromJson(
-        Map<String, dynamic> json) =>
-    TopUpWallet$Mutation()
-      ..topUpWallet = TopUpWallet$Mutation$TopUpWalletResponse.fromJson(
-          json['topUpWallet'] as Map<String, dynamic>);
-
-Map<String, dynamic> _$TopUpWallet$MutationToJson(
-        TopUpWallet$Mutation instance) =>
-    <String, dynamic>{
-      'topUpWallet': instance.topUpWallet.toJson(),
-    };
-
-TopUpWalletInput _$TopUpWalletInputFromJson(Map<String, dynamic> json) =>
-    TopUpWalletInput(
-      gatewayId: json['gatewayId'] as String,
-      amount: (json['amount'] as num).toDouble(),
-      currency: json['currency'] as String,
-      token: json['token'] as String?,
-      pin: (json['pin'] as num?)?.toDouble(),
-      otp: (json['otp'] as num?)?.toDouble(),
-      transactionId: json['transactionId'] as String?,
-    );
-
-Map<String, dynamic> _$TopUpWalletInputToJson(TopUpWalletInput instance) {
-  final val = <String, dynamic>{
-    'gatewayId': instance.gatewayId,
-    'amount': instance.amount,
-    'currency': instance.currency,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('token', instance.token);
-  writeNotNull('pin', instance.pin);
-  writeNotNull('otp', instance.otp);
-  writeNotNull('transactionId', instance.transactionId);
-  return val;
-}
-
 SendMessageArguments _$SendMessageArgumentsFromJson(
         Map<String, dynamic> json) =>
     SendMessageArguments(
@@ -2056,6 +2030,18 @@ Map<String, dynamic> _$GetStatsArgumentsToJson(GetStatsArguments instance) =>
     <String, dynamic>{
       'startDate': fromDartDateTimeToGraphQLDateTime(instance.startDate),
       'endDate': fromDartDateTimeToGraphQLDateTime(instance.endDate),
+    };
+
+TopUpWalletArguments _$TopUpWalletArgumentsFromJson(
+        Map<String, dynamic> json) =>
+    TopUpWalletArguments(
+      input: TopUpWalletInput.fromJson(json['input'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$TopUpWalletArgumentsToJson(
+        TopUpWalletArguments instance) =>
+    <String, dynamic>{
+      'input': instance.input.toJson(),
     };
 
 MeArguments _$MeArgumentsFromJson(Map<String, dynamic> json) => MeArguments(
@@ -2159,16 +2145,4 @@ Map<String, dynamic> _$UpdateDriverSearchDistanceArgumentsToJson(
         UpdateDriverSearchDistanceArguments instance) =>
     <String, dynamic>{
       'distance': instance.distance,
-    };
-
-TopUpWalletArguments _$TopUpWalletArgumentsFromJson(
-        Map<String, dynamic> json) =>
-    TopUpWalletArguments(
-      input: TopUpWalletInput.fromJson(json['input'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$TopUpWalletArgumentsToJson(
-        TopUpWalletArguments instance) =>
-    <String, dynamic>{
-      'input': instance.input.toJson(),
     };

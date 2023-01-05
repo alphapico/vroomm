@@ -26,7 +26,8 @@ const databaseConfig: DataSourceOptions = {
       useFactory: async () => {
         return {
           ...databaseConfig,
-          database: process.env.MYSQL_DB_WAVE || 'waves',
+          //database: process.env.MYSQL_DB_WAVE || 'waves',
+          database: process.env.MYSQL_DB || 'waves',
           autoLoadEntities: true,
           legacySpatialSupport: false,
           synchronize: false,

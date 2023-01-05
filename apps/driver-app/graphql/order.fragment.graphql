@@ -34,7 +34,7 @@ fragment CurrentOrder on Order {
   costBest
   costAfterCoupon
   paidAmount
-  etaPickup
+  # etaPickup
   tipAmount
   directions {
     ...Point

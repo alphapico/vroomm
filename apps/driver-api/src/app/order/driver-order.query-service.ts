@@ -96,7 +96,7 @@ export class DriverOrderQueryService extends TypeOrmQueryService<OrderEntity> {
         await this.orderRedisService.expire([id]);
         const result = await super.updateOne(id, {
           status: OrderStatus.DriverAccepted,
-          etaPickup: new Date(etaPickup),
+          etaPickup: new Date(etaPickup).toISOString(),
           driverId: this.context.req.user.id,
         });
         result.driver = await this.driverService.driverRepo.findOne({
@@ -104,6 +104,8 @@ export class DriverOrderQueryService extends TypeOrmQueryService<OrderEntity> {
           where: { id: this.context.req.user.id },
         });
         result.service = await this.serviceService.getWithId(result.serviceId);
+        Logger.log('orderUpdated');
+        Logger.log({ orderUpdated: result });
         this.pubSub.publish('orderUpdated', { orderUpdated: result });
         this.pubSub.publish('orderRemoved', { orderRemoved: result }); // This one has a filter to let know all except the one accepted.
         this.passengerNotificationService.accepted(order.passenger);

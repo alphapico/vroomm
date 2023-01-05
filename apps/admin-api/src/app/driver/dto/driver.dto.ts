@@ -5,7 +5,7 @@ import {
   Relation,
   UnPagedRelation,
 } from '@ptc-org/nestjs-query-graphql';
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
 import { DriverStatus } from '@vroom/database/enums/driver-status.enum';
 import { Gender } from '@vroom/database/enums/gender.enum';
 import { FeedbackDTO } from '../../feedback/dto/feedback.dto';
@@ -59,10 +59,10 @@ export class DriverDTO {
   @Field(() => Gender, { nullable: true })
   gender?: Gender;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Float, { nullable: true })
   rating?: number;
 
-  @Field(() => Int)
+  @Field(() => Float)
   reviewCount: number;
 
   @Field()
