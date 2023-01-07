@@ -1,90 +1,264 @@
 # Vroom
 
-This project was generated using [Nx](https://nx.dev).
+## A minimalist two-wheel ride-hailiing services
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+<p style="text-align: center; padding-top:10px; padding-bottom:10px;"><img src="https://user-images.githubusercontent.com/65488712/211529704-26332d5f-5212-48fd-9350-fb1832497f29.png" width="500"></p>
 
-🔎 **Smart, Fast and Extensible Build System**
+Are you looking for a quick and convenient way to get around town on a two-wheeler? Look no further than our ride-hailing services!
+Inspired by Gojek, our service makes it easy for passengers to request and receive rides, and for drivers to find and accept ride requests.
 
-## Adding capabilities to your workspace
+With our service, passengers can easily request rides and track the progress of their journey in real-time, while drivers can quickly find and accept ride requests. Our user-friendly mobile app, allow users to quickly request rides, track their driver's location, pay for their rides, and rate their driver.
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+## Built With
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+- [NestJS](https://nestjs.com/) - A progressive Node.js framework for building efficient, scalable, and enterprise-grade server-side applications.
+- [Fastify](https://www.fastify.io/) - A web framework highly focused on providing the best developer experience with the least overhead and a powerful plugin architecture.
+- [GraphQL](https://graphql.org/) - A query language for your API
+- [MySQL](https://www.mysql.com/) - An open-source relational database management system
+- [Redis](https://redis.io/) - An in-memory data structure store
+- [Firebase](https://firebase.google.com/) - A platform for building mobile and web applications
+- [Docker](https://www.docker.com/) - A platform for developing, shipping, and running applications in containers
+- [NX](https://nx.dev/) - A set of extensible dev tools for monorepos
+- [Flutter](https://flutter.dev/) - A mobile app SDK for building high-performance, high-fidelity apps for iOS and Android
+- [OpenStreetMap](https://openstreetmap.org/) - An open-source map of the world
 
-Below are our core plugins:
+## Getting Started
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+### Installation
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+1. Installing the dependencies
 
-## Generate an application
+```bash
+# 1. Clone the repo
+git clone https://github.com/alphapico/vroomm.git
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+# 2. Install dependencies
+cd vroom
+npm install
 
-> You can use any of the plugins above to generate applications as well.
+cd apps/driver-app
+flutter pub get
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+cd apps/passenger-app
+flutter pub get
+```
 
-## Generate a library
+2. Create a .env file in the root of the project and add the following variables:
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+```bash
+MYSQL_HOST=
+MYSQL_DB=
+MYSQL_USER=
+MYSQL_PASS=
+MYSQL_PORT=
+REDIS_HOST=
+REDIS_PASS=
+REDIS_PORT=
+SHOW_DIRECTIONS=true
+ADMIN_API_PORT=
+DRIVER_API_PORT=
+PASSENGER_API_PORT=
+GATEWAY_API_PORT=
 
-> You can also use any of the plugins above to generate libraries as well.
+# DRIVER_SERVER_URL=http://x.x.x.x:<DRIVER_API_PORT>
+DRIVER_SERVER_URL=
+GATEWAY_SERVER_URL=
+PASSENGER_SERVER_URL=
+ADMIN_SERVER_URL=
 
-Libraries are shareable across libraries and applications. They can be imported from `@vroom/mylib`.
+JWT_SECRET=
+ENCRYPTION_KEY=
+JWT_PASSENGER_SECRET=
+```
 
-## Development server
+3. For Firebase Admin SDK, create Firebase project, click `Generate new Private Key` button to retrieve the private key (json file). Put this file inside `<root>/config` folder. Get Google Maps API key. Create file `config.development.json` with following contents and put under `<root>/config` folder
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+```bash
+{
+  "backendMapsAPIKey": "<Google-Map-Key>",
+  "firebaseProjectPrivateKey": "<Firebase-admin-file>.json"
+}
+```
 
-## Code scaffolding
+4. Boot up Docker
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+```bash
+docker compose --env-file <your-env-file>.env up
+```
 
-## Build
+5. Run migration files
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```bash
+nx run database:mig-run
+```
 
-## Running unit tests
+6. Boot up microservices
 
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+```bash
+nx serve admin-api
+nx serve passenger-api
+nx serve driver-api
+nx serve payment-gateway
+```
 
-Run `nx affected:test` to execute the unit tests affected by a change.
+<br >
 
-## Running end-to-end tests
+## Setting up data
 
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+Go to `<ADMIN_SERVER_URL>/graphql` or set and use GraphQL API in postman
 
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+```javascript
+// userName = admin, password = admin
+query login($userName: String!, $password: String!) {
+  login(userName: $userName, password: $password) {
+    token
+  }
+}
 
-## Understand your workspace
+// input = { name:<Country Name>, currency:<ISO-4217 code>,
+// enabled: true, location: [<Array of polygon {lat, lng}>]}
+mutation CreateRegion($input: CreateRegion!) {
+  createOneRegion(input: { region: $input }) {
+    id
+  }
+}
 
-Run `nx graph` to see a diagram of the dependencies of your projects.
+// input = {"name":"<Any category name>"}}
+mutation createOneServiceCategory($input: CreateOneServiceCategoryInput!) {
+  createOneServiceCategory(input: $input) {
+    id
+    name
+    services {
+        id
+        name
+        description
+    }
+  }
+}
 
-## Further help
 
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+// input = {"name": "<Any name>", "description": "<Any name>",
+// "categoryId": <id from response createOneServiceCategory>, "baseFare": 3,
+// "perHundredMeters": <calculated distance in hundred meters x perHundredMeters>,
+// "perMinuteDrive": <calculated duration in minutes x perMinuteDrive>,
+// "perMinuteWait": <if passenger ask to wait, what rate you should impose>,
+// "prepayPercent": <Put this will force passenger to pay some percentage first before ride>,
+// "minimumFee": <Provide at least minumum value Payment Gateway (Stripe) set>
+// "roundingFactor": <write 0.05, will round to 5 cent>,
+// "searchRadius": <in meter>, "twoWayAvailable": false,
+// "maximumDestinationDistance": <Max distance you want to allow to ride within region>,
+// "paymentMethod": "CashCredit",
+// "cancellationTotalFee": <Fees deducted if passenger cancel when driver already accept>,
+// "cancellationDriverShare": <Flat shares driver received when passenger cancel>,
+// "providerSharePercent": <Percentage commision for provider>,
+// "providerShareFlat": <Flat commision for provider >, "personCapacity": 1,}
+mutation CreateService($input: CreateService!) {
+  createOneService(input: { service: $input }) {
+    id
+  }
+}
 
-## ☁ Nx Cloud
+// "input" = { "id": <serviceId>, "relationIds": [<regionId>]}
+mutation setRegionsOnService($input: SetRegionsOnServiceInput!) {
+  setRegionsOnService(input: $input) {
+    id
+  }
+}
 
-### Distributed Computation Caching & Distributed Task Execution
+// "input"  = "title": "Stripe",  "type": "Stripe", "enabled": true,
+// "privateKey": "<Stripe private-key>",
+// "publicKey": "<Stripe public-key>",
+mutation createOnePaymentGateway($input: CreateOnePaymentGatewayInput!) {
+  createOnePaymentGateway(input: $input) {
+    __typename
+    id
+    enabled
+    title
+  }
+}
+```
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+<br />
 
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
+## Running microservices inside Docker Container
 
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
+If you intend to run and debug inside docker, you can set the multi-stage built inside `dockerfile`. This example shows how to set for admin-api, and can be replicated to other api
 
-Visit [Nx Cloud](https://nx.app/) to learn more.
+```dockerfile
+FROM node:16.17.0-bullseye-slim as base
+
+ARG CREATED_DATE=not-set
+ARG SOURCE_COMMIT=not-set
+
+LABEL org.opencontainers.image.authors=realtimestack@gmail.com
+LABEL org.opencontainers.image.created=$CREATED_DATE
+LABEL org.opencontainers.image.revision=$SOURCE_COMMIT
+LABEL org.opencontainers.image.title="Vroom Admin Api"
+LABEL org.opencontainers.image.licenses=MIT
+
+ENV NODE_ENV=production
+EXPOSE 3000
+ENV PORT 3000
+
+WORKDIR /workspace
+COPY package*.json workspace.json nx.json tsconfig.base.json ./
+RUN npm config list
+RUN npm ci \
+    && npm cache clean --force
+ENV PATH /node/node_modules/.bin:$PATH
+
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
+
+FROM base as dev
+ENV NODE_ENV=development
+RUN npm config list
+RUN npm install --only=development \
+    && npm cache clean --force
+```
+
+Add also to `docker-compose.yml` file this snippet
+
+```yaml
+services:
+  admin-api:
+    image: vroom-admin-api:dev
+    platform: 'linux/amd64'
+    build:
+      context: .
+      dockerfile: ./apps/admin-api/Dockerfile
+      target: dev
+    ports:
+      - '4001:3000'
+      - '9229:9229'
+    volumes:
+      - ./apps/admin-api:/workspace/apps/admin-api
+    command: npx nx serve admin-api
+```
+
+## Monitor container perforamnces
+
+There are a few options to monitor Docker container performance that are similar to `PM2`. One of the recommended one is `cAdvisor`, meanwhile the simplest one is `Portainer`. In the example below we show how to install `cAdvisor`. This exposes the `cAdvisor` web interface on port 8080 and mounts several host directories as volumes in the container
+
+```yaml
+services:
+  cadvisor:
+    image: google/cadvisor:latest
+    ports:
+      - '8080:8080'
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+```
+
+## Future planning
+
+- VroomShop features
+- VroomPacket features
+- Orchestrated using K8s
+- Decoupled pubsub features so it can be used with any message broker
+- Automated end-to-end testing with Cucumber
