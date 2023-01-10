@@ -238,7 +238,7 @@ services:
     command: npx nx serve admin-api
 ```
 
-## Monitor container perforamnces
+## Monitor containers performances
 
 There are a few options to monitor Docker container performance that are similar to `PM2`. One of the recommended one is `cAdvisor`, meanwhile the simplest one is `Portainer`. In the example below we show how to install `cAdvisor`. This exposes the `cAdvisor` web interface on port 8080 and mounts several host directories as volumes in the container
 
